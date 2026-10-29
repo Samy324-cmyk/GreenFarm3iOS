@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "387391152443",
+    "firebase_url": "https://green-farm-3.firebaseio.com",
+    "project_id": "green-farm-3",
+    "storage_bucket": "green-farm-3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387391152443:android:27ab5963c70b5bc531971e",
+        "android_client_info": {
+          "package_name": "com.gameloft.android.ANMP.GloftGF2F"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387391152443-v1d8o2d5imlcu3etqo2uqr9qlc0fkbb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCecq8WYRVNxMldj5_Jv9poVRKZWquLfMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387391152443-v1d8o2d5imlcu3etqo2uqr9qlc0fkbb9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

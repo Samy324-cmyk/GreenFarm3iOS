@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "timezonePackage": "0.11.2",
+  "ianaDatabase": "2026e",
+  "nativeInputs": [
+    "TimeZone.current.identifier",
+    "Gregorian Calendar with Locale.current firstWeekday",
+    "Gregorian Calendar with Locale.current minimumDaysInFirstWeek"
+  ],
+  "calendarGetFields": [
+    1,
+    2,
+    5,
+    11,
+    12,
+    13
+  ],
+  "calendarSetFields": [
+    1,
+    2,
+    5,
+    11,
+    12,
+    13,
+    14
+  ],
+  "calendarAddFields": [
+    13
+  ],
+  "originalMethodCount": 15,
+  "oracleCases": 316,
+  "oracleJava": "25.0.4.1",
+  "oracleTzdb": "2026b",
+  "coverage": [
+    "consecutive lazy set",
+    "lenient month/day/minute/millisecond normalization",
+    "spring gaps",
+    "autumn repeated hour",
+    "Lord Howe half-hour transitions",
+    "Apia missing day",
+    "locale week/year boundaries",
+    "month/year addition clamping",
+    "actual native timezone required",
+    "day addition chooses original offset at overlap",
+    "original DEX k.z timestamp parser"
+  ],
+  "explicitUnsupported": [
+    "GregorianCalendar dates before 1583 and outside Dart DateTime range",
+    "set for week-based field groups unused by original APK"
+  ],
+  "sources": [
+    "https://pub.dev/packages/timezone/versions/0.11.2",
+    "https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html",
+    "https://developer.apple.com/documentation/foundation/calendar",
+    "https://android.googlesource.com/platform/libcore/+/9cd2e6042f2ca4088f394d8344531c9c9747ce2f/luni/src/main/java/java/util/Calendar.java"
+  ]
+}

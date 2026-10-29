@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "source_apk_sha256": "3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d",
+  "program_sha256": "ed30d85f36ef3abdcac0284e318128f9e6c6bb531564148717d2c3cb22032149",
+  "compressed_sha256": "abf0570b3c4bc995d74ccee6fc331c7813ca77f1c559f5a2cb0b67f58e4704ca",
+  "program_bytes": 41364978,
+  "compressed_bytes": 4058217,
+  "counts": {
+    "classes": 511,
+    "available_classes": 17795,
+    "methods": 6973,
+    "code_methods": 6893,
+    "instructions": 299948
+  },
+  "source_description": "Unmodified work/dex-ir/program.json extracted by tool/dex_ir.py from classes.dex and classes2.dex. Includes selected original game classes; not every Android/ad SDK class.",
+  "compression": "gzip, mtime=0, original JSON bytes preserved",
+  "generator": "tool/dex_to_dart.py",
+  "original_asset_directory": "assets/original",
+  "status": "Original method bodies preserved; platform bridges and full-game fidelity still under verification."
+}

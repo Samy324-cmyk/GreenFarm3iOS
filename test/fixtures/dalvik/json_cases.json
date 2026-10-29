@@ -1,0 +1,86 @@
+[
+  {
+    "mode": "object",
+    "input": "{\"name\":\"farm\",\"array\":[1,true,null,{\"x\":2}]}"
+  },
+  {
+    "mode": "object",
+    "input": "/* first */ {unquoted=>'single';// comment\n next:0x10, octal:010, decimal:08, flag:TRUE, missing:NULL} # tail"
+  },
+  {
+    "mode": "object",
+    "input": "\ufeff{a:1,a:2,b:\"line\\nslash/\\q\"} trailing ignored"
+  },
+  {
+    "mode": "array",
+    "input": "[,;]"
+  },
+  {
+    "mode": "array",
+    "input": "[1,]"
+  },
+  {
+    "mode": "array",
+    "input": "[]"
+  },
+  {
+    "mode": "array",
+    "input": "[null,,true]"
+  },
+  {
+    "mode": "array",
+    "input": "[-0,-0.0,1.5,1e3,1e-7,2147483648,9223372036854775807,9223372036854775808]"
+  },
+  {
+    "mode": "array",
+    "input": "[NaN,Infinity,-Infinity]"
+  },
+  {
+    "mode": "object",
+    "input": "{a:NaN}"
+  },
+  {
+    "mode": "object",
+    "input": "{a:1,}"
+  },
+  {
+    "mode": "object",
+    "input": "{true:1}"
+  },
+  {
+    "mode": "object",
+    "input": "{\"x\":\"\\uZZZZ\"}"
+  },
+  {
+    "mode": "object",
+    "input": "/* unclosed"
+  },
+  {
+    "mode": "object",
+    "input": "{\"x\":\"no end}"
+  },
+  {
+    "mode": "array",
+    "input": "[1 2]"
+  },
+  {
+    "mode": "object",
+    "input": "[]"
+  },
+  {
+    "mode": "tokener",
+    "input": "unquoted"
+  },
+  {
+    "mode": "tokener",
+    "input": "-0x10"
+  },
+  {
+    "mode": "tokener",
+    "input": "\f1"
+  },
+  {
+    "mode": "array",
+    "input": "[\"\\u4e2d\\u6587\",\"\\uD83D\\uDE80\",\"\\u0000\\b\\t\\n\\f\\r/\\\\\\\"\"]"
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "runtime": "Amazon Corretto 25.0.4_8",
+  "source": "tool/oracles/JavaReflectionOracle.java",
+  "vectors": 144,
+  "sha256": "cecda55c089b726377251eb3733db4dd5a3c7b39394c89bc847a225d1339759a",
+  "scope": "Java reflection primitive argument widening and wrapper result semantics, including long-to-float midpoint cases"
+}

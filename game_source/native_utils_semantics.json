@@ -1,0 +1,181 @@
+{
+  "scope": "Recovered native semantics, independently inspected in x86_64 and ARM64 disassembly. No APK binaries executed.",
+  "libraries": [
+    {
+      "entry": "lib/x86_64/libnativeU.so",
+      "sha256": "8374e2ff13ef26ec27ce3272e27fd6bf6f2a1e987ed72b4774f4b04beb052a81",
+      "size": 10144
+    },
+    {
+      "entry": "lib/arm64-v8a/libnativeU.so",
+      "sha256": "9a13044c9570bdc2e6f46793470023a395466108f4d8f4e45bd216992b090777",
+      "size": 9912
+    }
+  ],
+  "encoded_names": [
+    {
+      "address": "0x3140",
+      "length": 31,
+      "text": "com/gameloft/android/wrapper/Jb"
+    },
+    {
+      "address": "0x3020",
+      "length": 2,
+      "text": "sp"
+    },
+    {
+      "address": "0x3030",
+      "length": 16,
+      "text": "java/lang/Thread"
+    },
+    {
+      "address": "0x3023",
+      "length": 5,
+      "text": "sleep"
+    },
+    {
+      "address": "0x3066",
+      "length": 2,
+      "text": "py"
+    },
+    {
+      "address": "0x3050",
+      "length": 21,
+      "text": "(Ljava/lang/String;)V"
+    },
+    {
+      "address": "0x3125",
+      "length": 2,
+      "text": "kz"
+    },
+    {
+      "address": "0x3110",
+      "length": 20,
+      "text": "()Ljava/lang/String;"
+    },
+    {
+      "address": "0x30f6",
+      "length": 11,
+      "text": "classes.dex"
+    },
+    {
+      "address": "0x30e0",
+      "length": 21,
+      "text": "java/util/zip/ZipFile"
+    },
+    {
+      "address": "0x30d6",
+      "length": 6,
+      "text": "<init>"
+    },
+    {
+      "address": "0x30c0",
+      "length": 21,
+      "text": "(Ljava/lang/String;)V"
+    },
+    {
+      "address": "0x30ad",
+      "length": 8,
+      "text": "getEntry"
+    },
+    {
+      "address": "0x3080",
+      "length": 44,
+      "text": "(Ljava/lang/String;)Ljava/util/zip/ZipEntry;"
+    },
+    {
+      "address": "0x3069",
+      "length": 7,
+      "text": "getSize"
+    }
+  ],
+  "clock_float_divisor": 1000000.0,
+  "functions": [
+    {
+      "name": "CheckRoot()Z",
+      "x86_64": "0x1240 -> IsDeviceRooted 0x11c0",
+      "arm64": "0x1368 -> IsDeviceRooted 0x12ec",
+      "semantics": "if fopen('/system/app/Superuser.apk','rb') != NULL: fclose and true; else if stat('/system/bin/su') != -1: true; else stat('/system/xbin/su') != -1",
+      "host": "Exact libc file probes; no broader jailbreak or user-ID inference."
+    },
+    {
+      "name": "getClock()F",
+      "x86_64": "0x1110",
+      "arm64": "0x1240",
+      "semantics": "float32(float32(clock()) / float32(1000000))",
+      "host": "Real process CPU clock; first conversion rounds directly from signed int64."
+    },
+    {
+      "name": "getClockMillis()J",
+      "x86_64": "0x1130",
+      "arm64": "0x1268",
+      "semantics": "clock_gettime(CLOCK_MONOTONIC=1): seconds*1000 + nanoseconds/1000000 (integer truncation)",
+      "host": "Equivalent monotonic source excluding suspended time; not wall-clock time."
+    },
+    {
+      "name": "getClockNano()J",
+      "x86_64": "0x1190",
+      "arm64": "0x12b8",
+      "semantics": "clock_gettime(CLOCK_MONOTONIC=1): seconds*1000000000 + nanoseconds"
+    },
+    {
+      "name": "tm()J",
+      "x86_64": "0x1180",
+      "arm64": "0x12b4",
+      "semantics": "Tail call getClockMillis."
+    },
+    {
+      "name": "sp(J)V",
+      "x86_64": "0xc40",
+      "arm64": "0xcd4",
+      "semantics": "JNI FindClass com/gameloft/android/wrapper/Jb; call static sp(J)V.",
+      "java_delegate": "Jb.sp -> c/c/a/b/m.K -> Thread.sleep, with original Java exception handling."
+    },
+    {
+      "name": "sd()J",
+      "x86_64": "0xe70",
+      "arm64": "0xf40",
+      "semantics": "Jb.kz() returns original sourceDir; new java.util.zip.ZipFile(path).getEntry('classes.dex').getSize(). Original JNI does not close the ZipFile.",
+      "java_delegate": "Jb.kz -> c/c/a/b/m.j0 -> ApplicationInfo.sourceDir"
+    },
+    {
+      "name": "checkPlatformService(J)Z",
+      "x86_64": "0x10f0",
+      "arm64": "0x120c",
+      "semantics": "sd() == (argument XOR 0x226bc)"
+    }
+  ],
+  "unused_exports": {
+    "ts": "java/lang/Thread.sleep(J)V; not declared in supplied NativeUtils Java class",
+    "da": "attempts Jb.py(Ljava/lang/String;)V; method absent from supplied Jb, and export absent from NativeUtils Java declarations"
+  },
+  "integrity": {
+    "dex_entries": [
+      {
+        "entry": "classes.dex",
+        "size": 9362740
+      },
+      {
+        "entry": "classes2.dex",
+        "size": 7620072
+      },
+      {
+        "entry": "assets/audience_network.dex",
+        "size": 3316236
+      }
+    ],
+    "dex_size_total": 20299048,
+    "revision_property": "20421524",
+    "xor_mask": "0x226bc",
+    "expected_size": 20299048
+  },
+  "verification": {
+    "cpu_clock_oracle": "test/oracles/NativeClockOracle.java; 1012 vectors",
+    "tests": "test/dalvik/native_utils_test.dart",
+    "disassembly": "native_disassembly_x86_64.txt and native_disassembly_arm64.txt",
+    "disassembler_dependencies": [
+      "capstone==5.0.6",
+      "pyelftools==0.32"
+    ]
+  }
+}

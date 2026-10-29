@@ -1,0 +1,53 @@
+name: Compile iOS native host (probe only)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-host-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile-native-host:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Verify original source and audio assets
+        run: |
+          python3 tool/prepare_original.py
+          python3 tool/prepare_audio.py --verify-only
+
+      - name: Install Flutter 3.47.8
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: '3.47.8'
+          channel: stable
+          cache: true
+
+      - name: Resolve locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Compile Swift, C and AppDelegate using the build-only entry point
+        run: flutter build ios --release --no-codesign --target=tool/native_compile_probe.dart
+
+      - name: Explain the compilation check
+        if: always()
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          This is a native-host compilation probe, with Flutter binding initialization only.
+          It does not start the original game or verify playable gameplay.
+          No IPA is packaged or uploaded. The real unsigned IPA workflow uses lib/main.dart.
+          EOF

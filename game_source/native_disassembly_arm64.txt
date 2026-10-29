@@ -1,0 +1,521 @@
+File: work\apk-audit\android-resources\resources\lib\arm64-v8a\libnativeU.so
+SHA256: 9a13044c9570bdc2e6f46793470023a395466108f4d8f4e45bd216992b090777
+Machine: EM_AARCH64
+RELOCATIONS
+{
+  "0x11db0": "",
+  "0x11ff8": "",
+  "0x11fb8": "clock_gettime",
+  "0x11fc0": "__cxa_finalize",
+  "0x11fc8": "__cxa_atexit",
+  "0x11fd0": "fopen",
+  "0x11fd8": "fclose",
+  "0x11fe0": "stat",
+  "0x11fe8": "clock"
+}
+STRINGS
+{
+  "0x13a8": "(J)V",
+  "0x13b0": "()J",
+  "0x13b8": "/system/app/Superuser.apk",
+  "0x13e0": "/system/xbin/su",
+  "0x13f0": "/system/bin/su",
+  "0x12020": "i_s]*fZf^%Sfoa\\^",
+  "0x12040": "rjbak",
+  "0x12060": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x12090": "''If\\pZ'cWme,Oolbf^1",
+  "0x120b0": "bj^on_l&[[w",
+  "0x120c0": "i_s]*omac%ygm+Uci>`bd",
+  "0x120e0": ";gkeo8",
+  "0x120f0": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x12110": "fcqAinkq",
+  "0x12120": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x12134": "Kh^r\\)nl`b.xfl*Tbh<dspv7",
+  "0x12150": "fcqOdt^",
+  "0x12160": "bmj+b[f]ceer,]i^kg`Z.uo]kj^j&@a"
+}
+
+Encode address=0xc3c size=76
+00000c3c 3f001f6b                 cmp       w1, wzr
+00000c40 2d020054                 b.le      #0xc84
+00000c44 04004039                 ldrb      w4, [x0]
+00000c48 21040051                 sub       w1, w1, #1
+00000c4c e20300aa                 mov       x2, x0
+00000c50 43008052                 mov       w3, #2
+00000c54 84040051                 sub       w4, w4, #1
+00000c58 0100018b                 add       x1, x0, x1
+00000c5c 04000039                 strb      w4, [x0]
+00000c60 06000014                 b         #0xc78
+00000c64 40044039                 ldrb      w0, [x2, #1]
+00000c68 9f280071                 cmp       w4, #0xa
+00000c6c 0000034b                 sub       w0, w0, w3
+00000c70 83d49f1a                 csinc     w3, w4, wzr, le
+00000c74 401c0038                 strb      w0, [x2, #1]!
+00000c78 5f0001eb                 cmp       x2, x1
+00000c7c 64040011                 add       w4, w3, #1
+00000c80 21ffff54                 b.ne      #0xc64
+00000c84 c0035fd6                 ret       
+
+Decode address=0xc88 size=76
+00000c88 3f001f6b                 cmp       w1, wzr
+00000c8c 2d020054                 b.le      #0xcd0
+00000c90 03004039                 ldrb      w3, [x0]
+00000c94 21040051                 sub       w1, w1, #1
+00000c98 e20300aa                 mov       x2, x0
+00000c9c 0100018b                 add       x1, x0, x1
+00000ca0 63040011                 add       w3, w3, #1
+00000ca4 44008052                 mov       w4, #2
+00000ca8 03000039                 strb      w3, [x0]
+00000cac 06000014                 b         #0xcc4
+00000cb0 43044039                 ldrb      w3, [x2, #1]
+00000cb4 bf280071                 cmp       w5, #0xa
+00000cb8 8300030b                 add       w3, w4, w3
+00000cbc a4d49f1a                 csinc     w4, w5, wzr, le
+00000cc0 431c0038                 strb      w3, [x2, #1]!
+00000cc4 5f0001eb                 cmp       x2, x1
+00000cc8 85040011                 add       w5, w4, #1
+00000ccc 21ffff54                 b.ne      #0xcb0
+00000cd0 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_sp address=0xcd4 size=196
+00000cd4 ff0301d1                 sub       sp, sp, #0x40
+00000cd8 e1038052                 mov       w1, #0x1f
+00000cdc f35300a9                 stp       x19, x20, [sp]
+00000ce0 940000b0                 adrp      x20, #0x11000
+00000ce4 f30300aa                 mov       x19, x0
+00000ce8 fe1300f9                 str       x30, [sp, #0x20]
+00000cec f55b01a9                 stp       x21, x22, [sp, #0x10]
+00000cf0 94fe47f9                 ldr       x20, [x20, #0xff8]
+00000cf4 f60302aa                 mov       x22, x2
+00000cf8 e00314aa                 mov       x0, x20
+00000cfc e3ffff97                 bl        #0xc88
+00000d00 e10300aa                 mov       x1, x0
+00000d04 620240f9                 ldr       x2, [x19]
+00000d08 e00313aa                 mov       x0, x19
+00000d0c 421840f9                 ldr       x2, [x2, #0x30]
+00000d10 40003fd6                 blr       x2
+00000d14 f50300aa                 mov       x21, x0
+00000d18 e1038052                 mov       w1, #0x1f
+00000d1c e00314aa                 mov       x0, x20
+00000d20 940000d0                 adrp      x20, #0x12000
+00000d24 c6ffff97                 bl        #0xc3c
+00000d28 94420091                 add       x20, x20, #0x10
+00000d2c 41008052                 mov       w1, #2
+00000d30 e00314aa                 mov       x0, x20
+00000d34 d5ffff97                 bl        #0xc88
+00000d38 e20300aa                 mov       x2, x0
+00000d3c 640240f9                 ldr       x4, [x19]
+00000d40 030000b0                 adrp      x3, #0x1000
+00000d44 63a00e91                 add       x3, x3, #0x3a8
+00000d48 e10315aa                 mov       x1, x21
+00000d4c e00313aa                 mov       x0, x19
+00000d50 84c441f9                 ldr       x4, [x4, #0x388]
+00000d54 80003fd6                 blr       x4
+00000d58 e01f00f9                 str       x0, [sp, #0x38]
+00000d5c 41008052                 mov       w1, #2
+00000d60 e00314aa                 mov       x0, x20
+00000d64 b6ffff97                 bl        #0xc3c
+00000d68 640240f9                 ldr       x4, [x19]
+00000d6c e00313aa                 mov       x0, x19
+00000d70 e21f40f9                 ldr       x2, [sp, #0x38]
+00000d74 e10315aa                 mov       x1, x21
+00000d78 e30316aa                 mov       x3, x22
+00000d7c 843442f9                 ldr       x4, [x4, #0x468]
+00000d80 80003fd6                 blr       x4
+00000d84 fe1340f9                 ldr       x30, [sp, #0x20]
+00000d88 f35340a9                 ldp       x19, x20, [sp]
+00000d8c f55b41a9                 ldp       x21, x22, [sp, #0x10]
+00000d90 ff030191                 add       sp, sp, #0x40
+00000d94 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_ts address=0xd98 size=196
+00000d98 ff0301d1                 sub       sp, sp, #0x40
+00000d9c 01028052                 mov       w1, #0x10
+00000da0 f35300a9                 stp       x19, x20, [sp]
+00000da4 930000d0                 adrp      x19, #0x12000
+00000da8 f40300aa                 mov       x20, x0
+00000dac 73420091                 add       x19, x19, #0x10
+00000db0 f55b01a9                 stp       x21, x22, [sp, #0x10]
+00000db4 76420091                 add       x22, x19, #0x10
+00000db8 73c20091                 add       x19, x19, #0x30
+00000dbc e00316aa                 mov       x0, x22
+00000dc0 f77b02a9                 stp       x23, x30, [sp, #0x20]
+00000dc4 f70302aa                 mov       x23, x2
+00000dc8 b0ffff97                 bl        #0xc88
+00000dcc 820240f9                 ldr       x2, [x20]
+00000dd0 e10300aa                 mov       x1, x0
+00000dd4 e00314aa                 mov       x0, x20
+00000dd8 421840f9                 ldr       x2, [x2, #0x30]
+00000ddc 40003fd6                 blr       x2
+00000de0 f50300aa                 mov       x21, x0
+00000de4 01028052                 mov       w1, #0x10
+00000de8 e00316aa                 mov       x0, x22
+00000dec 94ffff97                 bl        #0xc3c
+00000df0 a1008052                 mov       w1, #5
+00000df4 e00313aa                 mov       x0, x19
+00000df8 a4ffff97                 bl        #0xc88
+00000dfc e20300aa                 mov       x2, x0
+00000e00 840240f9                 ldr       x4, [x20]
+00000e04 030000b0                 adrp      x3, #0x1000
+00000e08 63a00e91                 add       x3, x3, #0x3a8
+00000e0c e10315aa                 mov       x1, x21
+00000e10 e00314aa                 mov       x0, x20
+00000e14 84c441f9                 ldr       x4, [x4, #0x388]
+00000e18 80003fd6                 blr       x4
+00000e1c e01f00f9                 str       x0, [sp, #0x38]
+00000e20 a1008052                 mov       w1, #5
+00000e24 e00313aa                 mov       x0, x19
+00000e28 98ffff97                 bl        #0xc88
+00000e2c 840240f9                 ldr       x4, [x20]
+00000e30 e00314aa                 mov       x0, x20
+00000e34 e21f40f9                 ldr       x2, [sp, #0x38]
+00000e38 e10315aa                 mov       x1, x21
+00000e3c e30317aa                 mov       x3, x23
+00000e40 843442f9                 ldr       x4, [x4, #0x468]
+00000e44 80003fd6                 blr       x4
+00000e48 f77b42a9                 ldp       x23, x30, [sp, #0x20]
+00000e4c f35340a9                 ldp       x19, x20, [sp]
+00000e50 f55b41a9                 ldp       x21, x22, [sp, #0x10]
+00000e54 ff030191                 add       sp, sp, #0x40
+00000e58 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_da address=0xe5c size=228
+00000e5c ff0301d1                 sub       sp, sp, #0x40
+00000e60 e1038052                 mov       w1, #0x1f
+00000e64 f35300a9                 stp       x19, x20, [sp]
+00000e68 930000b0                 adrp      x19, #0x11000
+00000e6c f40300aa                 mov       x20, x0
+00000e70 f77b02a9                 stp       x23, x30, [sp, #0x20]
+00000e74 f55b01a9                 stp       x21, x22, [sp, #0x10]
+00000e78 73fe47f9                 ldr       x19, [x19, #0xff8]
+00000e7c f70302aa                 mov       x23, x2
+00000e80 e00313aa                 mov       x0, x19
+00000e84 81ffff97                 bl        #0xc88
+00000e88 e10300aa                 mov       x1, x0
+00000e8c 820240f9                 ldr       x2, [x20]
+00000e90 e00314aa                 mov       x0, x20
+00000e94 421840f9                 ldr       x2, [x2, #0x30]
+00000e98 40003fd6                 blr       x2
+00000e9c f50300aa                 mov       x21, x0
+00000ea0 e1038052                 mov       w1, #0x1f
+00000ea4 e00313aa                 mov       x0, x19
+00000ea8 930000d0                 adrp      x19, #0x12000
+00000eac 73420091                 add       x19, x19, #0x10
+00000eb0 63ffff97                 bl        #0xc3c
+00000eb4 76020191                 add       x22, x19, #0x40
+00000eb8 41008052                 mov       w1, #2
+00000ebc e00316aa                 mov       x0, x22
+00000ec0 73420191                 add       x19, x19, #0x50
+00000ec4 71ffff97                 bl        #0xc88
+00000ec8 e01f00f9                 str       x0, [sp, #0x38]
+00000ecc a1028052                 mov       w1, #0x15
+00000ed0 e00313aa                 mov       x0, x19
+00000ed4 6dffff97                 bl        #0xc88
+00000ed8 e30300aa                 mov       x3, x0
+00000edc 840240f9                 ldr       x4, [x20]
+00000ee0 e10315aa                 mov       x1, x21
+00000ee4 e21f40f9                 ldr       x2, [sp, #0x38]
+00000ee8 e00314aa                 mov       x0, x20
+00000eec 84c441f9                 ldr       x4, [x4, #0x388]
+00000ef0 80003fd6                 blr       x4
+00000ef4 e01f00f9                 str       x0, [sp, #0x38]
+00000ef8 41008052                 mov       w1, #2
+00000efc e00316aa                 mov       x0, x22
+00000f00 4fffff97                 bl        #0xc3c
+00000f04 e00313aa                 mov       x0, x19
+00000f08 a1028052                 mov       w1, #0x15
+00000f0c 4cffff97                 bl        #0xc3c
+00000f10 840240f9                 ldr       x4, [x20]
+00000f14 e00314aa                 mov       x0, x20
+00000f18 e21f40f9                 ldr       x2, [sp, #0x38]
+00000f1c e10315aa                 mov       x1, x21
+00000f20 e30317aa                 mov       x3, x23
+00000f24 843442f9                 ldr       x4, [x4, #0x468]
+00000f28 80003fd6                 blr       x4
+00000f2c f77b42a9                 ldp       x23, x30, [sp, #0x20]
+00000f30 f35340a9                 ldp       x19, x20, [sp]
+00000f34 f55b41a9                 ldp       x21, x22, [sp, #0x10]
+00000f38 ff030191                 add       sp, sp, #0x40
+00000f3c c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_sd address=0xf40 size=716
+00000f40 ffc301d1                 sub       sp, sp, #0x70
+00000f44 e1038052                 mov       w1, #0x1f
+00000f48 e82f00fd                 str       d8, [sp, #0x58]
+00000f4c f35300a9                 stp       x19, x20, [sp]
+00000f50 f30300aa                 mov       x19, x0
+00000f54 800000b0                 adrp      x0, #0x11000
+00000f58 fe2b00f9                 str       x30, [sp, #0x50]
+00000f5c f55b01a9                 stp       x21, x22, [sp, #0x10]
+00000f60 00fc47f9                 ldr       x0, [x0, #0xff8]
+00000f64 f76302a9                 stp       x23, x24, [sp, #0x20]
+00000f68 f96b03a9                 stp       x25, x26, [sp, #0x30]
+00000f6c fb7304a9                 stp       x27, x28, [sp, #0x40]
+00000f70 46ffff97                 bl        #0xc88
+00000f74 f40300aa                 mov       x20, x0
+00000f78 620240f9                 ldr       x2, [x19]
+00000f7c e10300aa                 mov       x1, x0
+00000f80 e00313aa                 mov       x0, x19
+00000f84 421840f9                 ldr       x2, [x2, #0x30]
+00000f88 40003fd6                 blr       x2
+00000f8c fb0300aa                 mov       x27, x0
+00000f90 e1038052                 mov       w1, #0x1f
+00000f94 e00314aa                 mov       x0, x20
+00000f98 940000d0                 adrp      x20, #0x12000
+00000f9c 28ffff97                 bl        #0xc3c
+00000fa0 94420091                 add       x20, x20, #0x10
+00000fa4 41008052                 mov       w1, #2
+00000fa8 80c20191                 add       x0, x20, #0x70
+00000fac 95820291                 add       x21, x20, #0xa0
+00000fb0 9ac20291                 add       x26, x20, #0xb0
+00000fb4 35ffff97                 bl        #0xc88
+00000fb8 99420391                 add       x25, x20, #0xd0
+00000fbc 0800679e                 fmov      d8, x0
+00000fc0 81028052                 mov       w1, #0x14
+00000fc4 80020291                 add       x0, x20, #0x80
+00000fc8 98820391                 add       x24, x20, #0xe0
+00000fcc 97020491                 add       x23, x20, #0x100
+00000fd0 96420491                 add       x22, x20, #0x110
+00000fd4 94020591                 add       x20, x20, #0x140
+00000fd8 2cffff97                 bl        #0xc88
+00000fdc e30300aa                 mov       x3, x0
+00000fe0 640240f9                 ldr       x4, [x19]
+00000fe4 fc0300aa                 mov       x28, x0
+00000fe8 0201669e                 fmov      x2, d8
+00000fec e1031baa                 mov       x1, x27
+00000ff0 e00313aa                 mov       x0, x19
+00000ff4 84c441f9                 ldr       x4, [x4, #0x388]
+00000ff8 80003fd6                 blr       x4
+00000ffc e03700f9                 str       x0, [sp, #0x68]
+00001000 0001669e                 fmov      x0, d8
+00001004 41008052                 mov       w1, #2
+00001008 0dffff97                 bl        #0xc3c
+0000100c e0031caa                 mov       x0, x28
+00001010 81028052                 mov       w1, #0x14
+00001014 0affff97                 bl        #0xc3c
+00001018 630240f9                 ldr       x3, [x19]
+0000101c e1031baa                 mov       x1, x27
+00001020 e23740f9                 ldr       x2, [sp, #0x68]
+00001024 e00313aa                 mov       x0, x19
+00001028 63c841f9                 ldr       x3, [x3, #0x390]
+0000102c 60003fd6                 blr       x3
+00001030 fc0300aa                 mov       x28, x0
+00001034 61018052                 mov       w1, #0xb
+00001038 e00315aa                 mov       x0, x21
+0000103c 13ffff97                 bl        #0xc88
+00001040 e10300aa                 mov       x1, x0
+00001044 620240f9                 ldr       x2, [x19]
+00001048 e00313aa                 mov       x0, x19
+0000104c 429c42f9                 ldr       x2, [x2, #0x538]
+00001050 40003fd6                 blr       x2
+00001054 fb0300aa                 mov       x27, x0
+00001058 61018052                 mov       w1, #0xb
+0000105c e00315aa                 mov       x0, x21
+00001060 f7feff97                 bl        #0xc3c
+00001064 a1028052                 mov       w1, #0x15
+00001068 e0031aaa                 mov       x0, x26
+0000106c 07ffff97                 bl        #0xc88
+00001070 e10300aa                 mov       x1, x0
+00001074 620240f9                 ldr       x2, [x19]
+00001078 e00313aa                 mov       x0, x19
+0000107c 421840f9                 ldr       x2, [x2, #0x30]
+00001080 40003fd6                 blr       x2
+00001084 f50300aa                 mov       x21, x0
+00001088 a1028052                 mov       w1, #0x15
+0000108c e0031aaa                 mov       x0, x26
+00001090 ebfeff97                 bl        #0xc3c
+00001094 c1008052                 mov       w1, #6
+00001098 e00319aa                 mov       x0, x25
+0000109c fbfeff97                 bl        #0xc88
+000010a0 e03700f9                 str       x0, [sp, #0x68]
+000010a4 a1028052                 mov       w1, #0x15
+000010a8 e00318aa                 mov       x0, x24
+000010ac f7feff97                 bl        #0xc88
+000010b0 e30300aa                 mov       x3, x0
+000010b4 640240f9                 ldr       x4, [x19]
+000010b8 e10315aa                 mov       x1, x21
+000010bc e23740f9                 ldr       x2, [sp, #0x68]
+000010c0 e00313aa                 mov       x0, x19
+000010c4 848440f9                 ldr       x4, [x4, #0x108]
+000010c8 80003fd6                 blr       x4
+000010cc e03700f9                 str       x0, [sp, #0x68]
+000010d0 c1008052                 mov       w1, #6
+000010d4 e00319aa                 mov       x0, x25
+000010d8 d9feff97                 bl        #0xc3c
+000010dc e00318aa                 mov       x0, x24
+000010e0 a1028052                 mov       w1, #0x15
+000010e4 d6feff97                 bl        #0xc3c
+000010e8 640240f9                 ldr       x4, [x19]
+000010ec e3031caa                 mov       x3, x28
+000010f0 e23740f9                 ldr       x2, [sp, #0x68]
+000010f4 e10315aa                 mov       x1, x21
+000010f8 e00313aa                 mov       x0, x19
+000010fc 847040f9                 ldr       x4, [x4, #0xe0]
+00001100 80003fd6                 blr       x4
+00001104 f80300aa                 mov       x24, x0
+00001108 01018052                 mov       w1, #8
+0000110c e00317aa                 mov       x0, x23
+00001110 defeff97                 bl        #0xc88
+00001114 e03700f9                 str       x0, [sp, #0x68]
+00001118 81058052                 mov       w1, #0x2c
+0000111c e00316aa                 mov       x0, x22
+00001120 dafeff97                 bl        #0xc88
+00001124 e30300aa                 mov       x3, x0
+00001128 640240f9                 ldr       x4, [x19]
+0000112c e10315aa                 mov       x1, x21
+00001130 e23740f9                 ldr       x2, [sp, #0x68]
+00001134 e00313aa                 mov       x0, x19
+00001138 848440f9                 ldr       x4, [x4, #0x108]
+0000113c 80003fd6                 blr       x4
+00001140 e03700f9                 str       x0, [sp, #0x68]
+00001144 01018052                 mov       w1, #8
+00001148 e00317aa                 mov       x0, x23
+0000114c bcfeff97                 bl        #0xc3c
+00001150 e00316aa                 mov       x0, x22
+00001154 81058052                 mov       w1, #0x2c
+00001158 b9feff97                 bl        #0xc3c
+0000115c 640240f9                 ldr       x4, [x19]
+00001160 e3031baa                 mov       x3, x27
+00001164 e23740f9                 ldr       x2, [sp, #0x68]
+00001168 e10318aa                 mov       x1, x24
+0000116c e00313aa                 mov       x0, x19
+00001170 848840f9                 ldr       x4, [x4, #0x110]
+00001174 80003fd6                 blr       x4
+00001178 f50300aa                 mov       x21, x0
+0000117c 620240f9                 ldr       x2, [x19]
+00001180 e10300aa                 mov       x1, x0
+00001184 e00313aa                 mov       x0, x19
+00001188 427c40f9                 ldr       x2, [x2, #0xf8]
+0000118c 40003fd6                 blr       x2
+00001190 f60300aa                 mov       x22, x0
+00001194 e1008052                 mov       w1, #7
+00001198 e00314aa                 mov       x0, x20
+0000119c bbfeff97                 bl        #0xc88
+000011a0 e20300aa                 mov       x2, x0
+000011a4 640240f9                 ldr       x4, [x19]
+000011a8 03000090                 adrp      x3, #0x1000
+000011ac e10316aa                 mov       x1, x22
+000011b0 63c00e91                 add       x3, x3, #0x3b0
+000011b4 e00313aa                 mov       x0, x19
+000011b8 848440f9                 ldr       x4, [x4, #0x108]
+000011bc 80003fd6                 blr       x4
+000011c0 e03700f9                 str       x0, [sp, #0x68]
+000011c4 e1008052                 mov       w1, #7
+000011c8 e00314aa                 mov       x0, x20
+000011cc 9cfeff97                 bl        #0xc3c
+000011d0 630240f9                 ldr       x3, [x19]
+000011d4 e10315aa                 mov       x1, x21
+000011d8 e23740f9                 ldr       x2, [sp, #0x68]
+000011dc e00313aa                 mov       x0, x19
+000011e0 63d040f9                 ldr       x3, [x3, #0x1a0]
+000011e4 60003fd6                 blr       x3
+000011e8 f35340a9                 ldp       x19, x20, [sp]
+000011ec f55b41a9                 ldp       x21, x22, [sp, #0x10]
+000011f0 f76342a9                 ldp       x23, x24, [sp, #0x20]
+000011f4 f96b43a9                 ldp       x25, x26, [sp, #0x30]
+000011f8 fb7344a9                 ldp       x27, x28, [sp, #0x40]
+000011fc fe2b40f9                 ldr       x30, [sp, #0x50]
+00001200 e82f40fd                 ldr       d8, [sp, #0x58]
+00001204 ffc30191                 add       sp, sp, #0x70
+00001208 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_checkPlatformService address=0x120c size=52
+0000120c ff8300d1                 sub       sp, sp, #0x20
+00001210 fe0300f9                 str       x30, [sp]
+00001214 e20f00f9                 str       x2, [sp, #0x18]
+00001218 4affff97                 bl        #0xf40
+0000121c e20f40f9                 ldr       x2, [sp, #0x18]
+00001220 81d784d2                 mov       x1, #0x26bc
+00001224 4100a0f2                 movk      x1, #2, lsl #16
+00001228 fe0340f9                 ldr       x30, [sp]
+0000122c 410001ca                 eor       x1, x2, x1
+00001230 ff830091                 add       sp, sp, #0x20
+00001234 1f0001eb                 cmp       x0, x1
+00001238 e0179f1a                 cset      w0, eq
+0000123c c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClock address=0x1240 size=36
+00001240 ff4300d1                 sub       sp, sp, #0x10
+00001244 fe0300f9                 str       x30, [sp]
+00001248 6afeff97                 bl        #0xbf0
+0000124c 0100229e                 scvtf     s1, x0
+00001250 fe0340f9                 ldr       x30, [sp]
+00001254 8000001c                 ldr       s0, #0x1264
+00001258 ff430091                 add       sp, sp, #0x10
+0000125c 2018201e                 fdiv      s0, s1, s0
+00001260 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClockMillis address=0x1268 size=76
+00001268 ff8300d1                 sub       sp, sp, #0x20
+0000126c 20008052                 mov       w0, #1
+00001270 e1430091                 add       x1, sp, #0x10
+00001274 fe0300f9                 str       x30, [sp]
+00001278 46feff97                 bl        #0xb90
+0000127c 619b86d2                 mov       x1, #0x34db
+00001280 e00f40f9                 ldr       x0, [sp, #0x18]
+00001284 c1f6baf2                 movk      x1, #0xd7b6, lsl #16
+00001288 fe0340f9                 ldr       x30, [sp]
+0000128c 41d0dbf2                 movk      x1, #0xde82, lsl #32
+00001290 6163e8f2                 movk      x1, #0x431b, lsl #48
+00001294 017c419b                 smulh     x1, x0, x1
+00001298 22fc5293                 asr       x2, x1, #0x12
+0000129c 017d80d2                 mov       x1, #0x3e8
+000012a0 40fc80cb                 sub       x0, x2, x0, asr #63
+000012a4 e20b40f9                 ldr       x2, [sp, #0x10]
+000012a8 ff830091                 add       sp, sp, #0x20
+000012ac 4000019b                 madd      x0, x2, x1, x0
+000012b0 c0035fd6                 ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_tm address=0x12b4 size=4
+000012b4 edffff17                 b         #0x1268
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClockNano address=0x12b8 size=52
+000012b8 ff8300d1                 sub       sp, sp, #0x20
+000012bc 20008052                 mov       w0, #1
+000012c0 e1430091                 add       x1, sp, #0x10
+000012c4 fe0300f9                 str       x30, [sp]
+000012c8 32feff97                 bl        #0xb90
+000012cc e00f40f9                 ldr       x0, [sp, #0x18]
+000012d0 014099d2                 mov       x1, #0xca00
+000012d4 e20b40f9                 ldr       x2, [sp, #0x10]
+000012d8 4173a7f2                 movk      x1, #0x3b9a, lsl #16
+000012dc fe0340f9                 ldr       x30, [sp]
+000012e0 ff830091                 add       sp, sp, #0x20
+000012e4 4000019b                 madd      x0, x2, x1, x0
+000012e8 c0035fd6                 ret       
+
+IsDeviceRooted address=0x12ec size=124
+000012ec ff4302d1                 sub       sp, sp, #0x90
+000012f0 00000090                 adrp      x0, #0x1000
+000012f4 01000090                 adrp      x1, #0x1000
+000012f8 00e00e91                 add       x0, x0, #0x3b8
+000012fc 21600f91                 add       x1, x1, #0x3d8
+00001300 f37b00a9                 stp       x19, x30, [sp]
+00001304 2ffeff97                 bl        #0xbc0
+00001308 c00000b4                 cbz       x0, #0x1320
+0000130c 31feff97                 bl        #0xbd0
+00001310 20008052                 mov       w0, #1
+00001314 f37b40a9                 ldp       x19, x30, [sp]
+00001318 ff430291                 add       sp, sp, #0x90
+0000131c c0035fd6                 ret       
+00001320 f3430091                 add       x19, sp, #0x10
+00001324 00000090                 adrp      x0, #0x1000
+00001328 00c00f91                 add       x0, x0, #0x3f0
+0000132c e10313aa                 mov       x1, x19
+00001330 2cfeff97                 bl        #0xbe0
+00001334 1f040031                 cmn       w0, #1
+00001338 a0000054                 b.eq      #0x134c
+0000133c 20008052                 mov       w0, #1
+00001340 f37b40a9                 ldp       x19, x30, [sp]
+00001344 ff430291                 add       sp, sp, #0x90
+00001348 c0035fd6                 ret       
+0000134c 00000090                 adrp      x0, #0x1000
+00001350 e10313aa                 mov       x1, x19
+00001354 00800f91                 add       x0, x0, #0x3e0
+00001358 22feff97                 bl        #0xbe0
+0000135c 1f040031                 cmn       w0, #1
+00001360 e0079f1a                 cset      w0, ne
+00001364 ecffff17                 b         #0x1314
+
+Java_com_gameloft_android_wrapper_NativeUtils_CheckRoot address=0x1368 size=4
+00001368 e1ffff17                 b         #0x12ec

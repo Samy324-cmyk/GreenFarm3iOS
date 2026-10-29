@@ -1,0 +1,14 @@
+{
+  "jdk": "Amazon Corretto 25.0.4_8",
+  "java_source": "work/collections-oracle/CollectionsOracle.java",
+  "source_sha256": "98d11ede2a5a9476b9c1fc88c3e1bf4cf0e84117736378c94413dbfac7b72a6f",
+  "oracle_sha256": "6c404413b1d3fa69f1dfc4163a44cdea5d4fa9beaaf40f2eb7a92f9875218dbd",
+  "records": 25,
+  "excluded": "Map iteration order, host Calendar/TimeZone implementation",
+  "source_docs": [
+    "https://docs.oracle.com/javase/8/docs/api/java/util/Vector.html",
+    "https://docs.oracle.com/javase/8/docs/api/java/util/Hashtable.html",
+    "https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html",
+    "https://docs.oracle.com/javase/8/docs/api/java/util/Calendar.html"
+  ]
+}

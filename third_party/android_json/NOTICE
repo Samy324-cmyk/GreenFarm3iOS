@@ -1,0 +1,9 @@
+Android libcore org.json
+Copyright (C) 2010 The Android Open Source Project
+
+Dart compatibility translation of JSONTokener, JSON, JSONObject, JSONArray and JSONStringer behavior.
+Original source revision: android-5.0.0_r1
+Source: https://android.googlesource.com/platform/libcore/+/android-5.0.0_r1/json/src/main/java/org/json/
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+Modified for this project: translated parser and JSON data model into Dart and bound to DalvikRuntime; unused APIs omitted.

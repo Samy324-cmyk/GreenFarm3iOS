@@ -1,0 +1,816 @@
+{
+  "scope": "Evidence inventory, not a claim of complete startup or full port.",
+  "source_format": "JADX Java; generated DEX remains execution authority.",
+  "source_sha256": {
+    "c/c/a/b/i.java": "b182ce86cf6784e6496c4a740ceee4309525d15389958fac917cadb064c44567",
+    "com/gameloft/android/ANMP/GloftGF2F/Pt.java": "c17ce57a6c04646b5424bf8d9aad32fe0191cab0d8f49fc6beeb901cbaef66d4",
+    "com/gameloft/android/ANMP/GloftGF2F/Start.java": "9440ac4249dbfab7d92635f3da2a5a0ada010aa0d1907d9e830d7da6bd61cddd",
+    "javax/microedition/midlet/BaseActivity.java": "9e515424c05f937e64aa0e91dfbcc0c003581e467960c6eabd2be50a39f9126e",
+    "javax/microedition/midlet/MIDlet.java": "b36a086eb6b642e37047dd79d3fd8038297d2d8da0d2b7b9f08bf4972e708dff"
+  },
+  "effects": [
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 175,
+      "evidence": "f7654e = this;",
+      "effect": "Sets launcher and MIDlet start-activity references.",
+      "port_requirement": "Execute original Start.onCreate before game MIDlet creation.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 193,
+      "evidence": "f.V(1.0f, 1.0f);",
+      "effect": "Sets canvas scale, keycodes, input and screen defaults.",
+      "port_requirement": "Preserve static writes and original Canvas calls; full assignment inventory follows.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 222,
+      "evidence": "MIDlet.N = true;",
+      "effect": "Enables IAP and Google Play billing mode; configures SDK flags.",
+      "port_requirement": "Do not turn these flags off to bypass unavailable purchases; provide an explicit host adapter.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 241,
+      "evidence": "MIDlet.K = true;",
+      "effect": "Selects encrypted MIDlet properties, rather than resource-string fallback.",
+      "port_requirement": "Run original Utils.g/DefReader decoding or a verified equivalent over exact content.bin.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 256,
+      "evidence": "MIDlet.H = \"44425\";",
+      "effect": "Establishes package channel/version and wrapper configuration.",
+      "port_requirement": "Preserve constants, including values whose names are obfuscated.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 268,
+      "evidence": "if (m.B(this, \"\"))",
+      "effect": "Checks actual free disk space against MIDlet.F0 (5 MiB), with localized low-space dialog if insufficient.",
+      "port_requirement": "Provide real StatFs allocation counts; do not force a successful memory check.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 278,
+      "evidence": "h.a(this);",
+      "effect": "LowProfileListener configures immersive system-UI visibility and registers its visibility callback.",
+      "port_requirement": "Retain original listener/delayed work; map actual requested window chrome to Flutter.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 157,
+      "evidence": "this.z.post(new b());",
+      "effect": "Measures attached host view, then chooses screen/asset variant and launches game activity.",
+      "port_requirement": "View.post must run after a real layout. Zero-sized placeholder views cannot produce faithful startup.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 286,
+      "evidence": "Pt.f().init();",
+      "effect": "Starts delayed archive-integrity worker.",
+      "port_requirement": "Retain original worker/sleep and archive entry sizes; no disabled checks.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "launcher",
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Pt.java",
+      "line": 53,
+      "evidence": "b.b().e(new String(Pt.this.f7590e))",
+      "effect": "Checks total size of all original .dex ZIP entries against REVISION-2408 XOR 0x226bc.",
+      "port_requirement": "Supplied APK passes: 20,299,048 bytes. Preserve actual source archive provenance.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "screen",
+      "source": "c/c/a/b/i.java",
+      "line": 236,
+      "evidence": "MIDlet.t0 = aVar.f1158d;",
+      "effect": "Sets physical/virtual dimensions, screen inches, canvas translation/scaling and asset directory.",
+      "port_requirement": "Preserve original selector and screen math; adapt only host display facts.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "screen",
+      "source": "c/c/a/b/i.java",
+      "line": 277,
+      "evidence": "intent.putExtra(\"SCREEN_ORIENTATION\", 11);",
+      "effect": "Carries orientation, push launch, demo and recording intent state to game activity.",
+      "port_requirement": "Keep original Intent data and activity handoff.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "base activity",
+      "source": "javax/microedition/midlet/BaseActivity.java",
+      "line": 112,
+      "evidence": "public void onCreate(Bundle bundle)",
+      "effect": "Registers finish-action broadcast receiver; destroy unregisters it.",
+      "port_requirement": "Host receiver registry must preserve delivery/unregistration.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 710,
+      "evidence": "m.a2(this);",
+      "effect": "Sets global active context and initializes utility environment.",
+      "port_requirement": "Retain original method; this is already called only in isolated engine-entry probe.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 667,
+      "evidence": "m.h2(\"Screen_Width\"",
+      "effect": "Persists actual display width/height on Android facade SDK>=24.",
+      "port_requirement": "Persist preferences through real storage using supplied display metrics.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 718,
+      "evidence": "m.g();",
+      "effect": "Decrypts and parses 41 original MIDlet properties.",
+      "port_requirement": "Exact encrypted resource has been recovered; implementation must not use K=false fallback.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 736,
+      "evidence": "editorEdit.putString(\"is_multiplejar\"",
+      "effect": "Persists multi-jar startup state and redirects invalid entries back to Start.",
+      "port_requirement": "Preserve preference and asset-directory preconditions.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 762,
+      "evidence": "getIntent().hasExtra(\"IS_DEMO\")",
+      "effect": "Consumes demo/record-block flags; demo can clear record stores.",
+      "port_requirement": "Preserve actual supplied Intent and original branching.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 772,
+      "evidence": "getWindow().setFlags(1664, 1664);",
+      "effect": "Sets fullscreen/window behavior, audio volume stream, orientation, configuration defaults.",
+      "port_requirement": "Use actual Flutter window/orientation/audio bindings; retain configuration state.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 786,
+      "evidence": "getResources().getDrawable",
+      "effect": "Requires the real launcher drawable resource.",
+      "port_requirement": "Decode original resource bytes; no dummy drawable or unconditional non-null sentinel.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 789,
+      "evidence": "k(this);",
+      "effect": "Deletes temporary .snddmp sound files from private storage.",
+      "port_requirement": "Execute original cleanup against actual host storage.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 790,
+      "evidence": "getStringExtra(\"LANGUAGE\")",
+      "effect": "Persists explicit launch language; optional demo timer can be scheduled.",
+      "port_requirement": "Preserve original record-store and timer logic.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 810,
+      "evidence": "getSystemService(\"power\")",
+      "effect": "Uses keyguard/power state and optionally acquires a wake lock.",
+      "port_requirement": "Require real host lifecycle/power adapter; preserve acquisition/release semantics.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 819,
+      "evidence": "System.setProperty(\"microedition.sensor.version\"",
+      "effect": "Creates runtime properties for device, OS, IDs, carrier, root probe, audio, signature and virtual dimensions.",
+      "port_requirement": "Do not invent hardware identities; Utils.g0 intentionally returns empty AndroidID in original code.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 846,
+      "evidence": "d.b.c.b.c(bundle);",
+      "effect": "Push-notification wrapper initializes backend using Has-Push-Notification=1.",
+      "port_requirement": "Keep original configuration; real platform notification adapter and backend compatibility remain required.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 847,
+      "evidence": "d.b.c.m.c(bundle);",
+      "effect": "Zoro wrapper has empty onCreate; later lifecycle callbacks perform account/SDK work.",
+      "port_requirement": "An empty original onCreate does not authorize skipping later callbacks.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 848,
+      "evidence": "l.c(bundle);",
+      "effect": "Splash wrapper sets original game code/version.",
+      "port_requirement": "Preserve original initializer.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 849,
+      "evidence": "d.b.c.k.c(bundle);",
+      "effect": "Install-referrer wrapper reads QA config and initializes referrer.",
+      "port_requirement": "Provide truthful host install-source/referrer behavior or explicit unsupported bridge.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 850,
+      "evidence": "j.c(bundle);",
+      "effect": "SoftKeyboard child onCreate invokes LowProfileListener immersive-UI setup; later callbacks also hide active soft input.",
+      "port_requirement": "Preserve both actual immersive-window state and keyboard behavior.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 851,
+      "evidence": "h.c0(bundle);",
+      "effect": "Facebook wrapper initializes SDK, callbacks, signature and events.",
+      "port_requirement": "Preserve account/social integration; external platform configuration remains required.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 854,
+      "evidence": "f.c(bundle);",
+      "effect": "IAP wrapper initializes Google billing and starts its worker because MIDlet.N=true.",
+      "port_requirement": "Original Google billing cannot be treated as an iOS purchase provider; explicit platform adapter is required.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 856,
+      "evidence": "d.b.c.d.c(bundle);",
+      "effect": "Utility tracker/referrer initialization executes.",
+      "port_requirement": "Retain original call flow; do not report successful telemetry without actual delivery.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 857,
+      "evidence": "d.b.c.c.c(bundle);",
+      "effect": "Ads wrapper initializes AdsManager and Activity/parent state.",
+      "port_requirement": "Retain ads state and callbacks; backend/platform support must be implemented explicitly.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onCreate",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 858,
+      "evidence": "System.setProperty(\"injectedserialkey\"",
+      "effect": "Reads injected serial-key/IGP resources, and conditionally migrates old files.",
+      "port_requirement": "Preserve resource absence semantics and actual private-file migration.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onStart",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 1137,
+      "evidence": "System.setProperty(\"microedition.locale.country\"",
+      "effect": "Establishes locale, SIM country and user country properties; dispatches SDK start callbacks.",
+      "port_requirement": "Use host locale/telephony availability and preserve original fallbacks.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.onResume",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 1050,
+      "evidence": "public void onResume()",
+      "effect": "Resumes surface/audio, invokes G() once, then dispatches child SDK/account/IAP/IGP lifecycle callbacks.",
+      "port_requirement": "Calling G() directly is an engine probe, not complete startup.",
+      "status": "original code retained; host bridge coverage incomplete"
+    },
+    {
+      "phase": "MIDlet.lifecycle",
+      "source": "javax/microedition/midlet/MIDlet.java",
+      "line": 998,
+      "evidence": "public void onPause()",
+      "effect": "Pause/stop/destroy dispatch SDK cleanup, audio/surface state and power/receiver lifecycle.",
+      "port_requirement": "Wire actual app lifecycle events through original methods.",
+      "status": "original code retained; host bridge coverage incomplete"
+    }
+  ],
+  "start_static_assignments": [
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 176,
+      "target": "MIDlet.f10009f",
+      "expression": "this"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 177,
+      "target": "d.f1133d",
+      "expression": "\"userLandscape\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 194,
+      "target": "d.f1134e",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 195,
+      "target": "d.f1135f",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 200,
+      "target": "MIDlet.x",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 201,
+      "target": "MIDlet.n0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 202,
+      "target": "MIDlet.A",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 203,
+      "target": "MIDlet.B",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 204,
+      "target": "MIDlet.E",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 205,
+      "target": "MIDlet.m0",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 206,
+      "target": "MIDlet.C",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 207,
+      "target": "MIDlet.D",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 208,
+      "target": "MIDlet.M",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 209,
+      "target": "MIDlet.F0",
+      "expression": "5"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 210,
+      "target": "d.i",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 211,
+      "target": "d.f1132c",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 212,
+      "target": "d.m",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 213,
+      "target": "d.n",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 214,
+      "target": "d.C",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 215,
+      "target": "d.H",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 216,
+      "target": "d.I",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 217,
+      "target": "m.S",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 218,
+      "target": "m.T",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 219,
+      "target": "m.V",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 220,
+      "target": "m.Y",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 221,
+      "target": "m.Z",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 222,
+      "target": "MIDlet.N",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 223,
+      "target": "MIDlet.L0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 224,
+      "target": "MIDlet.T",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 225,
+      "target": "MIDlet.U",
+      "expression": "\"USE_IAP_GOOGLE_PLAY_BILLING\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 226,
+      "target": "MIDlet.O",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 227,
+      "target": "MIDlet.P",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 228,
+      "target": "MIDlet.Q",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 229,
+      "target": "MIDlet.c0",
+      "expression": "\"\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 230,
+      "target": "MIDlet.R",
+      "expression": "1"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 231,
+      "target": "MIDlet.V",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 232,
+      "target": "MIDlet.W",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 233,
+      "target": "MIDlet.X",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 234,
+      "target": "MIDlet.Y",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 235,
+      "target": "MIDlet.Z",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 236,
+      "target": "MIDlet.a0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 237,
+      "target": "d.k",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 238,
+      "target": "d.l",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 239,
+      "target": "MIDlet.b0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 240,
+      "target": "MIDlet.J",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 241,
+      "target": "MIDlet.K",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 242,
+      "target": "d.o",
+      "expression": "\"ANMP\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 243,
+      "target": "d.p",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 244,
+      "target": "d.q",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 245,
+      "target": "d.r",
+      "expression": "\"LBCL\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 246,
+      "target": "d.s",
+      "expression": "\"BFLL\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 247,
+      "target": "d.t",
+      "expression": "\"BFL4\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 248,
+      "target": "d.u",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 249,
+      "target": "d.v",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 250,
+      "target": "d.w",
+      "expression": "\"14.0\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 251,
+      "target": "d.x",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 252,
+      "target": "MIDlet.g0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 253,
+      "target": "MIDlet.h0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 254,
+      "target": "MIDlet.F",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 255,
+      "target": "d.o",
+      "expression": "d.o"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 256,
+      "target": "MIDlet.H",
+      "expression": "\"44425\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 257,
+      "target": "MIDlet.I",
+      "expression": "\"4.4.4\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 258,
+      "target": "d.f1136g",
+      "expression": "2"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 259,
+      "target": "d.y",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 260,
+      "target": "d.z",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 261,
+      "target": "d.A",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 262,
+      "target": "d.B",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 263,
+      "target": "d.f1130a",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 264,
+      "target": "d.D",
+      "expression": "20"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 265,
+      "target": "MIDlet.C0",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 266,
+      "target": "d.J",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 267,
+      "target": "d.K",
+      "expression": "0"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 276,
+      "target": "d.j",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 279,
+      "target": "MIDlet.o0",
+      "expression": "true"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 280,
+      "target": "d.h",
+      "expression": "false"
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 281,
+      "target": "d.F",
+      "expression": "\"\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 282,
+      "target": "d.G",
+      "expression": "\"\""
+    },
+    {
+      "source": "com/gameloft/android/ANMP/GloftGF2F/Start.java",
+      "line": 283,
+      "target": "d.E",
+      "expression": "false"
+    }
+  ]
+}

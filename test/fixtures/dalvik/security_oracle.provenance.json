@@ -1,0 +1,7 @@
+{
+  "runtime": "Amazon Corretto 25.0.4_8",
+  "source": "tool/oracles/JavaSecurityOracle.java",
+  "vector_count": 72,
+  "fixture_sha256": "4c9039641475c5ffc34a221dbb5fb401415d77f59002da58a631ea8df8aa5839",
+  "rsa_material": "Generated synthetic test key only; never used by the game runtime"
+}

@@ -1,0 +1,32 @@
+JavaNioOracle.java generates 80 independent JVM storage/view cases covering
+heap and direct buffers, big/little endian order, unaligned view offsets and
+IntBuffer/ShortBuffer/FloatBuffer views over common ByteBuffer storage.
+
+Rebuild from project root with Java 8:
+  javac test/oracles/JavaNioOracle.java
+  java -cp test/oracles JavaNioOracle > test/dalvik/fixtures/nio.json
+PowerShell 5: pipe java output to Set-Content -Encoding ascii rather than >.
+
+Run:
+  flutter test test/dalvik/java_nio_test.dart
+
+Additional tests cover live wrapped primitive arrays, relative/absolute get/put,
+bulk overlap, no mutation on failed bulk operations, position/limit/mark/reset,
+clear/rewind/flip, duplicate/slice byte order, compact and read-only behavior.
+
+Graphics integration:
+  registerJavaNio(vm)
+  final buffer = javaNioBuffer(vm, originalDexObject);
+  buffer.copyBytes() snapshots bytes from position through limit without
+  changing position. readRaw(index) reads absolute signed values (or raw IEEE
+  float bits). writeRaw(index, value) updates shared storage. copyBytes(false)
+  is expressed as copyBytes(remaining: false) and includes the full capacity.
+
+Internal views always alias their backing data, including the original
+DalvikArray passed to wrap. A Dart Uint8List cannot alias DalvikArray's generic
+values list, so copyBytes deliberately exposes a snapshot for GPU uploads.
+
+All 17 distinct java.nio buffer/ByteOrder method references in the recovered
+DEX are covered. The separate Charset.forName reference in a third-party SDK
+is outside this buffer module; InputStreamReader/Charset requires its own
+bridge if that SDK path becomes reachable.

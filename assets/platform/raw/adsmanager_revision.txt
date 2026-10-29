@@ -1,0 +1,4 @@
+AdsManager Java Wrapper revision: 23554  
+AdsManager Master HD revision: 76449
+GLAdsV2 Java Wrapper revision: 23296
+GLAdsV2 Master HD revision: 74623

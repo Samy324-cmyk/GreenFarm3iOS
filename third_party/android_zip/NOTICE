@@ -1,0 +1,15 @@
+Android libcore java.util.zip compatibility reference
+
+The ZipFile and ZipEntry behavior in lib/engine/dalvik/java_zip.dart was
+implemented with reference to Android 5.0.0_r1 libcore (Apache Harmony lineage),
+licensed under Apache License 2.0. The referenced source carries the Apache
+Software Foundation contributor-license notice. See LICENSE in this directory.
+
+Reference files:
+https://android.googlesource.com/platform/libcore/+/android-5.0.0_r1/luni/src/main/java/java/util/zip/ZipFile.java
+https://android.googlesource.com/platform/libcore/+/android-5.0.0_r1/luni/src/main/java/java/util/zip/ZipEntry.java
+
+This Dart implementation supports the original APK's ZIP32 stored/deflated
+entries. It adds explicit CRC checking, rejects unsupported ZIP64/encryption,
+and materializes entry streams in memory. These are documented implementation
+choices, not claims that every Java ZIP API is implemented.

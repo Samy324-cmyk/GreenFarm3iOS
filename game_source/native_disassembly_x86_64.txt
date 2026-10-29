@@ -1,0 +1,470 @@
+File: work\apk-audit\android-resources\resources\lib\x86_64\libnativeU.so
+SHA256: 8374e2ff13ef26ec27ce3272e27fd6bf6f2a1e987ed72b4774f4b04beb052a81
+Machine: EM_X86_64
+RELOCATIONS
+{
+  "0x2da8": "",
+  "0x2fa8": "",
+  "0x3000": "",
+  "0x2fc8": "__cxa_atexit",
+  "0x2fd0": "__cxa_finalize",
+  "0x2fd8": "clock",
+  "0x2fe0": "clock_gettime",
+  "0x2fe8": "fopen",
+  "0x2ff0": "fclose",
+  "0x2ff8": "stat"
+}
+STRINGS
+{
+  "0x12b8": "(J)V",
+  "0x12bd": "()J",
+  "0x12c4": "/system/app/Superuser.apk",
+  "0x12de": "/system/xbin/su",
+  "0x12ee": "/system/bin/su",
+  "0x1335": "$tI",
+  "0x1597": ";*3$\"",
+  "0x3023": "rjbak",
+  "0x3030": "i_s]*fZf^%Sfoa\\^",
+  "0x3050": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x3069": "fcqOdt^",
+  "0x3080": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x3094": "Kh^r\\)nl`b.xfl*Tbh<dspv7",
+  "0x30ad": "fcqAinkq",
+  "0x30c0": "'Jg]q[(dXdf-Ppmcg_2",
+  "0x30d6": ";gkeo8",
+  "0x30e0": "i_s]*omac%ygm+Uci>`bd",
+  "0x30f6": "bj^on_l&[[w",
+  "0x3110": "''If\\pZ'cWme,Oolbf^1",
+  "0x3140": "bmj+b[f]ceer,]i^kg`Z.uo]kj^j&@a"
+}
+
+Encode address=0xbc0 size=57
+00000bc0 85f6                     test      esi, esi
+00000bc2 7e34                     jle       0xbf8
+00000bc4 83ee01                   sub       esi, 1
+00000bc7 802f01                   sub       byte ptr [rdi], 1
+00000bca b802000000               mov       eax, 2
+00000bcf 4801fe                   add       rsi, rdi
+00000bd2 b901000000               mov       ecx, 1
+00000bd7 eb19                     jmp       0xbf2
+00000bd9 0f1f8000000000           nop       dword ptr [rax]
+00000be0 8d5001                   lea       edx, [rax + 1]
+00000be3 284701                   sub       byte ptr [rdi + 1], al
+00000be6 83fa0a                   cmp       edx, 0xa
+00000be9 89d0                     mov       eax, edx
+00000beb 0f4fc1                   cmovg     eax, ecx
+00000bee 4883c701                 add       rdi, 1
+00000bf2 4839f7                   cmp       rdi, rsi
+00000bf5 75e9                     jne       0xbe0
+00000bf7 c3                       ret       
+00000bf8 c3                       ret       
+
+Decode address=0xc00 size=61
+00000c00 85f6                     test      esi, esi
+00000c02 4889f8                   mov       rax, rdi
+00000c05 7e35                     jle       0xc3c
+00000c07 83ee01                   sub       esi, 1
+00000c0a 800701                   add       byte ptr [rdi], 1
+00000c0d 4889fa                   mov       rdx, rdi
+00000c10 4801fe                   add       rsi, rdi
+00000c13 b902000000               mov       ecx, 2
+00000c18 41b901000000             mov       r9d, 1
+00000c1e eb16                     jmp       0xc36
+00000c20 448d4101                 lea       r8d, [rcx + 1]
+00000c24 004a01                   add       byte ptr [rdx + 1], cl
+00000c27 4183f80a                 cmp       r8d, 0xa
+00000c2b 4489c1                   mov       ecx, r8d
+00000c2e 410f4fc9                 cmovg     ecx, r9d
+00000c32 4883c201                 add       rdx, 1
+00000c36 4839f2                   cmp       rdx, rsi
+00000c39 75e5                     jne       0xc20
+00000c3b c3                       ret       
+00000c3c c3                       ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_sp address=0xc40 size=166
+00000c40 4155                     push      r13
+00000c42 be1f000000               mov       esi, 0x1f
+00000c47 4989d5                   mov       r13, rdx
+00000c4a 4154                     push      r12
+00000c4c 55                       push      rbp
+00000c4d 53                       push      rbx
+00000c4e 4889fb                   mov       rbx, rdi
+00000c51 488d6424f8               lea       rsp, [rsp - 8]
+00000c56 4c8b254b230000           mov       r12, qword ptr [rip + 0x234b] ; 0x2fa8 
+00000c5d 4c89e7                   mov       rdi, r12
+00000c60 e89bffffff               call      0xc00 ; Decode
+00000c65 488b13                   mov       rdx, qword ptr [rbx]
+00000c68 4889df                   mov       rdi, rbx
+00000c6b 4889c6                   mov       rsi, rax
+00000c6e ff5230                   call      qword ptr [rdx + 0x30]
+00000c71 4c89e7                   mov       rdi, r12
+00000c74 be1f000000               mov       esi, 0x1f
+00000c79 4889c5                   mov       rbp, rax
+00000c7c e83fffffff               call      0xbc0 ; Encode
+00000c81 be02000000               mov       esi, 2
+00000c86 488d3d93230000           lea       rdi, [rip + 0x2393] ; 0x3020
+00000c8d e86effffff               call      0xc00 ; Decode
+00000c92 4c8b03                   mov       r8, qword ptr [rbx]
+00000c95 488d0d1c060000           lea       rcx, [rip + 0x61c] ; 0x12b8 '(J)V'
+00000c9c 4889c2                   mov       rdx, rax
+00000c9f 4889ee                   mov       rsi, rbp
+00000ca2 4889df                   mov       rdi, rbx
+00000ca5 41ff9088030000           call      qword ptr [r8 + 0x388]
+00000cac be02000000               mov       esi, 2
+00000cb1 488d3d68230000           lea       rdi, [rip + 0x2368] ; 0x3020
+00000cb8 4989c4                   mov       r12, rax
+00000cbb e800ffffff               call      0xbc0 ; Encode
+00000cc0 488b03                   mov       rax, qword ptr [rbx]
+00000cc3 4889df                   mov       rdi, rbx
+00000cc6 4889ee                   mov       rsi, rbp
+00000cc9 4c89e2                   mov       rdx, r12
+00000ccc 4c89e9                   mov       rcx, r13
+00000ccf 4c8b8068040000           mov       r8, qword ptr [rax + 0x468]
+00000cd6 488d642408               lea       rsp, [rsp + 8]
+00000cdb 5b                       pop       rbx
+00000cdc 31c0                     xor       eax, eax
+00000cde 5d                       pop       rbp
+00000cdf 415c                     pop       r12
+00000ce1 415d                     pop       r13
+00000ce3 41ffe0                   jmp       r8
+
+Java_com_gameloft_android_wrapper_NativeUtils_ts address=0xcf0 size=167
+00000cf0 4155                     push      r13
+00000cf2 be10000000               mov       esi, 0x10
+00000cf7 4989d5                   mov       r13, rdx
+00000cfa 4154                     push      r12
+00000cfc 55                       push      rbp
+00000cfd 53                       push      rbx
+00000cfe 4889fb                   mov       rbx, rdi
+00000d01 488d3d28230000           lea       rdi, [rip + 0x2328] ; 0x3030 'i_s]*fZf^%Sfoa\\^'
+00000d08 488d6424f8               lea       rsp, [rsp - 8]
+00000d0d e8eefeffff               call      0xc00 ; Decode
+00000d12 488b13                   mov       rdx, qword ptr [rbx]
+00000d15 4889df                   mov       rdi, rbx
+00000d18 4889c6                   mov       rsi, rax
+00000d1b ff5230                   call      qword ptr [rdx + 0x30]
+00000d1e be10000000               mov       esi, 0x10
+00000d23 488d3d06230000           lea       rdi, [rip + 0x2306] ; 0x3030 'i_s]*fZf^%Sfoa\\^'
+00000d2a 4889c5                   mov       rbp, rax
+00000d2d e88efeffff               call      0xbc0 ; Encode
+00000d32 be05000000               mov       esi, 5
+00000d37 488d3de5220000           lea       rdi, [rip + 0x22e5] ; 0x3023 'rjbak'
+00000d3e e8bdfeffff               call      0xc00 ; Decode
+00000d43 4c8b03                   mov       r8, qword ptr [rbx]
+00000d46 488d0d6b050000           lea       rcx, [rip + 0x56b] ; 0x12b8 '(J)V'
+00000d4d 4889c2                   mov       rdx, rax
+00000d50 4889ee                   mov       rsi, rbp
+00000d53 4889df                   mov       rdi, rbx
+00000d56 41ff9088030000           call      qword ptr [r8 + 0x388]
+00000d5d be05000000               mov       esi, 5
+00000d62 488d3dba220000           lea       rdi, [rip + 0x22ba] ; 0x3023 'rjbak'
+00000d69 4989c4                   mov       r12, rax
+00000d6c e88ffeffff               call      0xc00 ; Decode
+00000d71 488b03                   mov       rax, qword ptr [rbx]
+00000d74 4889df                   mov       rdi, rbx
+00000d77 4889ee                   mov       rsi, rbp
+00000d7a 4c89e2                   mov       rdx, r12
+00000d7d 4c89e9                   mov       rcx, r13
+00000d80 4c8b8068040000           mov       r8, qword ptr [rax + 0x468]
+00000d87 488d642408               lea       rsp, [rsp + 8]
+00000d8c 5b                       pop       rbx
+00000d8d 31c0                     xor       eax, eax
+00000d8f 5d                       pop       rbp
+00000d90 415c                     pop       r12
+00000d92 415d                     pop       r13
+00000d94 41ffe0                   jmp       r8
+
+Java_com_gameloft_android_wrapper_NativeUtils_da address=0xda0 size=199
+00000da0 4155                     push      r13
+00000da2 be1f000000               mov       esi, 0x1f
+00000da7 4989d5                   mov       r13, rdx
+00000daa 4154                     push      r12
+00000dac 55                       push      rbp
+00000dad 53                       push      rbx
+00000dae 4889fb                   mov       rbx, rdi
+00000db1 488d6424f8               lea       rsp, [rsp - 8]
+00000db6 4c8b25eb210000           mov       r12, qword ptr [rip + 0x21eb] ; 0x2fa8 
+00000dbd 4c89e7                   mov       rdi, r12
+00000dc0 e83bfeffff               call      0xc00 ; Decode
+00000dc5 488b13                   mov       rdx, qword ptr [rbx]
+00000dc8 4889df                   mov       rdi, rbx
+00000dcb 4889c6                   mov       rsi, rax
+00000dce ff5230                   call      qword ptr [rdx + 0x30]
+00000dd1 4c89e7                   mov       rdi, r12
+00000dd4 be1f000000               mov       esi, 0x1f
+00000dd9 4889c5                   mov       rbp, rax
+00000ddc e8dffdffff               call      0xbc0 ; Encode
+00000de1 be02000000               mov       esi, 2
+00000de6 488d3d79220000           lea       rdi, [rip + 0x2279] ; 0x3066
+00000ded e80efeffff               call      0xc00 ; Decode
+00000df2 be15000000               mov       esi, 0x15
+00000df7 488d3d52220000           lea       rdi, [rip + 0x2252] ; 0x3050 "'Jg]q[(dXdf-Ppmcg_2"
+00000dfe 4989c4                   mov       r12, rax
+00000e01 e8fafdffff               call      0xc00 ; Decode
+00000e06 4c8b03                   mov       r8, qword ptr [rbx]
+00000e09 4c89e2                   mov       rdx, r12
+00000e0c 4889c1                   mov       rcx, rax
+00000e0f 4889ee                   mov       rsi, rbp
+00000e12 4889df                   mov       rdi, rbx
+00000e15 41ff9088030000           call      qword ptr [r8 + 0x388]
+00000e1c be02000000               mov       esi, 2
+00000e21 488d3d3e220000           lea       rdi, [rip + 0x223e] ; 0x3066
+00000e28 4989c4                   mov       r12, rax
+00000e2b e890fdffff               call      0xbc0 ; Encode
+00000e30 be15000000               mov       esi, 0x15
+00000e35 488d3d14220000           lea       rdi, [rip + 0x2214] ; 0x3050 "'Jg]q[(dXdf-Ppmcg_2"
+00000e3c e87ffdffff               call      0xbc0 ; Encode
+00000e41 488b03                   mov       rax, qword ptr [rbx]
+00000e44 4889df                   mov       rdi, rbx
+00000e47 4889ee                   mov       rsi, rbp
+00000e4a 4c89e2                   mov       rdx, r12
+00000e4d 4c89e9                   mov       rcx, r13
+00000e50 4c8b8068040000           mov       r8, qword ptr [rax + 0x468]
+00000e57 488d642408               lea       rsp, [rsp + 8]
+00000e5c 5b                       pop       rbx
+00000e5d 31c0                     xor       eax, eax
+00000e5f 5d                       pop       rbp
+00000e60 415c                     pop       r12
+00000e62 415d                     pop       r13
+00000e64 41ffe0                   jmp       r8
+
+Java_com_gameloft_android_wrapper_NativeUtils_sd address=0xe70 size=631
+00000e70 4156                     push      r14
+00000e72 be1f000000               mov       esi, 0x1f
+00000e77 4155                     push      r13
+00000e79 4154                     push      r12
+00000e7b 55                       push      rbp
+00000e7c 53                       push      rbx
+00000e7d 4889fb                   mov       rbx, rdi
+00000e80 488b3d21210000           mov       rdi, qword ptr [rip + 0x2121] ; 0x2fa8 
+00000e87 e874fdffff               call      0xc00 ; Decode
+00000e8c 4989c4                   mov       r12, rax
+00000e8f 4889df                   mov       rdi, rbx
+00000e92 488b03                   mov       rax, qword ptr [rbx]
+00000e95 4c89e6                   mov       rsi, r12
+00000e98 ff5030                   call      qword ptr [rax + 0x30]
+00000e9b 4c89e7                   mov       rdi, r12
+00000e9e be1f000000               mov       esi, 0x1f
+00000ea3 4889c5                   mov       rbp, rax
+00000ea6 e815fdffff               call      0xbc0 ; Encode
+00000eab be02000000               mov       esi, 2
+00000eb0 488d3d6e220000           lea       rdi, [rip + 0x226e] ; 0x3125
+00000eb7 e844fdffff               call      0xc00 ; Decode
+00000ebc be14000000               mov       esi, 0x14
+00000ec1 488d3d48220000           lea       rdi, [rip + 0x2248] ; 0x3110 "''If\\pZ'cWme,Oolbf^1"
+00000ec8 4989c5                   mov       r13, rax
+00000ecb e830fdffff               call      0xc00 ; Decode
+00000ed0 4989c4                   mov       r12, rax
+00000ed3 4c89ea                   mov       rdx, r13
+00000ed6 488b03                   mov       rax, qword ptr [rbx]
+00000ed9 4c89e1                   mov       rcx, r12
+00000edc 4889ee                   mov       rsi, rbp
+00000edf 4889df                   mov       rdi, rbx
+00000ee2 ff9088030000             call      qword ptr [rax + 0x388]
+00000ee8 4c89ef                   mov       rdi, r13
+00000eeb be02000000               mov       esi, 2
+00000ef0 4989c6                   mov       r14, rax
+00000ef3 e8c8fcffff               call      0xbc0 ; Encode
+00000ef8 4c89e7                   mov       rdi, r12
+00000efb be14000000               mov       esi, 0x14
+00000f00 e8bbfcffff               call      0xbc0 ; Encode
+00000f05 488b0b                   mov       rcx, qword ptr [rbx]
+00000f08 4c89f2                   mov       rdx, r14
+00000f0b 4889ee                   mov       rsi, rbp
+00000f0e 4889df                   mov       rdi, rbx
+00000f11 31c0                     xor       eax, eax
+00000f13 ff9190030000             call      qword ptr [rcx + 0x390]
+00000f19 be0b000000               mov       esi, 0xb
+00000f1e 488d3dd1210000           lea       rdi, [rip + 0x21d1] ; 0x30f6 'bj^on_l&[[w'
+00000f25 4989c6                   mov       r14, rax
+00000f28 e8d3fcffff               call      0xc00 ; Decode
+00000f2d 488b13                   mov       rdx, qword ptr [rbx]
+00000f30 4889df                   mov       rdi, rbx
+00000f33 4889c6                   mov       rsi, rax
+00000f36 ff9238050000             call      qword ptr [rdx + 0x538]
+00000f3c be0b000000               mov       esi, 0xb
+00000f41 488d3dae210000           lea       rdi, [rip + 0x21ae] ; 0x30f6 'bj^on_l&[[w'
+00000f48 4989c5                   mov       r13, rax
+00000f4b e870fcffff               call      0xbc0 ; Encode
+00000f50 be15000000               mov       esi, 0x15
+00000f55 488d3d84210000           lea       rdi, [rip + 0x2184] ; 0x30e0 'i_s]*omac%ygm+Uci>`bd'
+00000f5c e89ffcffff               call      0xc00 ; Decode
+00000f61 488b13                   mov       rdx, qword ptr [rbx]
+00000f64 4889df                   mov       rdi, rbx
+00000f67 4889c6                   mov       rsi, rax
+00000f6a ff5230                   call      qword ptr [rdx + 0x30]
+00000f6d be15000000               mov       esi, 0x15
+00000f72 488d3d67210000           lea       rdi, [rip + 0x2167] ; 0x30e0 'i_s]*omac%ygm+Uci>`bd'
+00000f79 4889c5                   mov       rbp, rax
+00000f7c e83ffcffff               call      0xbc0 ; Encode
+00000f81 be06000000               mov       esi, 6
+00000f86 488d3d49210000           lea       rdi, [rip + 0x2149] ; 0x30d6 ';gkeo8'
+00000f8d e86efcffff               call      0xc00 ; Decode
+00000f92 be15000000               mov       esi, 0x15
+00000f97 488d3d22210000           lea       rdi, [rip + 0x2122] ; 0x30c0 "'Jg]q[(dXdf-Ppmcg_2"
+00000f9e 4989c4                   mov       r12, rax
+00000fa1 e85afcffff               call      0xc00 ; Decode
+00000fa6 4c8b03                   mov       r8, qword ptr [rbx]
+00000fa9 4c89e2                   mov       rdx, r12
+00000fac 4889c1                   mov       rcx, rax
+00000faf 4889ee                   mov       rsi, rbp
+00000fb2 4889df                   mov       rdi, rbx
+00000fb5 41ff9008010000           call      qword ptr [r8 + 0x108]
+00000fbc be06000000               mov       esi, 6
+00000fc1 488d3d0e210000           lea       rdi, [rip + 0x210e] ; 0x30d6 ';gkeo8'
+00000fc8 4989c4                   mov       r12, rax
+00000fcb e8f0fbffff               call      0xbc0 ; Encode
+00000fd0 be15000000               mov       esi, 0x15
+00000fd5 488d3de4200000           lea       rdi, [rip + 0x20e4] ; 0x30c0 "'Jg]q[(dXdf-Ppmcg_2"
+00000fdc e8dffbffff               call      0xbc0 ; Encode
+00000fe1 4c8b03                   mov       r8, qword ptr [rbx]
+00000fe4 4c89f1                   mov       rcx, r14
+00000fe7 4c89e2                   mov       rdx, r12
+00000fea 4889ee                   mov       rsi, rbp
+00000fed 4889df                   mov       rdi, rbx
+00000ff0 31c0                     xor       eax, eax
+00000ff2 41ff90e0000000           call      qword ptr [r8 + 0xe0]
+00000ff9 be08000000               mov       esi, 8
+00000ffe 488d3da8200000           lea       rdi, [rip + 0x20a8] ; 0x30ad 'fcqAinkq'
+00001005 4989c4                   mov       r12, rax
+00001008 e8f3fbffff               call      0xc00 ; Decode
+0000100d be2c000000               mov       esi, 0x2c
+00001012 488d3d67200000           lea       rdi, [rip + 0x2067] ; 0x3080 "'Jg]q[(dXdf-Ppmcg_2"
+00001019 4989c6                   mov       r14, rax
+0000101c e8dffbffff               call      0xc00 ; Decode
+00001021 4c8b03                   mov       r8, qword ptr [rbx]
+00001024 4c89f2                   mov       rdx, r14
+00001027 4889c1                   mov       rcx, rax
+0000102a 4889ee                   mov       rsi, rbp
+0000102d 4889df                   mov       rdi, rbx
+00001030 41ff9008010000           call      qword ptr [r8 + 0x108]
+00001037 be08000000               mov       esi, 8
+0000103c 488d3d6a200000           lea       rdi, [rip + 0x206a] ; 0x30ad 'fcqAinkq'
+00001043 4889c5                   mov       rbp, rax
+00001046 e875fbffff               call      0xbc0 ; Encode
+0000104b be2c000000               mov       esi, 0x2c
+00001050 488d3d29200000           lea       rdi, [rip + 0x2029] ; 0x3080 "'Jg]q[(dXdf-Ppmcg_2"
+00001057 e864fbffff               call      0xbc0 ; Encode
+0000105c 4c8b03                   mov       r8, qword ptr [rbx]
+0000105f 4c89e9                   mov       rcx, r13
+00001062 4889ea                   mov       rdx, rbp
+00001065 4c89e6                   mov       rsi, r12
+00001068 4889df                   mov       rdi, rbx
+0000106b 31c0                     xor       eax, eax
+0000106d 41ff9010010000           call      qword ptr [r8 + 0x110]
+00001074 4889df                   mov       rdi, rbx
+00001077 4889c5                   mov       rbp, rax
+0000107a 488b03                   mov       rax, qword ptr [rbx]
+0000107d 4889ee                   mov       rsi, rbp
+00001080 ff90f8000000             call      qword ptr [rax + 0xf8]
+00001086 be07000000               mov       esi, 7
+0000108b 488d3dd71f0000           lea       rdi, [rip + 0x1fd7] ; 0x3069 'fcqOdt^'
+00001092 4989c4                   mov       r12, rax
+00001095 e866fbffff               call      0xc00 ; Decode
+0000109a 4c8b03                   mov       r8, qword ptr [rbx]
+0000109d 488d0d19020000           lea       rcx, [rip + 0x219] ; 0x12bd '()J'
+000010a4 4889c2                   mov       rdx, rax
+000010a7 4c89e6                   mov       rsi, r12
+000010aa 4889df                   mov       rdi, rbx
+000010ad 41ff9008010000           call      qword ptr [r8 + 0x108]
+000010b4 be07000000               mov       esi, 7
+000010b9 488d3da91f0000           lea       rdi, [rip + 0x1fa9] ; 0x3069 'fcqOdt^'
+000010c0 4989c4                   mov       r12, rax
+000010c3 e8f8faffff               call      0xbc0 ; Encode
+000010c8 488b03                   mov       rax, qword ptr [rbx]
+000010cb 4889df                   mov       rdi, rbx
+000010ce 5b                       pop       rbx
+000010cf 4889ee                   mov       rsi, rbp
+000010d2 4c89e2                   mov       rdx, r12
+000010d5 488b88a0010000           mov       rcx, qword ptr [rax + 0x1a0]
+000010dc 31c0                     xor       eax, eax
+000010de 5d                       pop       rbp
+000010df 415c                     pop       r12
+000010e1 415d                     pop       r13
+000010e3 415e                     pop       r14
+000010e5 ffe1                     jmp       rcx
+
+Java_com_gameloft_android_wrapper_NativeUtils_checkPlatformService address=0x10f0 size=24
+000010f0 53                       push      rbx
+000010f1 4889d3                   mov       rbx, rdx
+000010f4 4881f3bc260200           xor       rbx, 0x226bc
+000010fb e870fdffff               call      0xe70 ; Java_com_gameloft_android_wrapper_NativeUtils_sd
+00001100 4839d8                   cmp       rax, rbx
+00001103 5b                       pop       rbx
+00001104 0f94c0                   sete      al
+00001107 c3                       ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClock address=0x1110 size=32
+00001110 488d6424f8               lea       rsp, [rsp - 8]
+00001115 e816faffff               call      0xb30
+0000111a 0f57c0                   xorps     xmm0, xmm0
+0000111d f3480f2ac0               cvtsi2ss  xmm0, rax
+00001122 f30f5e050a020000         divss     xmm0, dword ptr [rip + 0x20a] ; 0x1334
+0000112a 488d642408               lea       rsp, [rsp + 8]
+0000112f c3                       ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClockMillis address=0x1130 size=68
+00001130 488d6424e8               lea       rsp, [rsp - 0x18]
+00001135 bf01000000               mov       edi, 1
+0000113a 4889e6                   mov       rsi, rsp
+0000113d e8fef9ffff               call      0xb40
+00001142 488b4c2408               mov       rcx, qword ptr [rsp + 8]
+00001147 48badb34b6d782de1b43     movabs    rdx, 0x431bde82d7b634db
+00001151 48693424e8030000         imul      rsi, qword ptr [rsp], 0x3e8
+00001159 488d642418               lea       rsp, [rsp + 0x18]
+0000115e 4889c8                   mov       rax, rcx
+00001161 48f7ea                   imul      rdx
+00001164 48c1f93f                 sar       rcx, 0x3f
+00001168 48c1fa12                 sar       rdx, 0x12
+0000116c 4829ca                   sub       rdx, rcx
+0000116f 488d0416                 lea       rax, [rsi + rdx]
+00001173 c3                       ret       
+
+Java_com_gameloft_android_wrapper_NativeUtils_tm address=0x1180 size=5
+00001180 e9abffffff               jmp       0x1130 ; Java_com_gameloft_android_wrapper_NativeUtils_getClockMillis
+
+Java_com_gameloft_android_wrapper_NativeUtils_getClockNano address=0x1190 size=37
+00001190 488d6424e8               lea       rsp, [rsp - 0x18]
+00001195 bf01000000               mov       edi, 1
+0000119a 4889e6                   mov       rsi, rsp
+0000119d e89ef9ffff               call      0xb40
+000011a2 4869042400ca9a3b         imul      rax, qword ptr [rsp], 0x3b9aca00
+000011aa 4803442408               add       rax, qword ptr [rsp + 8]
+000011af 488d642418               lea       rsp, [rsp + 0x18]
+000011b4 c3                       ret       
+
+IsDeviceRooted address=0x11c0 size=119
+000011c0 53                       push      rbx
+000011c1 488d35f9000000           lea       rsi, [rip + 0xf9] ; 0x12c1
+000011c8 488d3df5000000           lea       rdi, [rip + 0xf5] ; 0x12c4 '/system/app/Superuser.apk'
+000011cf 488da42470ffffff         lea       rsp, [rsp - 0x90]
+000011d7 e874f9ffff               call      0xb50
+000011dc 4885c0                   test      rax, rax
+000011df 7417                     je        0x11f8
+000011e1 4889c7                   mov       rdi, rax
+000011e4 e877f9ffff               call      0xb60
+000011e9 b801000000               mov       eax, 1
+000011ee 488da42490000000         lea       rsp, [rsp + 0x90]
+000011f6 5b                       pop       rbx
+000011f7 c3                       ret       
+000011f8 4889e6                   mov       rsi, rsp
+000011fb 488d3dec000000           lea       rdi, [rip + 0xec] ; 0x12ee '/system/bin/su'
+00001202 e869f9ffff               call      0xb70
+00001207 83f8ff                   cmp       eax, -1
+0000120a 4889e3                   mov       rbx, rsp
+0000120d 7411                     je        0x1220
+0000120f 488da42490000000         lea       rsp, [rsp + 0x90]
+00001217 b801000000               mov       eax, 1
+0000121c 5b                       pop       rbx
+0000121d c3                       ret       
+0000121e 6690                     nop       
+00001220 4889de                   mov       rsi, rbx
+00001223 488d3db4000000           lea       rdi, [rip + 0xb4] ; 0x12de '/system/xbin/su'
+0000122a e841f9ffff               call      0xb70
+0000122f 83f8ff                   cmp       eax, -1
+00001232 0f95c0                   setne     al
+00001235 ebb7                     jmp       0x11ee
+
+Java_com_gameloft_android_wrapper_NativeUtils_CheckRoot address=0x1240 size=7
+00001240 31c0                     xor       eax, eax
+00001242 e979ffffff               jmp       0x11c0 ; IsDeviceRooted

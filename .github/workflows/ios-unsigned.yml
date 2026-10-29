@@ -1,0 +1,87 @@
+name: Build unsigned iOS IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-unsigned-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Require the integrated game entry point
+        run: |
+          for required in pubspec.yaml pubspec.lock lib/main.dart ios/Runner.xcodeproj/project.pbxproj ios/Runner/Info.plist tool/package_ios.sh game_source/program.json.gz game_source/provenance.json; do
+            if [[ ! -f "$required" ]]; then
+              echo "::error::Falta $required. El port original sigue en integración; esta ejecución no puede producir un IPA del juego."
+              exit 1
+            fi
+          done
+
+      - name: Test preparation and verify original program
+        run: |
+          python3 -m unittest discover -s tool -p 'test_*.py' -v
+          python3 tool/prepare_original.py
+          python3 tool/prepare_audio.py --verify-only
+
+      - name: Install Flutter 3.47.8
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: '3.47.8'
+          channel: stable
+          cache: true
+
+      - name: Show toolchain
+        run: |
+          flutter --version
+          xcodebuild -version
+
+      - name: Resolve locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Check manually maintained Dart formatting
+        run: find lib test tool -name '*.dart' ! -path 'lib/generated/*' -print0 | xargs -0 dart format --output=none --set-exit-if-changed
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Test
+        run: flutter test --reporter expanded
+
+      - name: Build device app without signing
+        run: flutter build ios --release --no-codesign --build-number="${GITHUB_RUN_NUMBER}"
+
+      - name: Package unsigned IPA
+        run: bash tool/package_ios.sh
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: GreenFarm-Flutter-unsigned-${{ github.run_number }}
+          path: |
+            build/ios/ipa/GreenFarm-Flutter-unsigned.ipa
+            build/ios/ipa/GreenFarm-Flutter-unsigned.ipa.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Explain signing requirements
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          El artifact contiene **GreenFarm-Flutter-unsigned.ipa** y su SHA-256.
+          Hay que firmar el IPA con un certificado y un perfil válidos antes de instalarlo en un iPhone o iPad.
+          La compilación no demuestra por sí sola la paridad completa del juego.
+          EOF

@@ -1,0 +1,17 @@
+{
+  "source_revision": "android-5.0.0_r1",
+  "source_url": "https://android.googlesource.com/platform/libcore/+/android-5.0.0_r1/json/src/main/java/org/json/",
+  "license": "Apache-2.0",
+  "java_runtime": "Amazon Corretto 25.0.4_8",
+  "oracle_source": "work/json-oracle/JsonOracle.java",
+  "oracle_cases": 21,
+  "source_sha256": {
+    "JSON.java": "a2cc5e4bf64bfe3edd73c6a14409f3200640454051d9947ee79f16a2396a19b1",
+    "JSONArray.java": "dd2e3db3deb9cd2b6b2b2d8e945c84a71ae9e353b9da1d3047bf1ea0dca9ea54",
+    "JSONException.java": "2c3ef7315003a16886ec43588534c0bac2371e052a30574065afb01579de1faf",
+    "JSONObject.java": "1013ed9d17031b30a3a3362d5a0fd43af6d125258f1bbd74733509d12e7b370d",
+    "JSONStringer.java": "c3e7c8cf9195e01a6851fb9b9fdf1c6c57801778e20400f858def1ac65ebff77",
+    "JSONTokener.java": "2e112a3d46bb786ba44d0afd57e1d4d7529f0d239dbb2d53de84aefb836dbed1"
+  },
+  "oracle_sha256": "8210d9b4fcef4c799437cf3f59c83ea1c61f109a078dd265d4ebc59e387c9a12"
+}

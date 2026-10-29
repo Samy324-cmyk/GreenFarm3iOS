@@ -1,0 +1,11 @@
+Android Class reflection compatibility reference
+
+Class package/name behavior was implemented with reference to Android 5.0.0_r1
+libcore Class.java. The upstream Apache License 2.0 is reproduced in LICENSE.
+
+https://android.googlesource.com/platform/libcore/+/android-5.0.0_r1/libart/src/main/java/java/lang/Class.java
+
+Method metadata comes from the original DEX, while argument conversion and
+exception behavior are checked against the independent Java oracle at
+tool/oracles/JavaReflectionOracle.java. Native reflection declarations are
+explicitly listed; unavailable translated bodies remain integration errors.

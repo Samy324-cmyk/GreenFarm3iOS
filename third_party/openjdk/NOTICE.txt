@@ -1,0 +1,15 @@
+java_decimal.dart adapts the binary-to-decimal conversion algorithm in
+OpenJDK 8 sun.misc.FloatingDecimal, Copyright (c) 1996, 2013 Oracle and/or
+its affiliates. The original file's license header is retained. The file is
+licensed under GPL version 2 only with the Classpath exception. See LICENSE
+in this directory. The Classpath exception is retained for this adaptation.
+
+Upstream source:
+https://github.com/openjdk/jdk8u/blob/master/jdk/src/share/classes/sun/misc/FloatingDecimal.java
+
+Changes: implementation language changed to Dart; FDBigInteger replaced with
+Dart BigInt; only binary-to-decimal formatting retained; Java fixed-width
+overflow, rounding and integer fast-path behavior retained for compatibility.
+
+java_unicode_data.dart is generated Unicode property data exported by the
+included JavaUnicodeOracle.java, not Java implementation source.

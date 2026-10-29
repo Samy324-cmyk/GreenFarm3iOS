@@ -1,0 +1,30 @@
+{
+  "source_apk_sha256": "3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d",
+  "source_version": "Green Farm 3 4.4.4",
+  "fixture_type": "Deterministic synthetic inputs, encoded by isolated recovered Java methods; not a captured gameplay save",
+  "generator": "work/build_storage_oracle.py and work/storage-oracle/StorageOracle.java",
+  "java_methods": [
+    "c.c.a.a.a.w.a0.e/a/b (Gzip encoder)",
+    "c.c.a.a.a.w.g0.g/h/i (fixed Huffman emission)",
+    "c.c.a.a.a.w.q1 (bit stream)",
+    "c.c.a.a.a.w.r0 (first-occurrence linked hash)",
+    "GLLib H7/I7/T7/W7/V7/S7 (XXTEA)"
+  ],
+  "oracle_isolation": "Only the selected deterministic codec classes run; Android app, networking, game loop, SDKs and services are not executed",
+  "source_preparation": [
+    "Removed package statements and Android/Facebook constant imports",
+    "Replaced referenced constants with 65535, 511, -256, 65541 and 65543",
+    "Changed an illegal decompiler return in g0's static initializer to a break",
+    "Extracted the six complete GLLib codec methods with their Java integer semantics",
+    "Verified compressed output independently with JDK GZIPInputStream"
+  ],
+  "cases": [
+    "Empty payload / empty byte key",
+    "ASCII game title / one-byte key",
+    "UTF-8 accented text and emoji / 16-byte key",
+    "2048 repeated bytes / long key",
+    "4096 patterned bytes / UTF-8 key",
+    "5000 deterministic Java Random bytes / patterned key"
+  ],
+  "comparison": "Dart CRC32, compressed bytes and XXTEA bytes equal Java oracle; Dart decoding reproduces original input"
+}

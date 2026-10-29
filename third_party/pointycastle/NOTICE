@@ -1,0 +1,10 @@
+Pointy Castle 4.0.0
+Copyright (c) 2000 - 2019 The Legion of the Bouncy Castle Inc.
+https://www.bouncycastle.org/
+https://pub.dev/packages/pointycastle/versions/4.0.0
+https://github.com/bcgit/pc-dart
+
+The Java security bridge uses Pointy Castle's AES, DES-EDE, RSA and PKCS#1
+implementations. Single DES is obtained by using the same key in all three
+DES-EDE stages. The dependency is pinned by pubspec.yaml and pubspec.lock.
+Its upstream license is reproduced in LICENSE.

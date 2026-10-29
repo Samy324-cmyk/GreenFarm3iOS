@@ -1,0 +1,32 @@
+name: green_farm_port
+description: Fidelity port of the supplied Green Farm 3 4.4.4 game, under development.
+publish_to: none
+version: 4.4.4+1
+
+environment:
+  sdk: '>=3.13.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  crypto: 3.0.8
+  timezone: 0.11.2
+  pointycastle: 4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: false
+  shaders:
+    - shaders/legacy_texture.frag
+  assets:
+    - assets/audio/
+    - assets/fonts/
+    - assets/platform/
+    - assets/platform/raw/
+    - assets/provenance/
+    - assets/original/
+    - assets/original/800x480/

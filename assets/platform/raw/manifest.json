@@ -1,0 +1,63 @@
+{
+  "apkSha256": "3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d",
+  "resources": [
+    {
+      "resource": "res/raw/adsmanager_revision.txt",
+      "asset": "assets/platform/raw/adsmanager_revision.txt",
+      "sha256": "d1a67e77708bae45ecdb3d0d8916ae2874f5645cda6295ca80c1517f28eb2645",
+      "archiveEntries": [
+        "res/1n.txt"
+      ]
+    },
+    {
+      "resource": "res/raw/color_profile.conf",
+      "asset": "assets/platform/raw/color_profile.conf",
+      "sha256": "8970fc5c5662c79cbae44a94b288c4d27e259f4ddd43d0a1db450d76779e8afc",
+      "archiveEntries": [
+        "res/zy.conf"
+      ]
+    },
+    {
+      "resource": "res/raw/content.bin",
+      "asset": "assets/platform/raw/content.bin",
+      "sha256": "bd790d0e9a0901720ffea69b46bb3053a51689cd05d658ed6f778c772364f5a9",
+      "archiveEntries": [
+        "res/iu.bin"
+      ]
+    },
+    {
+      "resource": "res/raw/crc.bin",
+      "asset": "assets/platform/raw/crc.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveEntries": [
+        "res/N6.bin",
+        "res/tG.txt"
+      ]
+    },
+    {
+      "resource": "res/raw/google_services.json",
+      "asset": "assets/platform/raw/google_services.json",
+      "sha256": "71751d6e5cabd5a4ef22aae6dbc7240d99e14982627b39704862b25b933bc38e",
+      "archiveEntries": [
+        "res/E1.json"
+      ]
+    },
+    {
+      "resource": "res/raw/pbkey.txt",
+      "asset": "assets/platform/raw/pbkey.txt",
+      "sha256": "95fc76d24295ce24f04d08c8b0d9ef9ca4af903479dc01e03387bce1d6d1243f",
+      "archiveEntries": [
+        "res/aq.txt"
+      ]
+    },
+    {
+      "resource": "res/raw/serialkey.txt",
+      "asset": "assets/platform/raw/serialkey.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveEntries": [
+        "res/N6.bin",
+        "res/tG.txt"
+      ]
+    }
+  ]
+}

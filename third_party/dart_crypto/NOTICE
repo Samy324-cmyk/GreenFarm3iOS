@@ -1,0 +1,7 @@
+Dart crypto 3.0.8
+Copyright 2015, the Dart project authors.
+https://pub.dev/packages/crypto/versions/3.0.8
+https://github.com/dart-lang/core/tree/main/pkgs/crypto
+
+Used for the original Java MessageDigest algorithms and independent asset
+integrity checks. Its upstream license is reproduced in LICENSE.

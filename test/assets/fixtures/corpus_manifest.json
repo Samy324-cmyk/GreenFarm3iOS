@@ -1,0 +1,9061 @@
+{
+  "apk_sha256": "3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d",
+  "sprites": [
+    {
+      "id": "11:000",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3043654425,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3833190847,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3744564095,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3188899834,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:001",
+      "modules": 84,
+      "frame_modules": 163,
+      "frames": 83,
+      "animation_frames": 6,
+      "animations": 3,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 4052301055,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:002",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 8,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 4006854093,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:003",
+      "modules": 3,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 32,
+      "animations": 4,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3061300975,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:004",
+      "modules": 9,
+      "frame_modules": 9,
+      "frames": 9,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 3986757784,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:005",
+      "modules": 16,
+      "frame_modules": 38,
+      "frames": 21,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3402861809,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:006",
+      "modules": 6,
+      "frame_modules": 43,
+      "frames": 7,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1134962427,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:007",
+      "modules": 12,
+      "frame_modules": 24,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 278054947,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:008",
+      "modules": 5,
+      "frame_modules": 5,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2243427803,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:009",
+      "modules": 42,
+      "frame_modules": 42,
+      "frames": 12,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 667349995,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 3873808775,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:010",
+      "modules": 18,
+      "frame_modules": 22,
+      "frames": 18,
+      "animation_frames": 3,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3069671112,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:011",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3384420635,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:012",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2863689303,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:013",
+      "modules": 11,
+      "frame_modules": 30,
+      "frames": 8,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 750101915,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:014",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 53706997,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "11:015",
+      "modules": 10,
+      "frame_modules": 10,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 604993212,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:016",
+      "modules": 18,
+      "frame_modules": 23,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 4104930800,
+          "rgba_bytes": 2097152
+        }
+      ]
+    },
+    {
+      "id": "11:017",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1878502141,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:018",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3947176332,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "11:019",
+      "modules": 12,
+      "frame_modules": 12,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3052835387,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 4196390944,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 628136631,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 235352116,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:020",
+      "modules": 353,
+      "frame_modules": 1344,
+      "frames": 290,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079084465,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 342054629,
+          "rgba_bytes": 2097152
+        }
+      ]
+    },
+    {
+      "id": "11:021",
+      "modules": 28,
+      "frame_modules": 28,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 2585478850,
+          "rgba_bytes": 2097152
+        }
+      ]
+    },
+    {
+      "id": "11:022",
+      "modules": 45,
+      "frame_modules": 154,
+      "frames": 70,
+      "animation_frames": 37,
+      "animations": 1,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 42338,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 2013788797,
+          "rgba_bytes": 2097152
+        }
+      ]
+    },
+    {
+      "id": "11:023",
+      "modules": 10,
+      "frame_modules": 10,
+      "frames": 10,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 1813206164,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 256,
+          "crc32": 3565415180,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:024",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4160527758,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:025",
+      "modules": 7,
+      "frame_modules": 7,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4129788335,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:026",
+      "modules": 7,
+      "frame_modules": 7,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 1766171302,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:027",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1082356457,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 128,
+          "crc32": 1947637004,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:028",
+      "modules": 6,
+      "frame_modules": 6,
+      "frames": 6,
+      "animation_frames": 24,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 3830599047,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:029",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 14056950,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:030",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3183599414,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 3824091296,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:031",
+      "modules": 2,
+      "frame_modules": 21,
+      "frames": 6,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 64,
+          "crc32": 2000302705,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:032",
+      "modules": 90,
+      "frame_modules": 262,
+      "frames": 53,
+      "animation_frames": 37,
+      "animations": 6,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 2741562417,
+          "rgba_bytes": 2097152
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 145460606,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4228222628,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3520537796,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:033",
+      "modules": 25,
+      "frame_modules": 44,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 137177303,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:034",
+      "modules": 7,
+      "frame_modules": 7,
+      "frames": 7,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3177690628,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:035",
+      "modules": 36,
+      "frame_modules": 90,
+      "frames": 12,
+      "animation_frames": 8,
+      "animations": 2,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1159519089,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:036",
+      "modules": 17,
+      "frame_modules": 30,
+      "frames": 15,
+      "animation_frames": 13,
+      "animations": 7,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1834235390,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:037",
+      "modules": 6,
+      "frame_modules": 6,
+      "frames": 6,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 610007726,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:038",
+      "modules": 6,
+      "frame_modules": 6,
+      "frames": 6,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 855538402,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:039",
+      "modules": 7,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2421137769,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:040",
+      "modules": 5,
+      "frame_modules": 8,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 64,
+          "crc32": 3285078387,
+          "rgba_bytes": 8192
+        }
+      ]
+    },
+    {
+      "id": "11:041",
+      "modules": 75,
+      "frame_modules": 107,
+      "frames": 54,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293941,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3369020711,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 512,
+          "h": 1024,
+          "crc32": 2248243087,
+          "rgba_bytes": 2097152
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 480170554,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 637775894,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 4,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1315998432,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:042",
+      "modules": 14,
+      "frame_modules": 14,
+      "frames": 14,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1309655813,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:043",
+      "modules": 17,
+      "frame_modules": 24,
+      "frames": 6,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2391476712,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:044",
+      "modules": 60,
+      "frame_modules": 60,
+      "frames": 10,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 3334399141,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 3950811660,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:045",
+      "modules": 17,
+      "frame_modules": 420,
+      "frames": 24,
+      "animation_frames": 24,
+      "animations": 2,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1209094934,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "11:046",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2869445505,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:047",
+      "modules": 3,
+      "frame_modules": 3,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 1175586872,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:048",
+      "modules": 19,
+      "frame_modules": 120,
+      "frames": 16,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4556081,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 3075397812,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:049",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 3652486165,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:050",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4077695060,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "11:051",
+      "modules": 30,
+      "frame_modules": 48,
+      "frames": 15,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 4120798609,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:052",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1339953205,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:053",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4279665757,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:054",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 550562265,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:055",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4024693701,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:056",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 913687850,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:057",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1122964485,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:058",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3408715274,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:059",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2187864489,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:060",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1522115526,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:061",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3770497630,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:062",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1805127067,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:063",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3369630074,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:064",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1589198850,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:065",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 47843076,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:066",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1151328715,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:067",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 199155113,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:068",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1939292660,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:069",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 741980285,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:070",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 426422422,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:071",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 344282144,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:072",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4283325529,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:073",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3655636174,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:074",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 26128178,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:075",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2899186475,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:076",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2238862371,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:077",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1382128577,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:078",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2360345550,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:079",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1298689086,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:080",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1314480432,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:081",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3872427235,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:082",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 241437209,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:083",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4244738137,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:084",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1953404311,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:085",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2158888761,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:086",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 843110962,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:087",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 672306327,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:088",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2997582304,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:089",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1702688933,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:090",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4150342811,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:091",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 820566068,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:092",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2122735699,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:093",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 321970783,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:094",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 575122972,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:095",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 309651641,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:096",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2993401643,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:097",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1959707959,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:098",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2067330496,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:099",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2248202861,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:100",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3952908652,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:101",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3103077862,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:102",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1067589741,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:103",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2760287740,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:104",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 448947222,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:105",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 78000548,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:106",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1663241131,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:107",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2615986390,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:108",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4206947592,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:109",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2186953286,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:110",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1544213089,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:111",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 517912854,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:112",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1702448620,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:113",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 4046953653,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:114",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1499882286,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:115",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2657788692,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:116",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3869937953,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:117",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1973110705,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:118",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 669985920,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:119",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 4202350581,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:120",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2441980636,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:121",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1908052863,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:122",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 309269832,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:123",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2152328982,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:124",
+      "modules": 12,
+      "frame_modules": 12,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 4086871518,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 974628333,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1062311947,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 742318714,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:125",
+      "modules": 7,
+      "frame_modules": 8,
+      "frames": 8,
+      "animation_frames": 8,
+      "animations": 3,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 433022150,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "11:126",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2410264927,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "11:127",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3436460822,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:128",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4082943365,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:129",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2874196608,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:130",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 4111565591,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:131",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 128,
+          "crc32": 135461924,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "11:132",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2394347169,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "11:133",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 829607943,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:134",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 622127234,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:135",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3788576031,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "11:136",
+      "modules": 7,
+      "frame_modules": 7,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 23213162,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "11:137",
+      "modules": 16,
+      "frame_modules": 16,
+      "frames": 16,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 774533480,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "12:000",
+      "modules": 7,
+      "frame_modules": 13,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3756247087,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "2:000",
+      "modules": 169,
+      "frame_modules": 804,
+      "frames": 288,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2036039086,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "2:001",
+      "modules": 172,
+      "frame_modules": 709,
+      "frames": 293,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5341489,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1149968653,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "2:002",
+      "modules": 182,
+      "frame_modules": 709,
+      "frames": 287,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 712931709,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "2:003",
+      "modules": 182,
+      "frame_modules": 709,
+      "frames": 287,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2163985965,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "2:004",
+      "modules": 176,
+      "frame_modules": 733,
+      "frames": 289,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 700011031,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "2:005",
+      "modules": 176,
+      "frame_modules": 733,
+      "frames": 289,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1867567258,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "2:006",
+      "modules": 184,
+      "frame_modules": 749,
+      "frames": 287,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2184051215,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "3:000",
+      "modules": 196,
+      "frame_modules": 468,
+      "frames": 216,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5343537,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 120794024,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "3:001",
+      "modules": 218,
+      "frame_modules": 484,
+      "frames": 228,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5343537,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2392220248,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "3:002",
+      "modules": 200,
+      "frame_modules": 462,
+      "frames": 216,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5343537,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2615353311,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "3:003",
+      "modules": 200,
+      "frame_modules": 462,
+      "frames": 216,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5343537,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1700256908,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "3:004",
+      "modules": 199,
+      "frame_modules": 461,
+      "frames": 220,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5343537,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 511984804,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "4:000",
+      "modules": 124,
+      "frame_modules": 768,
+      "frames": 258,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1079845710,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "4:001",
+      "modules": 142,
+      "frame_modules": 744,
+      "frames": 270,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 5341489,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3560711838,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "4:002",
+      "modules": 136,
+      "frame_modules": 773,
+      "frames": 257,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3104972841,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "4:003",
+      "modules": 136,
+      "frame_modules": 773,
+      "frames": 257,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 363658081,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "4:004",
+      "modules": 137,
+      "frame_modules": 756,
+      "frames": 262,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 473601894,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "4:005",
+      "modules": 137,
+      "frame_modules": 756,
+      "frames": 262,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 1838573834,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "4:006",
+      "modules": 139,
+      "frame_modules": 785,
+      "frames": 257,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1656779717,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "5:000",
+      "modules": 1059,
+      "frame_modules": 2177,
+      "frames": 1072,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085365,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2661316248,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 763458346,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 44874587,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3291160418,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "5:001",
+      "modules": 1049,
+      "frame_modules": 2177,
+      "frames": 1072,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085365,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3386517443,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3899085594,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1496707707,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 924028982,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "5:002",
+      "modules": 1049,
+      "frame_modules": 2173,
+      "frames": 1072,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085365,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3990821180,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 32,
+          "h": 64,
+          "crc32": 2872545714,
+          "rgba_bytes": 8192
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 16,
+          "h": 64,
+          "crc32": 2476778492,
+          "rgba_bytes": 4096
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2596932648,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "6:000",
+      "modules": 1361,
+      "frame_modules": 2725,
+      "frames": 1361,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085365,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 571164337,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4174610109,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 1651926918,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2749890406,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "6:001",
+      "modules": 1321,
+      "frame_modules": 2658,
+      "frames": 1361,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085365,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2545203392,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3446313594,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3683087179,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1100730252,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "6:002",
+      "modules": 50,
+      "frame_modules": 1374,
+      "frames": 1353,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1079085361,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1043703957,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:000",
+      "modules": 48,
+      "frame_modules": 0,
+      "frames": 0,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2849099796,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 557917084,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:001",
+      "modules": 18,
+      "frame_modules": 18,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2796217445,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 128,
+          "crc32": 3586738067,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:002",
+      "modules": 75,
+      "frame_modules": 376,
+      "frames": 51,
+      "animation_frames": 55,
+      "animations": 8,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 367160457,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:003",
+      "modules": 4,
+      "frame_modules": 48,
+      "frames": 12,
+      "animation_frames": 16,
+      "animations": 4,
+      "flags": 4556081,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1478255883,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:004",
+      "modules": 29,
+      "frame_modules": 318,
+      "frames": 25,
+      "animation_frames": 24,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3138932994,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:005",
+      "modules": 193,
+      "frame_modules": 348,
+      "frames": 39,
+      "animation_frames": 41,
+      "animations": 5,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2540820194,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 400812613,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:006",
+      "modules": 3,
+      "frame_modules": 3,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 64,
+          "crc32": 3973935489,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 64,
+          "crc32": 953730702,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:007",
+      "modules": 203,
+      "frame_modules": 594,
+      "frames": 61,
+      "animation_frames": 64,
+      "animations": 10,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4025609110,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 512,
+          "crc32": 500182457,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 256,
+          "h": 512,
+          "crc32": 3729263783,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 256,
+          "h": 512,
+          "crc32": 1699099444,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 256,
+          "h": 512,
+          "crc32": 2899153762,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 256,
+          "h": 512,
+          "crc32": 81135695,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 6,
+          "w": 256,
+          "h": 512,
+          "crc32": 3290622790,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 7,
+          "w": 256,
+          "h": 512,
+          "crc32": 592759203,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 8,
+          "w": 256,
+          "h": 512,
+          "crc32": 4094228431,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 9,
+          "w": 256,
+          "h": 512,
+          "crc32": 47106091,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 10,
+          "w": 256,
+          "h": 512,
+          "crc32": 3227646805,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 11,
+          "w": 256,
+          "h": 512,
+          "crc32": 3993017736,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:008",
+      "modules": 151,
+      "frame_modules": 208,
+      "frames": 47,
+      "animation_frames": 56,
+      "animations": 10,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 3631991713,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 4103999447,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 128,
+          "h": 512,
+          "crc32": 482421622,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 128,
+          "h": 512,
+          "crc32": 3929184896,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 128,
+          "h": 512,
+          "crc32": 1706345697,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 128,
+          "h": 512,
+          "crc32": 3327870132,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 6,
+          "w": 128,
+          "h": 512,
+          "crc32": 3736656183,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 7,
+          "w": 128,
+          "h": 512,
+          "crc32": 4062545685,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 8,
+          "w": 128,
+          "h": 512,
+          "crc32": 2305706146,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 9,
+          "w": 128,
+          "h": 512,
+          "crc32": 530161824,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 10,
+          "w": 128,
+          "h": 512,
+          "crc32": 1822833396,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 11,
+          "w": 128,
+          "h": 512,
+          "crc32": 2360687532,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:009",
+      "modules": 13,
+      "frame_modules": 13,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 485039187,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 256,
+          "crc32": 429061850,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:010",
+      "modules": 16,
+      "frame_modules": 158,
+      "frames": 24,
+      "animation_frames": 8,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22258,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1966024018,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:011",
+      "modules": 17,
+      "frame_modules": 42,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 4193984795,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1333280392,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:012",
+      "modules": 57,
+      "frame_modules": 203,
+      "frames": 7,
+      "animation_frames": 6,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2822840371,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 2822840371,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:013",
+      "modules": 78,
+      "frame_modules": 715,
+      "frames": 36,
+      "animation_frames": 46,
+      "animations": 5,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2993780922,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:014",
+      "modules": 4,
+      "frame_modules": 1407,
+      "frames": 29,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 64,
+          "crc32": 125888875,
+          "rgba_bytes": 8192
+        }
+      ]
+    },
+    {
+      "id": "9:015",
+      "modules": 30,
+      "frame_modules": 36,
+      "frames": 6,
+      "animation_frames": 5,
+      "animations": 2,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2061802740,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:016",
+      "modules": 5,
+      "frame_modules": 35,
+      "frames": 15,
+      "animation_frames": 12,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 624336913,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 2675760494,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:017",
+      "modules": 239,
+      "frame_modules": 875,
+      "frames": 38,
+      "animation_frames": 41,
+      "animations": 5,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 568400449,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 139414397,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:018",
+      "modules": 100,
+      "frame_modules": 226,
+      "frames": 64,
+      "animation_frames": 70,
+      "animations": 10,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1638399576,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 98633777,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2625174451,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1103241679,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3168596468,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1407094123,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 6,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3797361098,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 7,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2239145724,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 8,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3408064264,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 9,
+          "w": 256,
+          "h": 1024,
+          "crc32": 784160907,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 10,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2373800013,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 11,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2608494369,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:019",
+      "modules": 67,
+      "frame_modules": 217,
+      "frames": 63,
+      "animation_frames": 83,
+      "animations": 10,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 255187798,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 512,
+          "crc32": 1663280237,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 256,
+          "h": 512,
+          "crc32": 4104979618,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 256,
+          "h": 512,
+          "crc32": 1494309273,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 256,
+          "h": 512,
+          "crc32": 449026573,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 256,
+          "h": 512,
+          "crc32": 2605247376,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 6,
+          "w": 256,
+          "h": 512,
+          "crc32": 3542282652,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 7,
+          "w": 256,
+          "h": 512,
+          "crc32": 3662498674,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 8,
+          "w": 256,
+          "h": 512,
+          "crc32": 2378184469,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 9,
+          "w": 256,
+          "h": 512,
+          "crc32": 2744425522,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 10,
+          "w": 256,
+          "h": 512,
+          "crc32": 2500621958,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 11,
+          "w": 256,
+          "h": 512,
+          "crc32": 1780708524,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 12,
+          "w": 256,
+          "h": 512,
+          "crc32": 2512921827,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 13,
+          "w": 256,
+          "h": 512,
+          "crc32": 1175096671,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:020",
+      "modules": 114,
+      "frame_modules": 352,
+      "frames": 65,
+      "animation_frames": 86,
+      "animations": 10,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2825936757,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 512,
+          "crc32": 1706314090,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 256,
+          "h": 512,
+          "crc32": 3769816150,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 256,
+          "h": 512,
+          "crc32": 4206342786,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 256,
+          "h": 512,
+          "crc32": 473538346,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 256,
+          "h": 512,
+          "crc32": 2321839119,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 6,
+          "w": 256,
+          "h": 512,
+          "crc32": 1089140832,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 7,
+          "w": 256,
+          "h": 512,
+          "crc32": 2056741183,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 8,
+          "w": 256,
+          "h": 512,
+          "crc32": 786717140,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 9,
+          "w": 256,
+          "h": 512,
+          "crc32": 404613950,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 10,
+          "w": 256,
+          "h": 512,
+          "crc32": 4031030295,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 0,
+          "palette": 11,
+          "w": 256,
+          "h": 512,
+          "crc32": 889928890,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:021",
+      "modules": 17,
+      "frame_modules": 53,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1548372259,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1655301089,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:022",
+      "modules": 16,
+      "frame_modules": 40,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2848027405,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 555478807,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:023",
+      "modules": 13,
+      "frame_modules": 35,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 4235769209,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1826079814,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:024",
+      "modules": 18,
+      "frame_modules": 44,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2101025747,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 3635227420,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:025",
+      "modules": 18,
+      "frame_modules": 44,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2116813140,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 809495540,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:026",
+      "modules": 23,
+      "frame_modules": 54,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3021700905,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 128,
+          "crc32": 1045231455,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:027",
+      "modules": 34,
+      "frame_modules": 82,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 60964883,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1841519861,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:028",
+      "modules": 19,
+      "frame_modules": 46,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1912239798,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 658407775,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:029",
+      "modules": 21,
+      "frame_modules": 50,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 989116406,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 3844752236,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:030",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 3457272537,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:031",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 238658515,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:032",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 390634146,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:033",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3096631894,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:034",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 838501008,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:035",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3070183621,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:036",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 64,
+          "crc32": 2448462129,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:037",
+      "modules": 7,
+      "frame_modules": 18,
+      "frames": 6,
+      "animation_frames": 5,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 996351417,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:038",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2908051694,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:039",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2093389489,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:040",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 498849068,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:041",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 64,
+          "crc32": 3152870423,
+          "rgba_bytes": 8192
+        }
+      ]
+    },
+    {
+      "id": "9:042",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 601712700,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:043",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1619429553,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:044",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2561752543,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:045",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 752952085,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:046",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1548369291,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:047",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 615873593,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:048",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 241798098,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:049",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 424677273,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:050",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2611763342,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:051",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 344803518,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:052",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2727889849,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:053",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1348363916,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:054",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1031145956,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:055",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2330605096,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:056",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3421535290,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:057",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2671873482,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:058",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3914135006,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:059",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1101881146,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:060",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2408210086,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:061",
+      "modules": 18,
+      "frame_modules": 36,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1628933869,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:062",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1311879920,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:063",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1347788360,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:064",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 2336282087,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:065",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2485806849,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:066",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1633866816,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 1285985188,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:067",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 621614406,
+          "rgba_bytes": 16384
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 64,
+          "crc32": 2435789523,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:068",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1331934179,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 1665347738,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:069",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 128,
+          "crc32": 4116009734,
+          "rgba_bytes": 16384
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 32,
+          "h": 128,
+          "crc32": 3216303852,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:070",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2180566974,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 203940956,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:071",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 32,
+          "crc32": 3177670683,
+          "rgba_bytes": 16384
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 32,
+          "crc32": 2987275760,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:072",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 444315270,
+          "rgba_bytes": 16384
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 64,
+          "crc32": 428791618,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:073",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3214371066,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 256,
+          "crc32": 365308657,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:074",
+      "modules": 3,
+      "frame_modules": 27,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 148796692,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 4059076026,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:075",
+      "modules": 3,
+      "frame_modules": 21,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2984281009,
+          "rgba_bytes": 32768
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 128,
+          "crc32": 2842986388,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:076",
+      "modules": 3,
+      "frame_modules": 28,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 100475692,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 256,
+          "crc32": 1124206291,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:077",
+      "modules": 6,
+      "frame_modules": 6,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 486496448,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:078",
+      "modules": 3,
+      "frame_modules": 3,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 2658861790,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:079",
+      "modules": 11,
+      "frame_modules": 23,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 1387312026,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:080",
+      "modules": 12,
+      "frame_modules": 66,
+      "frames": 6,
+      "animation_frames": 6,
+      "animations": 2,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 765987709,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:081",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 1786833150,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:082",
+      "modules": 12,
+      "frame_modules": 24,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 3029838554,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:083",
+      "modules": 24,
+      "frame_modules": 24,
+      "frames": 4,
+      "animation_frames": 9,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2294293828,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:084",
+      "modules": 3,
+      "frame_modules": 6,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 128,
+          "crc32": 1929203553,
+          "rgba_bytes": 16384
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 32,
+          "h": 128,
+          "crc32": 944665076,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:085",
+      "modules": 11,
+      "frame_modules": 272,
+      "frames": 8,
+      "animation_frames": 8,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 3799544711,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 256,
+          "crc32": 3559499054,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 256,
+          "h": 256,
+          "crc32": 2171536033,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 256,
+          "h": 256,
+          "crc32": 762624446,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:086",
+      "modules": 20,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1883794015,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1488026579,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:087",
+      "modules": 26,
+      "frame_modules": 58,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1754492642,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 2095102342,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:088",
+      "modules": 21,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1371402694,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 839594238,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:089",
+      "modules": 24,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 2983220879,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 256,
+          "crc32": 3488337141,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:090",
+      "modules": 21,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1186127998,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 3196297061,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:091",
+      "modules": 23,
+      "frame_modules": 71,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 549895969,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 256,
+          "crc32": 577021289,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:092",
+      "modules": 21,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 941689769,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 256,
+          "crc32": 482218510,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:093",
+      "modules": 18,
+      "frame_modules": 58,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2788836916,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 128,
+          "crc32": 3854527391,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:094",
+      "modules": 23,
+      "frame_modules": 46,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2013597751,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 1581232827,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:095",
+      "modules": 21,
+      "frame_modules": 45,
+      "frames": 15,
+      "animation_frames": 14,
+      "animations": 3,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 6414081,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1846204545,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:096",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 2438220295,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:097",
+      "modules": 15,
+      "frame_modules": 15,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3923492403,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3650021715,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 155862907,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 915111149,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:098",
+      "modules": 18,
+      "frame_modules": 18,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 445067050,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:099",
+      "modules": 74,
+      "frame_modules": 826,
+      "frames": 13,
+      "animation_frames": 13,
+      "animations": 2,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2195249693,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:100",
+      "modules": 15,
+      "frame_modules": 15,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 987358372,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 150180744,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 228253398,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 1542935233,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:101",
+      "modules": 17,
+      "frame_modules": 1348,
+      "frames": 18,
+      "animation_frames": 18,
+      "animations": 2,
+      "flags": 1078035893,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3684658782,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 71525749,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 2,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 572606217,
+          "rgba_bytes": 524288
+        },
+        {
+          "image": 3,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 2227102308,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:102",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 439887448,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1987019676,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:103",
+      "modules": 18,
+      "frame_modules": 36,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 804778653,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:104",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 2710528461,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:105",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1375569797,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:106",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 4064933116,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:107",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1620994052,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:108",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3771726119,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:109",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 2402578389,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:110",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 128,
+          "crc32": 1379133560,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:111",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1292951683,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:112",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1300083250,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:113",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3123700270,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:114",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2476005138,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:115",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3952838991,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:116",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3746979805,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:117",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 310345410,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:118",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1261700118,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:119",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1004466344,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:120",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 2248610908,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:121",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 1860840706,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:122",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1921713271,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:123",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 2937162202,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:124",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1672634644,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:125",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 4116229109,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:126",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 3841111230,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:127",
+      "modules": 18,
+      "frame_modules": 18,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2810086999,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:128",
+      "modules": 67,
+      "frame_modules": 68,
+      "frames": 6,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 4033798387,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:129",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3587858693,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:130",
+      "modules": 13,
+      "frame_modules": 25,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2267106674,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:131",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1278494791,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:132",
+      "modules": 19,
+      "frame_modules": 19,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 1279804620,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:133",
+      "modules": 1,
+      "frame_modules": 1,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 32,
+          "h": 128,
+          "crc32": 3958567619,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:134",
+      "modules": 12,
+      "frame_modules": 12,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 1101671093,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:135",
+      "modules": 12,
+      "frame_modules": 12,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 4122426710,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:136",
+      "modules": 18,
+      "frame_modules": 18,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 353326470,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:137",
+      "modules": 6,
+      "frame_modules": 6,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 3219298214,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:138",
+      "modules": 7,
+      "frame_modules": 76,
+      "frames": 13,
+      "animation_frames": 11,
+      "animations": 1,
+      "flags": 4556209,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 10225,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2860256895,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:139",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 2450904545,
+          "rgba_bytes": 65536
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 64,
+          "h": 256,
+          "crc32": 2106970665,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:140",
+      "modules": 58,
+      "frame_modules": 176,
+      "frames": 4,
+      "animation_frames": 3,
+      "animations": 1,
+      "flags": 4556209,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 14779879,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:141",
+      "modules": 12,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3490912841,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:142",
+      "modules": 19,
+      "frame_modules": 106,
+      "frames": 5,
+      "animation_frames": 4,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2558832054,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:143",
+      "modules": 3,
+      "frame_modules": 20,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 1024,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 64,
+          "crc32": 2619711320,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:144",
+      "modules": 5,
+      "frame_modules": 9,
+      "frames": 5,
+      "animation_frames": 4,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 3630765610,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:145",
+      "modules": 93,
+      "frame_modules": 364,
+      "frames": 11,
+      "animation_frames": 10,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2798873898,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:146",
+      "modules": 6,
+      "frame_modules": 12,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 2035754826,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:147",
+      "modules": 13,
+      "frame_modules": 13,
+      "frames": 13,
+      "animation_frames": 13,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 4220212903,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:148",
+      "modules": 4,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 4,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 1046105742,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:149",
+      "modules": 12,
+      "frame_modules": 24,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2828461637,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:150",
+      "modules": 3,
+      "frame_modules": 44,
+      "frames": 11,
+      "animation_frames": 11,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 16,
+          "h": 32,
+          "crc32": 2948688833,
+          "rgba_bytes": 2048
+        }
+      ]
+    },
+    {
+      "id": "9:151",
+      "modules": 12,
+      "frame_modules": 30,
+      "frames": 10,
+      "animation_frames": 10,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 756061325,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:152",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 128,
+          "crc32": 4098077483,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:153",
+      "modules": 4,
+      "frame_modules": 7,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3044506519,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 1909955459,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 128,
+          "h": 256,
+          "crc32": 1170962246,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 128,
+          "h": 256,
+          "crc32": 3544855380,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 128,
+          "h": 256,
+          "crc32": 1380640793,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 128,
+          "h": 256,
+          "crc32": 1768977864,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:154",
+      "modules": 4,
+      "frame_modules": 7,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3528144334,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 256,
+          "crc32": 401822266,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 2,
+          "w": 128,
+          "h": 256,
+          "crc32": 44944616,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 3,
+          "w": 128,
+          "h": 256,
+          "crc32": 1711791693,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 4,
+          "w": 128,
+          "h": 256,
+          "crc32": 1011199233,
+          "rgba_bytes": 131072
+        },
+        {
+          "image": 0,
+          "palette": 5,
+          "w": 128,
+          "h": 256,
+          "crc32": 1317236097,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:155",
+      "modules": 8,
+      "frame_modules": 8,
+      "frames": 8,
+      "animation_frames": 8,
+      "animations": 2,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 3823175179,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:156",
+      "modules": 20,
+      "frame_modules": 20,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 421403017,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:157",
+      "modules": 4,
+      "frame_modules": 20,
+      "frames": 4,
+      "animation_frames": 4,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3451311061,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:158",
+      "modules": 2,
+      "frame_modules": 2,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2539957525,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:159",
+      "modules": 58,
+      "frame_modules": 158,
+      "frames": 39,
+      "animation_frames": 41,
+      "animations": 5,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 3298161913,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 512,
+          "h": 512,
+          "crc32": 3610011506,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:160",
+      "modules": 49,
+      "frame_modules": 160,
+      "frames": 38,
+      "animation_frames": 41,
+      "animations": 5,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 25840,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 647782163,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1664436196,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:161",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 2006792028,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:162",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 909791938,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:163",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1080035413,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:164",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 128,
+          "crc32": 1593853622,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:165",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 607664001,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:166",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 64,
+          "crc32": 1112726262,
+          "rgba_bytes": 16384
+        }
+      ]
+    },
+    {
+      "id": "9:167",
+      "modules": 3,
+      "frame_modules": 5,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 2739843715,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:168",
+      "modules": 3,
+      "frame_modules": 4,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 64,
+          "crc32": 553923902,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:169",
+      "modules": 7,
+      "frame_modules": 14,
+      "frames": 7,
+      "animation_frames": 6,
+      "animations": 1,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2838643535,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:170",
+      "modules": 11,
+      "frame_modules": 18,
+      "frames": 1,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 512,
+          "h": 512,
+          "crc32": 1509547567,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:171",
+      "modules": 106,
+      "frame_modules": 261,
+      "frames": 61,
+      "animation_frames": 99,
+      "animations": 16,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1680549145,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:172",
+      "modules": 143,
+      "frame_modules": 333,
+      "frames": 63,
+      "animation_frames": 109,
+      "animations": 16,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1913340839,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:173",
+      "modules": 8,
+      "frame_modules": 20,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3801257718,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:174",
+      "modules": 36,
+      "frame_modules": 72,
+      "frames": 10,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 512,
+          "crc32": 2246473631,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 128,
+          "h": 512,
+          "crc32": 2246473631,
+          "rgba_bytes": 262144
+        }
+      ]
+    },
+    {
+      "id": "9:175",
+      "modules": 159,
+      "frame_modules": 673,
+      "frames": 151,
+      "animation_frames": 222,
+      "animations": 25,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1568391973,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3081815152,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:176",
+      "modules": 159,
+      "frame_modules": 673,
+      "frames": 151,
+      "animation_frames": 222,
+      "animations": 25,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 455190855,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:177",
+      "modules": 140,
+      "frame_modules": 593,
+      "frames": 121,
+      "animation_frames": 219,
+      "animations": 25,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 1771798296,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 3709463947,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:178",
+      "modules": 140,
+      "frame_modules": 595,
+      "frames": 121,
+      "animation_frames": 219,
+      "animations": 25,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 1024,
+          "crc32": 2579252754,
+          "rgba_bytes": 1048576
+        },
+        {
+          "image": 0,
+          "palette": 1,
+          "w": 256,
+          "h": 1024,
+          "crc32": 118819959,
+          "rgba_bytes": 1048576
+        }
+      ]
+    },
+    {
+      "id": "9:179",
+      "modules": 2,
+      "frame_modules": 3,
+      "frames": 4,
+      "animation_frames": 0,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 42338,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 3625823504,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:180",
+      "modules": 3,
+      "frame_modules": 4,
+      "frames": 5,
+      "animation_frames": 0,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 42338,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2906733913,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:181",
+      "modules": 4,
+      "frame_modules": 6,
+      "frames": 8,
+      "animation_frames": 0,
+      "animations": 2,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 42338,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 256,
+          "crc32": 2493203867,
+          "rgba_bytes": 131072
+        }
+      ]
+    },
+    {
+      "id": "9:182",
+      "modules": 2,
+      "frame_modules": 4,
+      "frames": 2,
+      "animation_frames": 2,
+      "animations": 1,
+      "flags": 4292913,
+      "extra_flags": 1048576,
+      "pixel_format": 34952,
+      "encoding": 42338,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 64,
+          "crc32": 103395893,
+          "rgba_bytes": 32768
+        }
+      ]
+    },
+    {
+      "id": "9:183",
+      "modules": 42,
+      "frame_modules": 48,
+      "frames": 8,
+      "animation_frames": 8,
+      "animations": 3,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 512,
+          "crc32": 2149520704,
+          "rgba_bytes": 524288
+        }
+      ]
+    },
+    {
+      "id": "9:184",
+      "modules": 5,
+      "frame_modules": 9,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293941,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 256,
+          "h": 256,
+          "crc32": 925901421,
+          "rgba_bytes": 262144
+        },
+        {
+          "image": 1,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 3454268815,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:185",
+      "modules": 1,
+      "frame_modules": 2,
+      "frames": 2,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 128,
+          "h": 128,
+          "crc32": 348912187,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:186",
+      "modules": 9,
+      "frame_modules": 22,
+      "frames": 3,
+      "animation_frames": 0,
+      "animations": 0,
+      "flags": 4294065,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 22018,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 64,
+          "h": 256,
+          "crc32": 3423312062,
+          "rgba_bytes": 65536
+        }
+      ]
+    },
+    {
+      "id": "9:187",
+      "modules": 2,
+      "frame_modules": 320,
+      "frames": 46,
+      "animation_frames": 46,
+      "animations": 2,
+      "flags": 4293937,
+      "extra_flags": 1048576,
+      "pixel_format": 34824,
+      "encoding": 5632,
+      "images": [
+        {
+          "image": 0,
+          "palette": 0,
+          "w": 8,
+          "h": 16,
+          "crc32": 424947691,
+          "rgba_bytes": 512
+        }
+      ]
+    }
+  ]
+}

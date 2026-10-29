@@ -1,0 +1,28 @@
+The core bridge fixtures were generated with Oracle Java 8u202, matching the
+legacy Java formatting behavior expected by this Android-era application.
+Java 19+ uses a different decimal formatting algorithm and is not a suitable
+replacement oracle for these fixtures.
+
+Rebuild from project root, using Java 8 javac and java:
+  javac -encoding UTF-8 test/oracles/JavaCoreOracle.java test/oracles/JavaCharsetOracle.java test/oracles/JavaUnicodeOracle.java
+  java -cp test/oracles JavaCoreOracle > test/dalvik/fixtures/core_numbers.json
+  java -cp test/oracles JavaCharsetOracle > test/dalvik/fixtures/core_charsets.json
+  java -cp test/oracles JavaUnicodeOracle > lib/engine/dalvik/java_unicode_data.dart
+
+PowerShell 5 users should pipe each java invocation to Set-Content -Encoding
+ascii instead of using >, which may create UTF-16 output on that shell.
+
+Run:
+  flutter test test/dalvik/java_core_test.dart
+
+Coverage: 20,024 IEEE binary32/binary64 decimal formatting vectors and exact
+parse roundtrips; 120 charset encode/decode vectors; supplementary and malformed
+UTF-16; scalar/array identity; String/wrapper hash and equality; integer
+overflow and Unicode digits; exact decimal/hex float rounding; explicit clock,
+seed and locale dependencies; overlap and partial reference arraycopy;
+multidimensional arrays; exception hierarchy and diagnostic stack traces.
+
+The current bridge deliberately has no arbitrary reflection, Java regex or
+Formatter implementation. Lithuanian contextual case conversion reports a
+MissingDalvikBridge. Platform thread, synchronization waits, process exit,
+library loading and runtime memory APIs require platform integration.
