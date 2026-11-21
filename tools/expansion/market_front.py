@@ -11,6 +11,7 @@ from tools.world import entries,labels,pack,table
 from .visit_predators import _controls
 from .neighbor import entry,expose
 from .hive_limits import hive_limits
+from .hives import patch_code
 
 
 def _wrap(cf,key,desc,alias,target,load,stack):
@@ -21,6 +22,36 @@ def _wrap(cf,key,desc,alias,target,load,stack):
         cf.methods.append((flags,n,d,[(cf.utf('Code'),pack_code(u2(stack)+u2(stack),code,u2(0),[]))]))
         return
     raise ValueError('Missing original shop entry '+key+desc)
+
+
+def align_tabs(rows,android_rows):
+    """Store the same origins for painting the tabs and building their hit boxes."""
+    # a.G(2) uses the saved panel template when registering a tap target.
+    # GF3MarketFront.nav also reads these Android positions for active controls.
+    for group in range(3):
+        for slot,mobile_slot in enumerate((0,1,2,3,5)):
+            index=10+5*group+slot
+            reference=android_rows[10+6*group+mobile_slot]
+            row=bytearray(rows[index])
+            if row[0]!=205 or reference[0]!=205:
+                raise ValueError('Unexpected market navigation control')
+            row[3:7]=reference[3:7]
+            rows[index]=bytes(row)
+
+
+def reserve_ui_sheets(game):
+    # The loader saves the address of this same array in a.a[1]. A later
+    # array copy leaves loaded and disposed sprites in different caches.
+    # The market, doghouse, extractor and farm stand use slots up through 172.
+    packed_count=game.intern(b'\x03'+(138).to_bytes(4,'big'))
+    if packed_count>255:raise ValueError('Native UI pack count is not an ldc constant')
+    make_array=b'\xbd'+u2(game.cls('e'))
+    allocator='gf3UiSpritePool'
+    code=b'\x11'+u2(173)+make_array+b'\xb0'
+    game.methods.append((10,game.utf(allocator),game.utf('()[Le;'),[(game.utf('Code'),
+                         pack_code(u2(1)+u2(0),code,u2(0),[]))]))
+    patch_code(game,'fC','()V',[(89,b'\x12'+bytes([packed_count])+make_array,
+                                  b'\xb8'+u2(game.ref('a',allocator,'()[Le;')))])
 
 
 def patch_marketfront(classes,apk,locale):
@@ -51,6 +82,7 @@ def patch_marketfront(classes,apk,locale):
     panels=entries(classes['6']); old=_controls(panels[2],False)
     mobile=_controls(entries(apk.read(prefix+'10'))[2],True)
     if len(old)!=122 or len(mobile)!=213:raise ValueError('Unexpected shop panel')
+    align_tabs(old,mobile)
     for idx in (14,20,26):
         control=bytearray(mobile[idx]);del control[10]
         control[13]=control[26]=0;old.append(control)
@@ -65,6 +97,7 @@ def patch_marketfront(classes,apk,locale):
     nav=mobile[10:28]
     src=Path(__file__).resolve().parents[2]/'src/expansion/GF3MarketFront.java'
     game=ClassFile(classes['a.class'])
+    reserve_ui_sheets(game)
     limits=hive_limits(game,apk)
     expose(game,game.fields,{('cu','I'),('cv','I'),('cw','I'),('ct','I')})
     expose(game,game.methods,{('ad','(I)V'),('u','(I)V'),('af','(I)V')})

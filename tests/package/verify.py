@@ -118,6 +118,8 @@ def check(jar, jad, libraries):
             raise ValueError(f'Manifest/JAD mismatch for {key}')
     if fields.get('Nokia-UI-Enhancement')!='EnableMultiPointTouchEvents' or fields.get('Nokia-UI-Enhancement')!=manifest.get('Nokia-UI-Enhancement'):
         raise ValueError('The JAD and JAR must request the same multipoint touch events')
+    if fields.get('MIDlet-ScreenSize')!='480x800' or manifest.get('MIDlet-ScreenSize')!='480x800':
+        raise ValueError('Manic EMU must detect the native 480x800 touch canvas on import')
     if fields['MIDlet-Jar-URL'] != jar.name or int(fields['MIDlet-Jar-Size']) != jar.stat().st_size:
         raise ValueError('Descriptor does not identify this JAR')
     if fields['MIDlet-Version'] != '4.4.4':

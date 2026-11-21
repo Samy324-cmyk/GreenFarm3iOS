@@ -1,9 +1,9 @@
 /** Play the 4.4.4 farm music and ambience alongside the native MIDP effects. */
 final class GF3FarmAudio {
-    private static final int MUSIC=1,AMBIENCE=2,FARM_LOOP=25;
+    private static final int MUSIC=1,AMBIENCE=2,FARM_LOOP=25,FIRST_EFFECT=3,LAST_EFFECT=7;
     private static final int[] tracks=new int[9];
     private static long musicStarted,ambientRequested;
-    private static int next,previous=-1;
+    private static int next,previous=-1,effectChannel=FIRST_EFFECT;
     private static boolean ambient;
 
     private static void loadSlot(int cue) {
@@ -37,11 +37,25 @@ final class GF3FarmAudio {
             if(source<14 || !k.playing(MUSIC)) music(cue,false);
         } else if(source==24) {
             if(a.R && a.S) queue(AMBIENCE,cue,true);
-        } else if(a.R && a.S) {
-            if(a.d[cue]==null) a.d[cue]=new int[]{0,2};
-            load(cue,GF3AnimalMarket.alternate(cue));
-            a.c(cue);
+        } else effect(cue);
+    }
+
+    static void effect(int cue) {
+        if(!a.R || !a.S || a.W) return;
+        if(cue<15) {
+            music(cue,false);
+            return;
         }
+        // Android cGame.oz rotates ordinary effects through channels 3–7.
+        // Its master level comes from the saved setting, including on MMAPI
+        // providers that cannot report the volume of a finished waveform.
+        int slot=cue==a.aw ? GF3AnimalMarket.alternate(cue) : cue;
+        load(slot,-1);
+        if(!k.loaded(slot)) return;
+        a.aw=slot;
+        a.lastEffect=System.currentTimeMillis();
+        k.a(effectChannel,slot,1,a.at,2);
+        effectChannel=effectChannel==LAST_EFFECT ? FIRST_EFFECT : effectChannel+1;
     }
 
     static void music(int cue,boolean repeat) {
@@ -54,8 +68,7 @@ final class GF3FarmAudio {
         if(a.R) {
             a.gf3StopSound();
             if(k.loaded(0) || k.loaded(13) || k.loaded(FARM_LOOP)) {
-                k.a(MUSIC,true);
-                k.a(AMBIENCE,true);
+                for(int channel=MUSIC;channel<=LAST_EFFECT;channel++) k.a(channel,true);
             }
         }
         ambient=false;

@@ -9,8 +9,8 @@ final class ViewportProbe {
     static void check() throws Exception {
         ClassLoader loader=Mobile.getPlatform().loader;
         Class<?> presentation=Class.forName("GF3Presentation",false,loader);
-        Field portrait=Class.forName("GF3Viewport",false,loader).getDeclaredField("portrait");
-        portrait.setAccessible(true);
+        Field presented=Class.forName("GF3Viewport",false,loader).getDeclaredField("presented");
+        presented.setAccessible(true);
         int w=MobilePlatform.lcdWidth,h=MobilePlatform.lcdHeight;
         int sw=w>h?800:480,sh=w>h?480:800;
         int dw=Math.min(w,h*sw/sh),dh=Math.min(h,w*sh/sw);
@@ -19,7 +19,7 @@ final class ViewportProbe {
         int differences=-1;
         for(int retry=0;retry<20;retry++) {
             synchronized(presentation) {
-                Image image=(Image)portrait.get(null);
+                Image image=(Image)presented.get(null);
                 image.getRGB(frame,0,480,0,0,480,800);
                 PlatformImage lcd=Mobile.getPlatform().getLcdFrontbuffer();
                 synchronized(lcd) {

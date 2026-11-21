@@ -33,6 +33,14 @@ El MIDlet funciona sin cuenta y sin acceso a Internet. Conserva la resolución d
 
 El instalador identifica la edición como 4.4.4. El nombre de la aplicación, el proveedor de la edición táctil y el formato anterior de RecordStore se conservan para poder reabrir las partidas del JAR 1.0.6.
 
+## Jugar en Manic EMU en iPhone
+
+Importa `GreenFarm3-MX.jar` en la biblioteca de Manic EMU. El JAR declara la pantalla táctil de 480 × 800 que usa la edición original. Si ya guardaste una granja, conserva una copia de la partida y usa el mismo nombre de archivo al actualizar. El núcleo J2meJS incluye el nombre del JAR en la ruta de los datos guardados.
+
+El plano de la mansión se abre al aceptar el encargo de Walt en el diario y tocar el edificio. Al tocar una habitación en el plano se abre su presupuesto. La prueba de regresión visita las seis pestañas del mercado y el granero antes de volver a la granja y abrir ese plano. Compara las ilustraciones visibles en cada paso.
+
+El workflow prueba el mismo JAR con FreeJ2ME-Plus, el núcleo de Manic EMU 2.0.2 y un simulador de iPhone con WKWebView. El artefacto de Manic incluye el audio detectado y la medición del arrastre en 480 × 800 y 240 × 320. El artefacto de iPhone incluye capturas del juego y los intervalos medidos durante tres arrastres en el simulador. Las cifras dependen del dispositivo y del emulador.
+
 ## Probar en el emulador
 
 Con Java 21 en el PATH, inicia la prueba desde una carpeta de salida nueva

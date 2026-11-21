@@ -31,10 +31,15 @@ final class SceneCacheProbe {
             try {
                 int[][] poses={{0,0},{3375,0},{140,554},{70,570},{65,597},{1000,617},{1030,643},
                     {1058,648},{1065,668},{1234,830},{1470,696},{1500,678},{1523,667},{1544,660},
-                    {1556,657},{1567,653},{1574,646},{1601,639},{3375,1607},{0,1607}};
+                    {1556,657},{1567,653},{1574,646},{1601,639},{3375,1607},{0,1607},
+                    // The level-three farm exposes both wrap axes and the
+                    // crowns of the trees as the camera moves behind the HUD.
+                    {1756,456},{1757,455},{1776,451},{1799,451},{1800,451},{1814,447},
+                    {1822,432},{1823,431},{1805,435},{1786,441},{1756,456}};
+                int zoom=(Integer)MarketProbe.field(a,null,"B",int.class);
                 int index=0;
                 for(int[] pos:poses) {
-                    move.invoke(camera,pos[0],pos[1]);
+                    move.invoke(camera,pos[0]*zoom/100,pos[1]*zoom/100);
                     MarketProbe.method(k,"a",void.class,Graphics.class,int.class,int.class,int.class).invoke(null,null,0,0,0);
                     MarketProbe.method(f,"b",void.class).invoke(null);
                     compare(loader,"edge-"+index++);

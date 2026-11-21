@@ -5,6 +5,7 @@ from hashlib import sha256
 import io
 import json
 from pathlib import Path
+import re
 import struct
 import subprocess
 import sys
@@ -14,6 +15,21 @@ from zipfile import ZipFile
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from tools.media import unpack
+
+
+def aac_reference(path, source, decoder):
+    # Decode the elementary stream independently. ADTS carries the AAC
+    # packets without the MP4 metadata that FFmpeg might trim on its own.
+    fields = re.search(rb'iTunSMPB.{4}data\x00\x00\x00\x01\x00\x00\x00\x00'
+                       rb'\s+00000000 ([0-9A-Fa-f]{8}) ([0-9A-Fa-f]{8}) ([0-9A-Fa-f]{16})',
+                       source, re.DOTALL)
+    if not fields:
+        raise AssertionError('Missing AAC gapless metadata')
+    lead, tail, content = (int(field, 16) for field in fields.groups())
+    elementary = path.with_suffix('.aac')
+    subprocess.run([decoder, '-v', 'error', '-nostdin', '-y', '-i', str(path), '-map', '0:a:0',
+                    '-c:a', 'copy', '-f', 'adts', str(elementary)], check=True)
+    return elementary, (lead, tail, content)
 
 
 def verify(apk,game,decoder):
@@ -46,6 +62,8 @@ def verify(apk,game,decoder):
             vorbis=original.startswith(b'OggS')
             path=Path(temp)/('audio.ogg' if vorbis else 'audio.m4a')
             path.write_bytes(original)
+            if not vorbis:
+                path, (lead, tail, content) = aac_reference(path, original, decoder)
             reference=subprocess.check_output([decoder,'-v','error','-nostdin','-i',str(path),
                 '-map','0:a:0','-c:a','pcm_s16le','-f','wav','-'])
             with wave.open(io.BytesIO(reference)) as reference_sound:
@@ -64,8 +82,14 @@ def verify(apk,game,decoder):
                 half_block=(1<<(original[header+28]>>4))//2
                 if granule!=frames or abs(len(expected)-len(actual))>half_block*channels:
                     raise AssertionError(f'Incorrect Vorbis duration at Android {idx}')
-            elif len(actual)!=len(expected):
-                raise AssertionError(f'Incorrect AAC duration at Android {idx}')
+            else:
+                # All 20 HE-AAC originals decode to twice the AAC core rate.
+                if (rate, channels) != (32000, 2) or len(expected) != 2 * (lead + tail + content) * channels:
+                    raise AssertionError(f'Incomplete HE-AAC elementary stream at Android {idx}')
+                if frames != 2 * content:
+                    raise AssertionError(f'Incorrect AAC duration at Android {idx}: {frames} frames, expected {2 * content}')
+                first = 2 * lead * channels
+                expected = expected[first:first + frames * channels]
             peak=max(abs(a-b) for a,b in zip(actual,expected))
             if peak>2 or not any(actual):
                 raise AssertionError(f'PCM differs from original Android {idx}, peak error {peak}')

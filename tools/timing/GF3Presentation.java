@@ -8,8 +8,8 @@ final class GF3Presentation {
     private static volatile boolean intermediate;
     private static long tickStart, nextDeadline;
     private static Image game;
-    private static int[] background;
-    private static boolean savedCurrent;
+    private static Image background;
+    private static Graphics backgroundGraphics;
     private static int moving;
     private static volatile int nativeCost,betweenCost;
     public static int ticks, presentations, interpolated, matchedSprites;
@@ -21,6 +21,7 @@ final class GF3Presentation {
         int w=GF3Viewport.WIDTH,h=GF3Viewport.HEIGHT;
         Graphics lcd=screen;
         boolean fit=width!=w || height!=h;
+        Image physicalSource=null;
         if(fit) screen=GF3Viewport.begin(width,height);
         if(g.o) {
             if(!intermediate) {owner.gf3OriginalPaint(screen);if(fit) GF3Viewport.present(lcd);}
@@ -28,16 +29,15 @@ final class GF3Presentation {
         }
         if(game==null || w!=game.getWidth() || h!=game.getHeight()) {
             game=Image.createImage(w,h);
-            background=new int[w*h];
-            savedCurrent=false;
+            background=Image.createImage(w,h);
+            backgroundGraphics=background.getGraphics();
             moving=0;
         }
         long paintStart=System.currentTimeMillis();
         if(!intermediate) {
             long previousTick=tickStart;
             tickStart=System.currentTimeMillis();
-            if(!savedCurrent) game.getRGB(background,0,w,0,0,w,h);
-            savedCurrent=false;
+            backgroundGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
             Graphics original=game.getGraphics();
             GF3Draw.begin(original);
             try {owner.gf3OriginalPaint(original);}
@@ -49,21 +49,16 @@ final class GF3Presentation {
         long elapsed=System.currentTimeMillis()-tickStart;
         screen.setClip(0,0,w,h);
         if(moving!=0 && GF3Draw.valid && elapsed>=0 && elapsed<PERIOD) {
-            // A mutable MIDP Image starts opaque. Alpha blending into it
-            // preserves that property, so a display copy never needs blending.
-            if(!GF3Draw.hasGround()) screen.drawRGB(background,0,w,0,0,w,h,false);
+            if(!GF3Draw.hasGround()) screen.drawImage(background,0,0,Graphics.TOP|Graphics.LEFT);
             GF3Draw.replay(screen,PERIOD-(int)elapsed,PERIOD);
             if(intermediate) interpolated++;
             screen.setClip(0,0,w,h);
         } else {
-            if(!savedCurrent) {
-                game.getRGB(background,0,w,0,0,w,h);
-                savedCurrent=true;
-            }
             moving=0;
-            screen.drawRGB(background,0,w,0,0,w,h,false);
+            if(fit)physicalSource=game;
+            else screen.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
         }
-        if(fit) GF3Viewport.present(lcd);
+        if(fit) GF3Viewport.present(lcd,physicalSource);
         int cost=(int)Math.max(0,Math.min(PERIOD,System.currentTimeMillis()-paintStart));
         if(intermediate) betweenCost=(betweenCost*3+cost+2)/4;
         else nativeCost=(nativeCost*3+cost+2)/4;

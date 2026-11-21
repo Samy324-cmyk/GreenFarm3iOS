@@ -216,7 +216,7 @@ def build(args):
         # MIDP matches the identity fields with the manifest exactly.
         fields = [s for s in manifest if s.startswith(
             ('MIDlet-Name:', 'MIDlet-Vendor:', 'MIDlet-Version:', 'MIDlet-1:', 'MIDlet-Icon:',
-             'MicroEdition-Configuration:', 'MicroEdition-Profile:', 'MIDlet-Touch-Support:', 'Nokia-UI-Enhancement:'))]
+             'MicroEdition-Configuration:', 'MicroEdition-Profile:', 'MIDlet-Touch-Support:', 'MIDlet-ScreenSize:', 'Nokia-UI-Enhancement:'))]
         fields += ['MIDlet-Jar-URL: ' + filename, f'MIDlet-Jar-Size: {result.stat().st_size}']
         (temp / 'GreenFarm3-MX.jad').write_bytes(('\r\n'.join(fields) + '\r\n').encode())
         report = {'sourceJar': JAR_DIGEST, 'sourceApk': APK_DIGEST, 'jarSha256': digest(result),

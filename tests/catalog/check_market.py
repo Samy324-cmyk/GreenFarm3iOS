@@ -46,7 +46,7 @@ def main():
     if args.probe != 'market':
         probes.append(here/(probe+'.java'))
     if args.probe=='horizon':
-        probes.append(here/'ZoomProbe.java')
+        probes.extend((here/'ZoomProbe.java',here/'SceneCacheProbe.java'))
     subprocess.run([args.javac,'--release','8','-Xlint:-options','-cp',str(emulator),
                     '-d',str(root),str(test),*map(str,probes)],check=True)
     cmd=[args.java,'-Xmx384m','-Djava.security.manager=allow','-Djava.awt.headless=true',

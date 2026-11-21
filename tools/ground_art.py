@@ -78,11 +78,24 @@ def patch_horizon(actor_data, terrain_data):
     actor=ClassFile(actor_data)
     terrain=ClassFile(terrain_data)
     preserve_actor_invalidation(actor)
-    expose(terrain,terrain.fields,{('s','I')})
-    # Inspect the tile cache before ALL sprite passes, including shadows
-    # and flowers painted in the first loop, before the horizon actor.
-    patch_code(actor,'b','()V',[(9,bytes.fromhex('b2009f'),
-        b'\xb8'+u2(actor.ref('GF3Horizon','worldActors','()[Lf;')))])
+    expose(terrain, terrain.fields, {('s','I'),('a','[[I'),('a','[[[I'),('p','[I')})
+    expose(actor, actor.fields, {('ay','I')})
+    expose(actor, actor.methods, {('f','(II)V')})
+    def invoke(owner, name, desc):
+        return b'\xb8'+u2(actor.ref(owner,name,desc))
+
+    # Enter the first actor group before painting the horizon or any flowers.
+    # The original rolls over five groups within one composition.
+    old_actor = b'\xb7'+u2(actor.ref('f','f','(II)V'))
+    visible = invoke('GF3Horizon','paintActor','(Lf;II)V')
+    patch_code(actor,'b','()V',[
+        (9,bytes.fromhex('b2009f1b32'),b'\x1b'+invoke('GF3Horizon','firstActor','(I)Lf;')),
+        (47,old_actor,visible),(627,old_actor,visible)])
+    # Keep the original actor erase/damage queue. Only the calls that used
+    # the tile layer's dirty region are replaced, including prescaled sprites.
+    sprite = '(ILe;IIIZ[I)V'
+    old, new = invoke('k','a',sprite), invoke('GF3Horizon','staticSprite',sprite)
+    patch_code(actor,'f','(II)V',[(159,old,new),(179,old,new)])
     # Keep the typed branch and its verified stack frame. draw() handles
     # every supported farm and skips the old baked scenery at this site.
     patch_code(actor,'b','()V',[(79,bytes.fromhex('b2004eb400e8110240a2021e'),
@@ -92,8 +105,12 @@ def patch_horizon(actor_data, terrain_data):
         graphics=folder/'Graphics.java'
         graphics.write_text('package javax.microedition.lcdui; public class Graphics{public void setColor(int c){}}')
         stub=folder/'a.java'
-        stub.write_text("""class a {static int B;static boolean l;static e[] b;} class e {} class f {static f[] actors;}
-            class k {static int dirtyCount; static javax.microedition.lcdui.Graphics[][] buffers;
+        stub.write_text("""class a {static int B;static boolean l;static e[] b,ui;
+              static boolean prescaled(int id){return false;}}
+            class e {int top(int f){return 0;} int left(int f){return 0;} int width(int f){return 0;}
+              int height(int f){return 0;} int frames(){return 0;}}
+            class f {static f[] actors;static int eraseCount;int r,s;void paintTile(int slot,int frame){}}
+            class k {static int[][] layer;static int[][][] dirty;static int[] tiles;static int dirtyCount; static javax.microedition.lcdui.Graphics[][] buffers;
               static int cameraX(int layer){return 0;} static int cameraY(int layer){return 0;}
               static int e(){return 0;} static void fill(int x,int y,int w,int h,boolean all){}
               static void sprite(int layer,e pic,int frame,int x,int y,boolean all,int[] clip){}}
@@ -102,6 +119,9 @@ def patch_horizon(actor_data, terrain_data):
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',tmp,
                         str(graphics),str(stub),str(source)],check=True)
         helper=ClassFile((folder/'GF3Horizon.class').read_bytes())
-        for alias,real in [('cameraX','a'),('cameraY','b'),('buffers','a'),('actors','a'),('dirtyCount','s'),('fill','a'),('sprite','a')]:
+        for alias,real in [('cameraX','a'),('cameraY','b'),('buffers','a'),('actors','a'),('dirtyCount','s'),('fill','a'),('sprite','a'),
+                           ('top','g'),('left','f'),('width','d'),('height','e'),('frames','b'),
+                           ('layer','a'),('dirty','a'),('tiles','p'),('ui','a'),('prescaled','g'),
+                           ('paintTile','f'),('eraseCount','ay')]:
             helper.pool[helper.utf(alias)]=helper.pool[helper.utf(real)]
         return {'f.class':actor.bytes(),'k.class':terrain.bytes(),'GF3Horizon.class':convert_helper(helper.bytes())}

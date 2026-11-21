@@ -1,0 +1,52 @@
+name: ManicFarmTest
+options:
+  bundleIdPrefix: org.local.greenfarm
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+targets:
+  Farm:
+    type: application
+    platform: iOS
+    sources:
+      - path: App/App.swift
+      - path: App/probe.js
+        buildPhase: resources
+      - path: App/scenes.js
+        buildPhase: resources
+      - path: App/endpoint.txt
+        buildPhase: resources
+    info:
+      path: App/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+    settings:
+      base:
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: NO
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        PRODUCT_BUNDLE_IDENTIFIER: org.local.greenfarm.ManicTest
+        TARGETED_DEVICE_FAMILY: "1"
+  TouchTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: Farm
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: Farm
+        PRODUCT_BUNDLE_IDENTIFIER: org.local.greenfarm.TouchTests
+schemes:
+  Farm:
+    build:
+      targets:
+        Farm: all
+        TouchTests: [test]
+    test:
+      targets: [TouchTests]

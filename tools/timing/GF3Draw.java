@@ -55,7 +55,9 @@ final class GF3Draw {
     static final class Frame {
         Command[] ops=new Command[128];
         int size, width,height,groundEnd,worldEnd,tileWidth,tileHeight,tileX,tileY,cacheLeft,cacheTop;
-        Image tileImage;
+        Image tileImage, tileSnapshot;
+        Graphics tileGraphics;
+        boolean terrainRead;
         int[] mapState;
         int worldX,worldY;
         int[] terrain;
@@ -68,7 +70,7 @@ final class GF3Draw {
                 ops[i].priorWithSameImage=null;
             }
             size=0;
-            groundEnd=worldEnd=0;tileImage=null;mapState=null;
+            groundEnd=worldEnd=0;tileImage=null;mapState=null;terrainRead=false;
         }
         Command add() {
             if(size==ops.length) {
@@ -136,8 +138,11 @@ final class GF3Draw {
         }
         if(area!=w*h) return;
         current.tileImage=(Image)base.source;
-        if(current.terrain==null || current.terrain.length!=tw*th) current.terrain=new int[tw*th];
-        current.tileImage.getRGB(current.terrain,0,tw,0,0,tw,th);
+        if(current.tileSnapshot==null || current.tileWidth!=tw || current.tileHeight!=th) {
+            current.tileSnapshot=Image.createImage(tw,th);
+            current.tileGraphics=current.tileSnapshot.getGraphics();
+        }
+        current.tileGraphics.drawImage(current.tileImage,0,0,Graphics.TOP|Graphics.LEFT);
         current.tileWidth=tw;current.tileHeight=th;
         current.tileX=wrap(-base.x,tw);current.tileY=wrap(-base.y,th);
         current.cacheLeft=cacheLeft;current.cacheTop=cacheTop;
@@ -150,9 +155,7 @@ final class GF3Draw {
     private static int difference(int curr,int prev,int period) {
         return wrap(curr-prev+period/2,period)-period/2;
     }
-    // Read just the visible pieces of the same circular terrain image that
-    // native k divides into up to four clips. An opaque RGB copy avoids
-    // blending a full-size image in the emulator for each wrapped piece.
+    // Keep both native poses resident so a wrapped seam can use the old edge.
     private static void groundRect(Graphics g,Frame f,int phaseX,int phaseY,int left,int top,int right,int bottom) {
         for(int y=top;y<bottom;) {
             int sy=wrap(phaseY+y,f.tileHeight);
@@ -160,17 +163,25 @@ final class GF3Draw {
             for(int x=left;x<right;) {
                 int sx=wrap(phaseX+x,f.tileWidth);
                 int cols=Math.min(right-x,f.tileWidth-sx);
-                g.drawRGB(f.terrain,sy*f.tileWidth+sx,f.tileWidth,x,y,cols,rows,false);
+                g.drawRegion(f.tileSnapshot,sx,sy,cols,rows,0,x,y,Graphics.TOP|Graphics.LEFT);
                 x+=cols;
             }
             y+=rows;
         }
     }
     private static int cameraDx,cameraDy,stableSkyStart;
+    private static void readTerrain(Frame f) {
+        if(f.terrainRead)return;
+        int n=f.tileWidth*f.tileHeight;
+        if(f.terrain==null || f.terrain.length!=n)f.terrain=new int[n];
+        f.tileSnapshot.getRGB(f.terrain,0,f.tileWidth,0,0,f.tileWidth,f.tileHeight);
+        f.terrainRead=true;
+    }
     private static boolean sameSky(int start) {
         // The sky actor never scrolls sideways. Protect any foreground
         // scenery in this band by requiring identical native LCD strips.
         Frame c=current,p=previous;
+        readTerrain(c);readTerrain(p);
         for(int y=0;y<c.height;y++) {
             int row=wrap(c.tileY+y,c.tileHeight)*c.tileWidth;
             int old=wrap(p.tileY+y,p.tileHeight)*p.tileWidth;
@@ -234,14 +245,14 @@ final class GF3Draw {
         if(stableSkyStart<w) groundRect(g,current,current.tileX,current.tileY,stableSkyStart,0,w,h);
     }
     private static Command record(Graphics g,int type,Object key,int x,int y,int w,int h,int a,int b,int sx,int sy) {
-        beforeWrite(g);
-        if(g!=target || !valid) return null;
+        if(g!=target) {beforeWrite(g);return null;}
+        if(!valid) return null;
         if(current.size==MAX_COMMANDS) {valid=false; return null;}
         Command c=current.add();
         c.type=type;c.key=key;c.source=key;c.x=x;c.y=y;c.w=w;c.h=h;c.a=a;c.b=b;c.sx=sx;c.sy=sy;
         c.dx=0;c.dy=0;c.clipDx=0;c.clipDy=0;c.used=false;
         c.cx=g.getClipX(); c.cy=g.getClipY(); c.cw=g.getClipWidth(); c.ch=g.getClipHeight();
-        c.color=g.getColor(); c.font=type==TEXT ? g.getFont() : null;
+        c.color=type>=TEXT?g.getColor():0; c.font=type==TEXT ? g.getFont() : null;
         return c;
     }
     private static boolean reserve(int n) {
@@ -252,7 +263,8 @@ final class GF3Draw {
         if(c!=null && src.isMutable()) sources.put(src,src);
     }
     static void drawImage(Graphics g,Image src,int x,int y,int anchor) {
-        image(record(g,IMAGE,src,x,y,src.getWidth(),src.getHeight(),anchor,0,0,0),src);
+        if(g==target && valid)image(record(g,IMAGE,src,x,y,src.getWidth(),src.getHeight(),anchor,0,0,0),src);
+        else beforeWrite(g);
         g.drawImage(src,x,y,anchor);
     }
     static void drawRegion(Graphics g,Image src,int sx,int sy,int w,int h,int transform,int x,int y,int anchor) {
@@ -285,8 +297,8 @@ final class GF3Draw {
     static int match() {
         cameraDx=cameraDy=0;stableSkyStart=current.width;
         if(!valid || !previous.complete) return 0;
-        if(current.mapState!=null && previous.mapState!=null &&
-           (current.mapState!=previous.mapState || current.tileImage!=previous.tileImage ||
+        if(current.mapState!=previous.mapState || current.mapState!=null &&
+           (current.tileImage!=previous.tileImage ||
             Math.abs(current.worldX-previous.worldX)>32 || Math.abs(current.worldY-previous.worldY)>32))
             return 0;
         if(current.tileImage!=null && current.tileImage==previous.tileImage) {
@@ -339,9 +351,14 @@ final class GF3Draw {
             if(!groundCovered(remaining,period)) remaining=0;
             drawGround(g,remaining,period);
         }
+        int lastClipX=-1,lastClipY=-1,lastClipW=-1,lastClipH=-1;
         for(int i=current.groundEnd;i<current.size;i++) {
             Command c=current.ops[i];
-            g.setClip(c.cx+c.clipDx*remaining/period,c.cy+c.clipDy*remaining/period,c.cw,c.ch);
+            int clipX=c.cx+c.clipDx*remaining/period,clipY=c.cy+c.clipDy*remaining/period;
+            if(clipX!=lastClipX || clipY!=lastClipY || c.cw!=lastClipW || c.ch!=lastClipH) {
+                g.setClip(clipX,clipY,c.cw,c.ch);
+                lastClipX=clipX;lastClipY=clipY;lastClipW=c.cw;lastClipH=c.ch;
+            }
             int x=c.x + c.dx*remaining/period, y=c.y + c.dy*remaining/period;
             switch(c.type) {
             case IMAGE:g.drawImage((Image)c.source,x,y,c.a);break;

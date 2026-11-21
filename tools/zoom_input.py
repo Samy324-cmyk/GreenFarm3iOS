@@ -76,6 +76,7 @@ def build_zoom(classes,apk,api):
     name='META-INF/MANIFEST.MF'
     manifest=classes[name].decode('utf8').splitlines()
     manifest=[line for line in manifest if line]
+    manifest.append('MIDlet-ScreenSize: 480x800')
     manifest.append('Nokia-UI-Enhancement: EnableMultiPointTouchEvents')
     result[name]=('\r\n'.join(manifest)+'\r\n\r\n').encode('utf8')
     return result

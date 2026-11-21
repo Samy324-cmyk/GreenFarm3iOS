@@ -21,6 +21,7 @@ final class HorizonProbe {
         Thread.sleep(500);
         capture(loader,50);
         scenes(loader,50);
+        SceneCacheProbe.edges(loader);
         System.out.println("HORIZON_OK");
     }
     /** Capture three complete playable farms through the normal Canvas paint call. */

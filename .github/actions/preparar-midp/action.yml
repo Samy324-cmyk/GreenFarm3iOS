@@ -1,0 +1,27 @@
+name: Preparar Java ME
+description: Seleccionar los insumos del juego e instalar el emulador y los decodificadores
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        set -euo pipefail
+        test -x "$JAVA_HOME_21_X64/bin/java"
+        echo "JAVA_HOME=$JAVA_HOME_21_X64" >> "$GITHUB_ENV"
+        echo "$JAVA_HOME_21_X64/bin" >> "$GITHUB_PATH"
+        if ! command -v ffmpeg > /dev/null || ! dpkg-query -W -f='${Status}' libsndfile1 | grep -q 'install ok installed'; then
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libsndfile1 ffmpeg
+        fi
+        jar=green_farm_3_480x800_192541.jar
+        apk=com.gameloft.android.ANMP.GloftGF2F_4.4.4.apk
+        [[ -f "inputs/$jar" ]] && jar="inputs/$jar"
+        [[ -f "inputs/$apk" ]] && apk="inputs/$apk"
+        if [[ ! -f "$apk" && -f assets/provenance/original.apk ]]; then
+          apk=assets/provenance/original.apk
+        fi
+        test -f "$jar" && test -f "$apk"
+        echo "SOURCE_JAR=$jar" >> "$GITHUB_ENV"
+        echo "SOURCE_APK=$apk" >> "$GITHUB_ENV"
+        api=$(python3 tests/emulator/bench.py --prepare)
+        echo "MIDP_API=$api" >> "$GITHUB_ENV"

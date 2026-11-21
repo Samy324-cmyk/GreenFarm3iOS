@@ -12,18 +12,37 @@ from tools.timing.classfile import ClassFile, code_parts, convert_helper, pack_c
 def patch_farm_audio(game_data,sound_data):
     game=ClassFile(game_data)
     sound=ClassFile(sound_data)
-    # Channel 0 keeps the effects queue. k creates its per-channel players,
-    # native fade controls, command buffers and pause/resume state from m.
-    patch_code(sound,'<clinit>','()V',[(5,b'\x04',b'\x06')])
+    # k sizes the MMAPI players, command buffers and fade tables from m.
+    for _,name,_,attributes in sound.methods:
+        if sound.string(name)=='<clinit>':
+            for index,(tag,body) in enumerate(attributes):
+                if sound.string(tag)=='Code':
+                    header,code,ex,extras=code_parts(body)
+                    if code[5:9]!=bytes.fromhex('04b3006c') or ex!=u2(0) or extras:
+                        raise ValueError('Unknown sound channel initialization')
+                    attributes[index]=tag,pack_code(header,code[:5]+b'\x10\x08'+code[6:],ex,extras)
     # k.c(IIIII) must check the actual MMAPI state before touching volume,
     # media time or playback. A silent provider can accept prefetch as a no-op.
     check=u2(sound.ref('GF3AudioDevice','ready','(ILjavax/microedition/media/Player;)Z'))
     previous=bytes.fromhex('b2005b1a2e04a0000bb2004b1a32c70004b1')
     ready=bytes.fromhex('b2005b1a2eb2004b1a32b8')+check+bytes.fromhex('9a000500b1')
-    patch_code(sound,'c','(IIIII)V',[(20,previous,ready)])
+    # Supply the actual decoded WAV to the clock at the MMAPI start call.
+    start=u2(sound.ref('GF3AudioDevice','start','(ILjavax/microedition/media/Player;[BI)V'))
+    old_start=bytes.fromhex('b2004b1a3209b900e2030058b2004b1a32b900e30100')
+    new_start=bytes.fromhex('1ab2004b1a32b2004d1b321db8')+start
+    patch_code(sound,'c','(IIIII)V',[(20,previous,ready),(101,old_start,new_start)])
+    expose(sound,sound.methods,{('g','()V')})
+    patch_code(sound,'run','()V',[(6,b'\xb8'+u2(sound.ref('k','g','()V')),
+                                  b'\xb8'+u2(sound.ref('GF3AudioDevice','update','()V')))])
+    patch_code(sound,'a','(I)J',[(19,bytes.fromhex('b900dd0100'),
+                         b'\xb8'+u2(sound.ref('GF3AudioDevice','time','(Ljavax/microedition/media/Player;)J')))])
     expose(game,game.fields,{('R','Z'),('T','Z'),('S','Z'),('V','Z'),('at','I'),('C','I'),
-                             ('e','J'),('c','Z')})
+                             ('e','J'),('c','Z'),('aw','I'),('W','Z')})
     expose(game,game.methods,{('l','(I)Z')})
+    # The credits screen calls the private single-channel dispatcher
+    # directly, bypassing the public sound-effect entry point.
+    credit=bytes.fromhex('03102203b8')+u2(game.ref('a','c','(IIZ)V'))
+    patch_code(game,'y','(I)Z',[(31,credit,b'\x10\x22\xb8'+u2(game.ref('a','c','(I)V')))])
     # Android's music toggle confirms by playing original track 11.
     for _,n,desc,atts in game.methods:
         if game.string(n)=='dT' and game.string(desc)=='()V':
@@ -34,7 +53,8 @@ def patch_farm_audio(game_data,sound_data):
                 if raw.count(pattern)!=1: raise ValueError('Unknown music toggle')
                 music_on=b'\x10\x0b\xb8'+u2(game.ref('GF3FarmAudio','original','(I)V'))
                 atts[idx]=tag,pack_code(head,raw.replace(pattern,music_on),ex,more)
-    routes={('fE','()V'):('stop',b''),('fF','()V'):('update',b''),('c','(IZ)V'):('music',b'\x1a\x1b')}
+    routes={('fE','()V'):('stop',b''),('fF','()V'):('update',b''),('c','(IZ)V'):('music',b'\x1a\x1b'),
+            ('c','(I)V'):('effect',b'\x1a'),('d','(I)V'):('effect',b'\x1a')}
     for index,(access,n,desc,attrs) in enumerate(list(game.methods)):
         name,signature=game.string(n),game.string(desc)
         if (name,signature) not in routes: continue
@@ -49,11 +69,11 @@ def patch_farm_audio(game_data,sound_data):
     with tempfile.TemporaryDirectory() as tmp:
         folder=Path(tmp)
         stub=folder/'a.java'
-        stub.write_text('''class a {static boolean R,T,S,V,intro;static int at,C; static long lastEffect;static int[][] d;
+        stub.write_text('''class a {static boolean R,T,S,V,W,intro;static int at,C,aw; static long lastEffect;static int[][] d;
             static void e(int id,int flags){} static boolean loadSound(int id){return false;}
             static void c(int cue){} static void gf3StopSound(){}}
             class k {static boolean loaded(int cue){return false;} static boolean playing(int ch){return false;}
-            static void a(int ch,int cue,int loops,int volume,int priority){} static void a(int ch,boolean stop){}}
+            static void tick(){} static void a(int ch,int cue,int loops,int volume,int priority){} static void a(int ch,boolean stop){}}
             class GF3AnimalMarket {static int alternate(int id){return 0;}}
             class g {static String packName;static void open(String name){}static int c(int lo,int hi){return 0;}}''',encoding='ascii')
         slots={src:dst for dst,src in (MUSIC|EFFECTS|GAMEPLAY_SOUNDS|ANIMAL_SOUNDS|ORIGINAL_EMPTY_SLOTS).items()}
@@ -63,7 +83,8 @@ def patch_farm_audio(game_data,sound_data):
                        ','.join(str(slots[i]) for i in range(82))+'};}',encoding='ascii')
         api=folder/'javax/microedition/media/Player.java'
         api.parent.mkdir(parents=True)
-        api.write_text('package javax.microedition.media; public interface Player {int REALIZED=200; int getState();}',encoding='ascii')
+        api.write_text('package javax.microedition.media; public interface Player {int REALIZED=200,STARTED=400;'
+                       'int getState(); long getMediaTime(); long setMediaTime(long time); void start(); void stop();}',encoding='ascii')
         device=source.with_name('GF3AudioDevice.java')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',tmp,
                         str(stub),str(ids),str(source),str(api),str(device)],check=True)
@@ -71,6 +92,8 @@ def patch_farm_audio(game_data,sound_data):
         for alias,actual in (('loaded','a'),('playing','b'),('loadSound','l'),('intro','c'),
                              ('lastEffect','e'),('packName','c'),('open','c')):
             cf.pool[cf.utf(alias)]=cf.pool[cf.utf(actual)]
+        device_class=ClassFile((folder/'GF3AudioDevice.class').read_bytes())
+        device_class.pool[device_class.utf('tick')]=device_class.pool[device_class.utf('g')]
         return {'a.class':game.bytes(),'k.class':sound.bytes(),'GF3FarmAudio.class':convert_helper(cf.bytes()),
                 'GF3AudioIds.class':convert_helper((folder/'GF3AudioIds.class').read_bytes()),
-                'GF3AudioDevice.class':convert_helper((folder/'GF3AudioDevice.class').read_bytes())}
+                'GF3AudioDevice.class':convert_helper(device_class.bytes())}

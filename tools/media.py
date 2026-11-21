@@ -283,6 +283,43 @@ class VorbisReader:
         return output.getvalue(), info.frames
 
 
+def mp4_boxes(data):
+    offset = 0
+    while offset < len(data):
+        if len(data) - offset < 8:
+            raise ValueError("Incomplete MP4 box header")
+        size, kind = struct.unpack_from(">I4s", data, offset)
+        if size < 8 or offset + size > len(data):
+            raise ValueError("Invalid MP4 box size")
+        yield kind, data[offset + 8:offset + size]
+        offset += size
+
+
+def aac_presentation(source):
+    movie = dict(mp4_boxes(dict(mp4_boxes(source))[b"moov"]))
+    track = dict(mp4_boxes(movie[b"trak"]))
+    header = dict(mp4_boxes(track[b"mdia"]))[b"mdhd"]
+    if header[0] != 0:
+        raise ValueError("Unsupported AAC media header version")
+    timescale, duration = struct.unpack_from(">II", header, 12)
+    metadata = dict(mp4_boxes(movie[b"udta"]))[b"meta"]
+    entries = dict(mp4_boxes(metadata[4:]))[b"ilst"]
+    for kind, entry in mp4_boxes(entries):
+        if kind != b"----":
+            continue
+        fields = dict(mp4_boxes(entry))
+        if fields.get(b"mean", b"")[4:] != b"com.apple.iTunes" or fields.get(b"name", b"")[4:] != b"iTunSMPB":
+            continue
+        value = fields[b"data"]
+        if value[:8] != struct.pack(">II", 1, 0):
+            raise ValueError("Unsupported iTunSMPB encoding")
+        lead, tail, content = (int(word, 16) for word in value[8:].split()[1:4])
+        if timescale <= 0 or content <= 0 or lead + tail + content != duration:
+            raise ValueError("AAC presentation disagrees with MP4 track duration")
+        return timescale, duration, lead, content
+    raise ValueError("The original AAC presentation window is missing")
+
+
 def aac_wav(source, scratch, decoder):
     executable = os.environ.get("GF3_FFMPEG") or shutil.which("ffmpeg")
     if not executable and decoder:
@@ -298,13 +335,29 @@ def aac_wav(source, scratch, decoder):
     stream = scratch.with_suffix(".m4a")
     wav = scratch.with_suffix(".wav")
     stream.write_bytes(source)
-    subprocess.run([executable,"-v","error","-nostdin","-y","-i",str(stream),
-                    "-map","0:a:0","-c:a","pcm_s16le","-map_metadata","-1","-bitexact",str(wav)],check=True)
-    with wave.open(str(wav),"rb") as check:
-        if check.getsampwidth()!=2 or check.getnchannels() not in (1,2) or check.getnframes()<=0:
+    timescale, duration, lead, content = aac_presentation(source)
+    # HE-AAC doubles the decoded sample rate. FFmpeg releases disagree about
+    # which clock applies to gapless metadata, so request all coded frames.
+    subprocess.run([executable, "-v", "error", "-nostdin", "-y", "-flags2", "+skip_manual",
+                    "-i", str(stream), "-map", "0:a:0", "-c:a", "pcm_s16le", "-map_metadata",
+                    "-1", "-bitexact", str(wav)], check=True)
+    with wave.open(str(wav), "rb") as decoded:
+        rate, channels = decoded.getframerate(), decoded.getnchannels()
+        if decoded.getsampwidth() != 2 or channels not in (1, 2):
             raise ValueError("Unsupported AAC output format")
-        frames = check.getnframes()
-    return wav.read_bytes(),frames
+        scale, remainder = divmod(rate, timescale)
+        if remainder or not scale or decoded.getnframes() != duration * scale:
+            raise ValueError("AAC decoder did not return the entire MP4 track")
+        frames = content * scale
+        decoded.setpos(lead * scale)
+        pcm = decoded.readframes(frames)
+        if len(pcm) != frames * channels * 2:
+            raise ValueError("Incomplete AAC presentation")
+    output = io.BytesIO()
+    with wave.open(output, "wb") as writer:
+        writer.setparams((channels, 2, rate, frames, "NONE", ""))
+        writer.writeframes(pcm)
+    return output.getvalue(), frames
 
 
 def build_audio(jar, apk, decoder):
