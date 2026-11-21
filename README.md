@@ -1,48 +1,62 @@
-# Green Farm 3 — port del original a Flutter / iOS
+# Green Farm 3 en Java ME
 
-Objetivo: conservar el juego suministrado en su versión Android 4.4.4 y producir un IPA sin firma mediante GitHub Actions, para firmarlo después.
+Port de la campaña sin conexión de Green Farm 3 4.4.4 para Java ME táctil en español de México. Una partida nueva empieza en la carta de la herencia y se guarda localmente con RMS. El juego requiere MIDP 2.0 y CLDC 1.1.
 
-**Estado: port en desarrollo. Todavía no se ha verificado un juego completo y jugable en iOS.** Se conservan los recursos originales y las instrucciones de las clases seleccionadas del APK. La integración de plataforma, los flujos completos del juego y la fidelidad visual requieren verificación. Las pruebas de módulos no equivalen a una comprobación 1:1 del juego completo.
+La campaña incluye las 304 misiones del diario, 50 niveles y las nueve habitaciones de la mansión. Puedes cultivar, criar animales, cocinar las 104 recetas, pescar y visitar las granjas de los vecinos de la historia. Las compras con dinero real y las visitas a cuentas de otros jugadores necesitan los servicios de Gameloft en la edición Android.
 
-## Código original reproducible
+## Compilar
 
-`game_source/program.json.gz` contiene exactamente los bytes del IR extraído de `classes.dex` y `classes2.dex`: 511 clases seleccionadas del juego y sus entradas Android, 6.973 métodos declarados y 6.893 cuerpos de método. También conserva el catálogo de tipos disponibles del APK. `game_source/provenance.json` registra las sumas SHA-256 del APK, del IR y del gzip, sus tamaños y recuentos. Incluye las clases seleccionadas por `tool/dex_ir.py`; no pretende contener los cuerpos de todas las clases Android y de SDK publicitarios del APK.
+Desde la rama `j2me`, abre la ejecución de **Compilar y probar Green Farm 3 en Java ME** en GitHub Actions. El artefacto `GreenFarm3-MX` seguido del número de ejecución contiene el juego y su descriptor de instalación. Para compilar en tu equipo, el script utiliza los dos archivos del repositorio y verifica sus huellas SHA-256 antes de leerlos.
 
-`tool/prepare_original.py` verifica primero los archivos y recuentos, después utiliza `tool/dex_to_dart.py` para generar métodos Dart estáticos en `lib/generated/`. Ese directorio se regenera y está excluido de Git. Flutter compila el Dart generado; el APK no se ejecuta durante la preparación ni se instala dentro de la app iOS.
+| Archivo | SHA-256 |
+| --- | --- |
+| `inputs/green_farm_3_480x800_192541.jar` | `e4e8634fe47986211da9646c04b88b0bb9cc6917bada5c10fca567909a779617` |
+| `assets/provenance/original.apk` | `3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d` |
 
-Con Flutter **3.47.8** y Python 3:
-
-```sh
-python3 tool/prepare_original.py
-flutter pub get --enforce-lockfile
-flutter analyze --no-fatal-infos --no-fatal-warnings
-flutter test --reporter expanded
-```
-
-La generación puede comprobarse sin reescribir Dart con `python3 tool/prepare_original.py --verify-only`. El compilador de fuente y los puentes de compatibilidad se versionan junto al IR para que cada commit identifique los insumos de la compilación.
-
-## GitHub Actions
-
-**Verify original-game source port** se ejecuta con los cambios de código. Comprueba la preparación, genera las fuentes, analiza Dart y ejecuta las pruebas. Los errores del analizador fallan la ejecución; los avisos de lint del código generado permanecen visibles. Este workflow no produce un IPA.
-
-**Compile iOS native host (probe only)** compila el host Swift/C y AppDelegate en macOS con `tool/native_compile_probe.dart`. Esta entrada inicializa Flutter y no inicia el juego. Es una comprobación de compilación; no empaqueta ni publica un IPA.
-
-**Build unsigned iOS IPA** se ejecuta manualmente desde Actions. Requiere una entrada real `lib/main.dart`, el proyecto iOS, las fuentes y las pruebas. Si todavía falta la integración, falla con una explicación y no crea un IPA vacío. Cuando la compilación completa funcione, el artifact contendrá `GreenFarm-Flutter-unsigned.ipa` y su suma SHA-256. El IPA necesita una firma y un perfil válidos antes de instalarse en un dispositivo Apple.
-
-## Recursos y procedencia
-
-Los recursos suministrados se conservan en `assets/original/`. Los avisos y licencias de componentes de terceros están en `third_party/`; esos avisos no conceden una licencia sobre los recursos originales del juego.
-
-APK de origen, SHA-256: `3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d`.
-
-## Snapshot para sincronizar el repositorio
-
-`tool/repository_manifest.py` crea una copia verificable separada del proyecto activo, excluye cachés y compilaciones y registra SHA-256, SHA de blob Git, tamaños y modos. No conecta con GitHub ni publica cambios.
+En Ubuntu, instala un JDK 21, Python 3.10 o posterior, FFmpeg y libsndfile. Desde la raíz del proyecto ejecuta en Bash
 
 ```sh
-python3 tool/repository_manifest.py snapshot --source . --destination ../source-checkpoint
-python3 tool/repository_manifest.py verify --manifest ../source-checkpoint/manifest.json
-python3 tool/repository_manifest.py plan --manifest ../source-checkpoint/manifest.json --output ../source-checkpoint/upload-plan.json
+midp_api=$(python3 tests/emulator/bench.py --prepare)
+python3 build.py \
+  --jar inputs/green_farm_3_480x800_192541.jar \
+  --apk assets/provenance/original.apk \
+  --api "$midp_api" --decoder libsndfile.so.1 --out build
 ```
 
-Para reutilizar blobs existentes, `plan` acepta `--remote-tree` con la respuesta JSON completa del árbol remoto. La sincronización debe usar la copia revisada, después de probarla y verificar de nuevo su manifiesto.
+La preparación descarga FreeJ2ME-Plus 1.53 una vez y comprueba su huella. La compilación genera `build/GreenFarm3-MX.jar`, el descriptor de instalación `build/GreenFarm3-MX.jad` y `build/build.json` con la procedencia de los recursos. Conserva el JAR y el JAD en la misma carpeta para instalarlos en un equipo compatible.
+
+En una pantalla horizontal de 1280 × 720 o 1920 × 1080, el juego amplía la imagen original de 800 × 480 y centra la granja. Las pantallas verticales conservan la orientación del JAR táctil. El área visible y las coordenadas táctiles usan la misma escala.
+
+Para alternar entre 50 % y 100 % en FreeJ2ME, abre **Pausa → Opciones → Alejar** o **Acercar** y regresa a la granja. En equipos con eventos multitáctiles Nokia, junta o separa dos dedos sobre la granja para elegir también los aumentos intermedios.
+
+El MIDlet funciona sin cuenta y sin acceso a Internet. Conserva la resolución de los sprites del APK y las 82 grabaciones originales a 32 kHz. El icono de instalación es el original de 512 × 512.
+
+El instalador identifica la edición como 4.4.4. El nombre de la aplicación, el proveedor de la edición táctil y el formato anterior de RecordStore se conservan para poder reabrir las partidas del JAR 1.0.6.
+
+## Probar en el emulador
+
+Con Java 21 en el PATH, inicia la prueba desde una carpeta de salida nueva
+
+```sh
+python3 tests/emulator/bench.py build/GreenFarm3-MX.jar prueba-cosecha
+```
+
+La prueba inicia una partida, toca los controles de la carta y la cosecha, captura la pantalla y mide los cuadros presentados y los cambios visibles. El juego conserva los intervalos de la simulación original. El dibujo interpola desplazamientos entre actualizaciones con una meta de 60 cuadros por segundo. En `prueba-cosecha/report.json` aparecen ambas mediciones y la huella del JAR probado.
+
+Para recorrer el tutorial sin conexión desde una partida vacía, ejecuta
+
+```sh
+python3 tests/introduction/check.py build/GreenFarm3-MX.jar "$midp_api" prueba-tutorial
+```
+
+El recorrido llega a la carta, cosecha el trigo, compra el becerro y vende tomates. Después cierra el juego y vuelve a abrir la partida en otro proceso. La prueba compara la mansión y la cerca de la primera cosecha con dos recortes dibujados por el motor Android del APK. Lee la captura ya guardada para que la medición no provoque un repintado. [Procedencia de los recortes](tests/introduction/art-reference/origin.json)
+
+La prueba del diario recorre las 304 misiones usando los eventos de progreso del motor y comprueba que al cobrar la última se active el desenlace. Los recorridos por pantalla cubren el tutorial y actividades específicas. Puedes consultar los dos resultados por separado en `campaign-check/run.log` y `tutorial-completo/report.json`, dentro del artefacto de pruebas.
+
+El workflow **Compilar y probar Green Farm 3 en Java ME** se inicia al subir cambios a la rama `j2me`. También admite ejecución manual en GitHub Actions. Busca los originales en `inputs/` o en la raíz y admite el APK que ya contiene el repositorio en `assets/provenance/original.apk`. Guarda las capturas, los registros de las pruebas y los archivos de instalación. Las pruebas de niveles avanzados utilizan partidas de control y especifican cuándo preparan un requisito de misión.
+
+La prueba de carga compara 332,000 píxeles del logotipo, el fondo y el pie «© 2018 Gameloft.» con una captura del APK 4.4.4. La referencia se tomó antes del formulario de edad, en un emulador Android 7.0 de 800 × 480 sin conexión. La comparación admite una tolerancia de color por la pantalla de 16 bits de Android. La referencia muestra «Loading» en inglés. Para verificar «Cargando», la prueba comprueba los glifos de la fuente original del APK y exige que sus 2,296 píxeles opacos coincidan en color y posición en FreeJ2ME. [Captura de referencia](tests/loading/android-4.4.4.png)
+
+Los recorridos de mascotas y apicultura cubren la adopción, el adiestramiento, el zorro de Harold, las colmenas y la venta de caramelo de miel. [Pruebas de las siete misiones](tests/neighbor/README.md)
+
+En el mostrador, el emulador entrega un pedido y comprueba que un cliente descartado regresa en 30 minutos o por cuatro billetes. En el estanque, compra la Parcela tranquila, toca las ondas con las tres cañas y comprueba la entrega de premios y el tiempo de espera de la caña gratuita al reabrir la partida.

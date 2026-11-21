@@ -1,0 +1,12 @@
+waitglyph 428 742 25 30 f5f8fc 6ec9d62138e5d32f3c0f0d35cf7ea6dadb0656bf75ad33bd2d539a2f026c1cc0
+waitglyph 431 389 23 60 ffffff ce813741c93e25f11331c047cdcced92399261e82253ab6c9c0bcbfe69728802
+waitglyph 426 98 38 70 1979eb 30a9b0e57b3cced71e0b65df0d967c20a1643ca68e5352691d7563b0f5c4f979
+waitglyph 389 97 31 61 1979eb e510084e181d0e11f7377cbe1a7179e09085fdf8ccc8732b2abda5ebd49170c1
+assertfarm 3 4220 245
+shot 01-granja-restaurada
+measure
+wait 2000
+report
+close
+wait 350
+quit
