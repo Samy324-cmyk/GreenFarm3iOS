@@ -9,7 +9,7 @@ final class GF3MarketFront {
     private static boolean installing;
     // A local RMS record makes the lottery stable across shop visits and restarts.
     // The date key is based on the local civil day, not elapsed UTC hours (DST safe).
-    private static final String OFFER_SAVE="GF3-WEEKLY-1";
+    private static final String OFFER_SAVE="GF3-WEEKLY-2";
     private static int offerWeek=-1, offerCount, offerRedeemed;
     private static final int[] offerIds=new int[3], offerDiscount=new int[3], offerCoins=new int[3], offerBills=new int[3];
     private static boolean offersLoaded;
@@ -47,7 +47,7 @@ final class GF3MarketFront {
         if(count<2 || count>3)return;
         for(int i=0;i<count;i++){
             int p=12+16*i,id=getInt(data,p),discount=getInt(data,p+4),coins=getInt(data,p+8),bills=getInt(data,p+12);
-            if(id< -1 || id>=68 || discount<0 || discount>50 || coins<0 || bills<0 || bills>30)return;
+            if(id< -1 || id>=68 || discount<0 || discount>50 || coins<0 || bills<0 || bills>10)return;
             if(id==-1 && (coins<=0 || bills<3))return;
             if(id>=0 && (discount<15 || chosen(id,i,offerIds)))return;
             offerIds[i]=id;offerDiscount[i]=discount;offerCoins[i]=coins;offerBills[i]=bills;
@@ -99,7 +99,7 @@ final class GF3MarketFront {
         if(n<offerCount && n>0)cashSlot=offerCount-1;
         for(int i=0;i<offerCount;i++){
             if(i==cashSlot || n==0){
-                offerIds[i]=-1;offerDiscount[i]=0;offerBills[i]=10+5*rng.nextInt(5);
+                offerIds[i]=-1;offerDiscount[i]=0;offerBills[i]=3+rng.nextInt(8);
                 offerCoins[i]=offerBills[i]*(150+25*rng.nextInt(5));
             }else{
                 int pick=rng.nextInt(n);offerIds[i]=candidates[pick];candidates[pick]=candidates[--n];
@@ -135,55 +135,42 @@ final class GF3MarketFront {
         try {a.gf3MarketPopulate(0,TAG-1);}
         finally {registry.rows=original;registry.b=old;}
     }
-    private static void offerArt(){
-        for(int i=0;i<offerCount;i++){
-            int slot=i-a.ct;
-            if(slot<0 || slot>=6)continue;
-            int base=28+14*slot;
-            if(offerIds[i]<0){
-                // Native card, currency icon and price badge. No animal stats.
-                short[] icon=a.controls[GUI][base+2],price=a.controls[GUI][base+5];
-                icon[5]=price[5];icon[6]=114;icon[7]=0;icon[8]=0;icon[9]=0;
-                icon[10]=1;icon[19]=-1;icon[21]=0;icon[22]=0;
-                show(base+13,false,false);
-                for(int detail=6;detail<=11;detail++)show(base+detail,false,false);
-                if((offerRedeemed&(1<<i))!=0) {
-                    // Keep the card and its label visible, disable its hit target.
-                    show(base,true,false);
-                }
-            }
-        }
-    }
-    // The native updater can rewrite the preview after a scroll or selection.
-    // Apply the offer's own artwork immediately before each native draw.
+    // Do not write offer-specific frame, animation or cache indices into the
+    // native controls. Those very same objects are reused by all six tabs.
     static void drawControl(int gui,short[] control,int x,int y,int index) {
-        if(gui==GUI && tab==5 && a.a()==7 && a.controls!=null && a.controls[GUI]!=null) {
-            for(int local=0;local<6;local++) {
-                int i=local+a.ct,base=28+14*local;
-                if(i<0 || i>=offerCount || base+5>=a.controls[GUI].length || control!=a.controls[GUI][base+2])continue;
-                short[] icon=new short[control.length];
-                System.arraycopy(control,0,icon,0,control.length);
-                if(offerIds[i]<0) {
-                    short[] price=a.controls[GUI][base+5];
-                    icon[5]=price[5];icon[6]=114;icon[7]=0;icon[8]=0;icon[9]=0;
-                }
-                int sheet=icon[5],frame=icon[6];
-                e[] bank=sheet>=1000?a.worldAssets:a.assets;
-                int slot=sheet>=1000?sheet-1000:sheet;
-                if(bank!=null && slot>=0 && slot<bank.length && bank[slot]!=null && frame>=0) {
-                    e art=bank[slot];
-                    int w=art.d(frame),h=art.e(frame),largest=Math.max(w,h);
-                    if(w>0 && h>0) {
-                        int scale=Math.min(100,8800/largest);
-                        short[] card=a.controls[GUI][base];
-                        icon[2]=(short)(card[2]+85-(art.f(frame)+w/2)*scale/100);
-                        icon[3]=(short)(card[3]+105-(art.g(frame)+h/2)*scale/100);
-                        icon[10]=1;icon[19]=-1;icon[21]=0;icon[22]=88;
-                        a.gf3DrawControl(gui,icon,x,y,index);
-                        return;
+        if(gui==GUI && tab==5 && a.a()==7 && index>=28 && index<112 &&
+                a.controls!=null && a.controls[GUI]!=null) {
+            int local=(index-28)/14,part=(index-28)%14,i=local+a.ct;
+            if(i>=0 && i<offerCount && control[10]==1) {
+                if(offerIds[i]<0 && (part==8 || part==10 || part==13))return;
+                if(part==2) {
+                    // Use the known, loaded currency price sheet for bills.
+                    // Never pass a synthetic control to the renderer's image cache.
+                    boolean cash=offerIds[i]<0;
+                    short[] price=a.controls[GUI][28+14*local+5];
+                    int sheet=cash?price[5]:control[5];
+                    int frame=cash?114:control[6];
+                    e[] bank=sheet>=1000?a.worldAssets:a.assets;
+                    int slot=sheet>=1000?sheet-1000:sheet;
+                    if(bank!=null && slot>=0 && slot<bank.length && bank[slot]!=null && frame>=0) {
+                        e art=bank[slot];
+                        if(frame<art.frames()){
+                            int w=art.d(frame),h=art.e(frame),largest=Math.max(w,h);
+                            if(w>0 && h>0) {
+                                int scale=Math.min(100,8800/largest);
+                                int old=art.palette();
+                                try {
+                                    if(!cash && control[9]==1 && control[8]>=0 && control[8]<255)
+                                        art.setPalette(control[8]);
+                                    art.paintScaled(g.graphics,frame,control[2]-(art.f(frame)+w/2)*scale/100,
+                                        control[3]-(art.g(frame)+h/2)*scale/100,scale);
+                                } finally {art.setPalette(old);}
+                                return;
+                            }
+                        }
                     }
+                    if(cash)return;
                 }
-                break;
             }
         }
         a.gf3DrawControl(gui,control,x,y,index);
@@ -238,7 +225,6 @@ final class GF3MarketFront {
         show(PET_BUTTON,true,true);show(PET_ACTIVE,tab==4,false);show(PET_ICON,true,false);
         rows[125][15]=(short)(tab==5 && offerCount==0?1:0);
         show(126,false,false);
-        if(tab==5)offerArt();
         a.gf();a.H(GUI);
     }
 
@@ -284,7 +270,11 @@ final class GF3MarketFront {
     }
 
     private static void open(int index) {
+        // Select the native mode BEFORE populating. The population routine
+        // itself lays out and loads the previews using cw; an offers-mode
+        // value (4) must never leak into a regular category.
         tab=index;
+        a.cw=index==4?1:index==5?4:index;
         if(tab==0 || tab==1 || tab==4) categories(tab);
         else if(tab==2 || tab==3) selectShelf(tab==2?12:13);
         else {

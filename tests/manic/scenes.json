@@ -99,6 +99,96 @@
     "tab": 5
   },
   {
+    "name": "ofertas-a-cultivos",
+    "tap": [
+      336,
+      102
+    ],
+    "screen": 7,
+    "tab": 0
+  },
+  {
+    "name": "regreso-ofertas-cultivos",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-animales",
+    "tap": [
+      336,
+      218
+    ],
+    "screen": 7,
+    "tab": 1
+  },
+  {
+    "name": "regreso-ofertas-animales",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-edificios",
+    "tap": [
+      336,
+      334
+    ],
+    "screen": 7,
+    "tab": 2
+  },
+  {
+    "name": "regreso-ofertas-edificios",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-decoracion",
+    "tap": [
+      336,
+      450
+    ],
+    "screen": 7,
+    "tab": 3
+  },
+  {
+    "name": "regreso-ofertas-decoracion",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-mascotas",
+    "tap": [
+      336,
+      566
+    ],
+    "screen": 7,
+    "tab": 4
+  },
+  {
+    "name": "regreso-ofertas-mascotas",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
     "name": "cerrar-mercado",
     "tap": [
       428,

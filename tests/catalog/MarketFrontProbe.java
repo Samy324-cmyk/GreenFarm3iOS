@@ -178,6 +178,10 @@ final class MarketFrontProbe {
                     (Character)MarketProbe.field(game,null,"c",char.class)!=count ||
                     entries[125][15]!=0 || entries[126][10]!=0)
                 throw new AssertionError("Weekly offer tab="+integer(front,"tab")+" count="+count);
+            for(int id:new int[]{6,7,8,9,0,12,13}){
+                select(id);hit(rect(14));
+                if(integer(front,"tab")!=5)throw new AssertionError("Return to offers");
+            }
             System.out.println("SHOP_WEEKLY_OFFERS_OK");
         } else if(command.equals("buy")) {
             Class<?> toys=Class.forName("GF3DogToys",true,Mobile.getPlatform().loader);

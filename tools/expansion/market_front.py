@@ -80,8 +80,8 @@ def patch_marketfront(classes,apk,locale):
             raise ValueError(f'Non-contiguous original shelf {category}')
         items.append([row for _,row in ordered])
     cash_labels=[]
-    for amount in range(3,31):
-        name="Lote: "+str(amount)+" billetes"
+    for amount in range(3,11):
+        name=str(amount)+" billetes"
         if name not in groups[0]:groups[0].append(name)
         cash_labels.append(groups[0].index(name))
     if 'Agotado' not in groups[0]:groups[0].append('Agotado')
@@ -111,8 +111,7 @@ def patch_marketfront(classes,apk,locale):
     expose(game,game.methods,{('ad','(I)V'),('u','(I)V'),('af','(I)V'),('d','()I'),('e','()I'),('f','()I'),('g','(I)V'),('h','(I)V'),('c','(Z)V')})
     entry(game,'o','(I)Z','gf3MarketScreen','screen','(I)Z',b'\x1a','GF3MarketFront')
     _wrap(game,'r','(II)V','gf3MarketPopulate','populate',b'\x1a\x1b',2)
-    # Disable the legacy offers-only hard-coded 90% scale. The regular
-    # native renderer now fits each preview to the requested pixel bounds.
+    # Draw offer previews without modifying the shared native control array.
     _wrap(game,'a','(I[SIII)V','gf3DrawControl','drawControl',b'\x1a\x2b\x1c\x1d\x15\x04',5)
     _wrap(game,'I','(I)V','gf3MarketHit','hit',b'\x1a',1)
     with tempfile.TemporaryDirectory() as tmp:
@@ -134,11 +133,14 @@ def patch_marketfront(classes,apk,locale):
            static void gf3MarketHit(int i){} static void gf3DrawControl(int gui,short[] c,int x,int y,int i){}}
            class GF3HiveLimits {static int owned(){return 0;}static int capacity(){return 0;}}
            class h {static h[] tables;int[][] rows;int b;}
-           class e {void a(byte[] b,int offset){} int d(int frame){return 0;}int e(int frame){return 0;}int f(int frame){return 0;}int g(int frame){return 0;}} class g {static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
+           class e {void a(byte[] b,int offset){} int d(int frame){return 0;}int e(int frame){return 0;}int f(int frame){return 0;}int g(int frame){return 0;} int frames(){return 0;} int palette(){return 0;} void setPalette(int n){} void paintScaled(javax.microedition.lcdui.Graphics g,int f,int x,int y,int z){} } class g {static javax.microedition.lcdui.Graphics graphics;static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
+        graphics=folder/'javax/microedition/lcdui/Graphics.java'
+        graphics.parent.mkdir(parents=True)
+        graphics.write_text('package javax.microedition.lcdui; public class Graphics {}',encoding='ascii')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',str(folder),str(data),
-                        str(stub),str(src)],check=True)
+                        str(stub),str(src),str(graphics)],check=True)
         helper=ClassFile((folder/'GF3MarketFront.class').read_bytes())
-        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','worldAssets':'b','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
+        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','worldAssets':'b','frames':'a','palette':'f','setPalette':'d','paintScaled':'c','graphics':'a','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
             helper.pool[helper.utf(key)]=helper.pool[helper.utf(actual)]
         return {**limits,'a.class':game.bytes(),'6':pack(panels),'EN':write_groups(groups),
                 'GF3MarketFront.class':convert_helper(helper.bytes()),

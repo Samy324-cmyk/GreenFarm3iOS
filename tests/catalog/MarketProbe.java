@@ -65,14 +65,21 @@ final class MarketProbe {
             if(marketIds.length!=n || marketIds[0]!=64 || cash[0]!=113 || prices[1]!=450 ||
                 n==3 && marketIds[2]!=65)throw new AssertionError("Mixed weekly cards");
             short[][][] controls=(short[][][])field(game,null,"a",short[][][].class);
-            short[] icon=controls[2][44],price=controls[2][47];
-            if(icon[5]!=price[5] || icon[6]!=114 || icon[9]!=0)
-                throw new AssertionError("Currency card is not using the static wallet icon");
+            short[] icon=controls[2][44];
+            if(icon[9]!=1)throw new AssertionError("Offer changed native animal preview state");
+            short[] price=controls[2][47];
+            if(price[5]<0)throw new AssertionError("Currency sheet absent");
             method(offers,"saveOffers",void.class).invoke(null);
             loaded.setBoolean(null,false);count.setInt(null,0);
             method(offers,"loadOffers",void.class).invoke(null);
             if(count.getInt(null)!=n || ids[0]!=64 || ids[1]!=-1)
                 throw new AssertionError("Weekly record does not survive reload");
+            for(int tab=0;tab<5;tab++){
+                open.invoke(null,5);
+                open.invoke(null,tab);
+                if(variable(offers,"tab",int.class).getInt(null)!=tab)
+                    throw new AssertionError("Offers to tab "+tab);
+            }
         }
         System.out.println("WEEKLY_OK Saturday, 2/3 cards, currency art and RMS");
     }

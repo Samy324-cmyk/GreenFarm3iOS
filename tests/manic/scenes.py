@@ -49,7 +49,7 @@ async def run(jar, out, size, engine):
                 await page.wait_for_function("step => gf3Scenes.matches(step)", arg=step, timeout=30000)
                 await page.wait_for_timeout(650)
                 result = {"name": step["name"], **{k: step[k] for k in ("screen","tab","shelf","room") if k in step}}
-                if step["name"]=="ofertas":
+                if step["name"]=="ofertas" or step["name"].startswith("regreso-ofertas-"):
                     state=await page.evaluate("gf3Scenes.state()")
                     count=state.get("offerCount",0)
                     ids=state.get("offerIds",[])[:count]
