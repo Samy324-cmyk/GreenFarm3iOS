@@ -1,9 +1,155 @@
+import java.util.Calendar;
+import java.util.Random;
+
 /** Android's animal, pet, and field subcategories over the original MIDP purchase handlers. */
 final class GF3MarketFront {
     private static final int GUI=2, PET_BUTTON=122, PET_ACTIVE=123, PET_ICON=124, TAG=64;
     private static final int BACKGROUND_SHEET=171;
     private static int tab=-1, first=-1, shelf=-1;
     private static boolean installing;
+    // A local RMS record makes the lottery stable across shop visits and restarts.
+    // The date key is based on the local civil day, not elapsed UTC hours (DST safe).
+    private static final String OFFER_SAVE="GF3-WEEKLY-1";
+    private static int offerWeek=-1, offerCount, offerRedeemed;
+    private static final int[] offerIds=new int[3], offerDiscount=new int[3], offerCoins=new int[3], offerBills=new int[3];
+    private static boolean offersLoaded;
+
+    static int week(int year,int month,int day) {
+        int y=year-(month<=2?1:0);
+        int era=y/400, yoe=y-era*400;
+        int doy=(153*(month+(month>2?-3:9))+2)/5+day-1;
+        int days=era*146097+yoe*365+yoe/4-yoe/100+doy-719468;
+        return (days-2)/7; // 1970-01-03 was a Saturday.
+    }
+
+    private static int currentWeek() {
+        Calendar c=Calendar.getInstance();
+        return week(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DATE));
+    }
+
+    private static int getInt(byte[] b,int pos) {
+        return (b[pos]&255)|((b[pos+1]&255)<<8)|((b[pos+2]&255)<<16)|((b[pos+3]&255)<<24);
+    }
+    private static void putInt(byte[] b,int pos,int value) {
+        for(int i=0;i<4;i++)b[pos+i]=(byte)(value>>>(8*i));
+    }
+    private static void loadOffers() {
+        if(offersLoaded)return;
+        offersLoaded=true;
+        byte[] data=g.readOffer(OFFER_SAVE);
+        if(data==null || data.length!=60 || getInt(data,0)!=0x314f4647)return;
+        int count=data[8]&255;
+        if(count<2 || count>3)return;
+        for(int i=0;i<count;i++){
+            int p=12+16*i,id=getInt(data,p),discount=getInt(data,p+4),coins=getInt(data,p+8),bills=getInt(data,p+12);
+            if(id< -1 || id>=76 || discount<0 || discount>50 || coins<0 || bills<0 || bills>10)return;
+            if(id==-1 && (coins<=0 || bills<3))return;
+            offerIds[i]=id;offerDiscount[i]=discount;offerCoins[i]=coins;offerBills[i]=bills;
+        }
+        offerWeek=getInt(data,4);offerCount=count;
+        offerRedeemed=(data[11]&255)&7;
+    }
+    private static void saveOffers() {
+        byte[] data=new byte[60];
+        putInt(data,0,0x314f4647);putInt(data,4,offerWeek);putInt(data,8,offerCount);data[11]=(byte)offerRedeemed;
+        for(int i=0;i<offerCount;i++){
+            int p=12+16*i;
+            putInt(data,p,offerIds[i]);putInt(data,p+4,offerDiscount[i]);putInt(data,p+8,offerCoins[i]);putInt(data,p+12,offerBills[i]);
+        }
+        g.writeOffer(OFFER_SAVE,data);
+    }
+    private static boolean chosen(int id,int used,int[] ids) {
+        for(int i=0;i<used;i++)if(ids[i]==id)return true;
+        return false;
+    }
+    private static void ensureOffers() {
+        loadOffers();
+        int now=currentWeek();
+        // A device clock rollback must not repeatedly mint a new lottery.
+        if(offerWeek>=now && offerCount>=2)return;
+        int[] previous=new int[3];
+        System.arraycopy(offerIds,0,previous,0,offerCount);
+        int oldCount=offerCount;
+        Random rng=new Random(System.currentTimeMillis() ^ ((long)now<<27) ^ a.d());
+        offerCount=2+rng.nextInt(2);offerWeek=now;offerRedeemed=0;
+        int[][] rows=h.tables[0].rows;
+        int[] candidates=new int[rows.length];int n=0;
+        // Choose purchasable adults/calves, never mature variants, wild
+        // animals or unique dogs. Preserve the normal level requirements.
+        for(int i=0;i<rows.length;i++){
+            int[] row=rows[i];
+            if((row[5]>=0 || i==64 || i==65) && row[2]>=0 &&
+               (row[6]>0 || row[7]>0) && row[8]<=a.f() &&
+               (i<68) && !chosen(i,oldCount,previous))candidates[n++]=i;
+        }
+        if(n<offerCount)for(int i=0;i<rows.length;i++){
+            int[] row=rows[i];
+            if(i<68 && row[2]>=0 && (row[5]>=0 || i==64 || i==65) &&
+                (row[6]>0 || row[7]>0) && row[8]<=a.f() && !chosen(i,n,candidates))candidates[n++]=i;
+        }
+        // At least one animal; a second or third card can exchange farm
+        // coins for a limited bundle of bills, with no real-money purchase.
+        int cashSlot=rng.nextInt(2)==0?1+rng.nextInt(offerCount-1):-1;
+        if(n<offerCount && n>0)cashSlot=offerCount-1;
+        for(int i=0;i<offerCount;i++){
+            if(i==cashSlot || n==0){
+                offerIds[i]=-1;offerDiscount[i]=0;offerBills[i]=3+rng.nextInt(8);
+                offerCoins[i]=offerBills[i]*(150+25*rng.nextInt(5));
+            }else{
+                int pick=rng.nextInt(n);offerIds[i]=candidates[pick];candidates[pick]=candidates[--n];
+                offerDiscount[i]=15+5*rng.nextInt(8);offerCoins[i]=offerBills[i]=0;
+            }
+        }
+        saveOffers();
+    }
+
+    private static int discounted(int base,int percent) {
+        return base<=0?0:Math.max(1,(base*(100-percent)+99)/100);
+    }
+    private static void offers() {
+        ensureOffers();
+        h registry=h.tables[0];int[][] original=registry.rows;int old=registry.b;
+        int[][] selected=new int[offerCount][];
+        for(int i=0;i<offerCount;i++){
+            int id=offerIds[i];int[] source=original[id<0?1:id];
+            int[] row=new int[source.length];System.arraycopy(source,0,row,0,source.length);
+            row[5]=i;row[9]=TAG-1;
+            if(id<0){
+                row[2]=GF3MarketRows.cashLabels[offerBills[i]-3];row[3]=20;row[4]=13;
+                row[6]=offerCoins[i];row[7]=0;row[8]=0;row[32]=0;
+            }else{
+                row[6]=discounted(row[6],offerDiscount[i]);row[7]=discounted(row[7],offerDiscount[i]);
+            }
+            selected[i]=row;
+        }
+        registry.rows=selected;registry.b=selected.length;
+        try {a.gf3MarketPopulate(0,TAG-1);}
+        finally {registry.rows=original;registry.b=old;}
+    }
+    private static void offerArt(){
+        for(int i=0;i<offerCount;i++){
+            int base=28+14*i;
+            if(offerIds[i]<0){
+                // Native card, currency icon and price badge. No animal stats.
+                a.controls[GUI][base+2][9]=0;
+                show(base+13,false,false);
+                if((offerRedeemed&(1<<i))!=0)show(base,false,false);
+            }
+        }
+    }
+    private static boolean offerHit(int row){
+        if(row<28 || (row-28)%14!=0)return false;
+        int i=(row-28)/14+a.ct;
+        if(i<0 || i>=offerCount || offerIds[i]>=0)return false;
+        if((offerRedeemed&(1<<i))!=0 || a.d()<offerCoins[i] || a.e()>a.maxBills-offerBills[i]){
+            a.c(56);return true;
+        }
+        a.giveCoins(-offerCoins[i]);a.giveBills(offerBills[i]);
+        offerRedeemed|=1<<i;
+        a.saveFarm(true);saveOffers();a.c(49);
+        offers();nav();
+        return true;
+    }
 
     private static void show(int row,boolean visible,boolean hit) {
         short[] control=a.controls[GUI][row];control[10]=(short)(visible?1:0);
@@ -36,8 +182,9 @@ final class GF3MarketFront {
             }
         }
         show(PET_BUTTON,true,true);show(PET_ACTIVE,tab==4,false);show(PET_ICON,true,false);
-        rows[125][15]=(short)(tab==5?1:0);
-        show(126,tab==5,false);
+        rows[125][15]=0;
+        show(126,false,false);
+        if(tab==5)offerArt();
         a.gf();a.H(GUI);
     }
 
@@ -87,9 +234,7 @@ final class GF3MarketFront {
         if(tab==0 || tab==1 || tab==4) categories(tab);
         else if(tab==2 || tab==3) selectShelf(tab==2?12:13);
         else {
-            // Android only inserts a promotional animal when its timed
-            // offer has arrived. Four banked MIDP rows use category -1.
-            first=shelf=-1;a.gf3MarketPopulate(0,TAG-1);a.cv=-1;
+            first=shelf=-1;offers();
         }
         a.u(tab==4?1:tab==5?4:tab);
         nav();
@@ -126,7 +271,7 @@ final class GF3MarketFront {
         if(phase==1 && enabled()) {
             if(tab<0 && (a.cv==-1 || a.cu!=0)) open(a.cw==4?5:a.cw);
             else if(tab>=0) {
-                if(shelf>=0) selectShelf(shelf); else if(first>=0) categories(tab);
+                if(tab==5) offers(); else if(shelf>=0) selectShelf(shelf); else if(first>=0) categories(tab);
                 nav();
             }
         }
@@ -136,7 +281,7 @@ final class GF3MarketFront {
             int offset=rows[56][2]-rows[28][2];
             a.a(Integer.toString(GF3HiveLimits.owned())+"/"+GF3HiveLimits.capacity(),GUI,27,offset,20);
         }
-        if(phase==3 && tab==5)a.a(GF3MarketRows.empty,GUI,125,0,0);
+        if(phase==2 && tab==5 && currentWeek()>offerWeek){offers();nav();}
         if(phase==5) {
             tab=first=shelf=-1;
             if(a.assets.length>BACKGROUND_SHEET) a.assets[BACKGROUND_SHEET]=null;
@@ -161,6 +306,7 @@ final class GF3MarketFront {
                 finally {installing=false;}
                 return;
             }
+            if(tab==5 && offerHit(i))return;
             if(first>=0 && i>=28 && i<=98 && (i-28)%14==0) {
                 int id=first+a.ct+(i-28)/14;
                 if(id<(tab==0?12:tab==1?6:9)) {a.c(61);selectShelf(id);nav();}

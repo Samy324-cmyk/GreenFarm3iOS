@@ -306,45 +306,17 @@ final class GF3Draw {
             cameraDy=difference(current.tileY,previous.tileY,current.tileHeight);
             if(Math.abs(cameraDx)>32 || Math.abs(cameraDy)>32) cameraDx=cameraDy=0;
         }
+        // The Android scene's moving camera is the only reliable correspondence.
+        // Identical animation cels and repeating text/trees are NOT object IDs.
+        // Replaying them as if they were causes oscillation on stationary menus.
+        if(a.a()!=17 || current.tileImage==null || (cameraDx==0 && cameraDy==0))return 0;
         findStableSky();
-        previousParts.clear();
-        for(int i=previous.groundEnd;i<previous.size;i++) {
-            Command p=previous.ops[i];
-            if(p.type!=IMAGE && p.type!=REGION) continue;
-            p.priorWithSameImage=(Command)previousParts.put(p.key,p);
-            p.used=false;
-        }
-        int matched=cameraDx!=0 || cameraDy!=0 ? 1 : 0;
-        for(int i=current.groundEnd;i<current.size;i++) {
+        for(int i=current.groundEnd;i<current.worldEnd;i++){
             Command c=current.ops[i];
-            if(c.type!=IMAGE && c.type!=REGION) continue;
-            boolean world=i<current.worldEnd;
-            int expectedX=world?cameraDx:0,expectedY=world?cameraDy:0;
-            Command best=null;
-            int first=2049, second=2049;
-            for(Command p=(Command)previousParts.get(c.key);p!=null;p=p.priorWithSameImage) {
-                if(p.used || !samePart(c,p)) continue;
-                int dx=p.x-c.x,dy=p.y-c.y;
-                if(Math.abs(dx)>32 || Math.abs(dy)>32) continue;
-                if(p.cx!=c.cx && p.cx-c.cx!=dx || p.cy!=c.cy && p.cy-c.cy!=dy) continue;
-                int ex=dx-expectedX,ey=dy-expectedY;
-                int distance=ex*ex+ey*ey;
-                if(distance<first) { second=first; first=distance; best=p; }
-                else if(distance<second) second=distance;
-            }
-            // Repeated cels occur in crops and text. Only animate an unambiguous instance.
-            if(best==null || (first>0 && second-first<Math.max(4,first/2))) {
-                c.dx=expectedX;c.dy=expectedY;
-                continue;
-            }
-            best.used=true;
-            if(best.x==c.x && best.y==c.y) continue;
-            c.dx=best.x-c.x; c.dy=best.y-c.y;
-            c.clipDx=best.cx-c.cx; c.clipDy=best.cy-c.cy;
-            matched++;
+            if(c.type!=IMAGE && c.type!=REGION)continue;
+            c.dx=cameraDx;c.dy=cameraDy;
         }
-        previousParts.clear();
-        return matched;
+        return 1;
     }
     static void replay(Graphics g,int remaining,int period) {
         if(hasGround()) {

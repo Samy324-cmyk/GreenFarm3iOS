@@ -20,7 +20,7 @@ from tools.ground_art import ground_tiles, patch_horizon
 from tools.loading_screen import restore_loading_screen
 from tools.farm_hud_text import patch_farm_hud_text
 from tools.zoom_input import build_zoom
-from tools.farm_audio import patch_farm_audio
+from tools.farm_audio import patch_farm_audio, patch_audio_boot
 from tools.sprites import build_sprites
 from tools.sprite_runtime import patch_renderer
 from tools.offline import disconnect, verify_offline
@@ -174,6 +174,7 @@ def build(args):
             classes['GF3CatalogSave.class'] = catalog_save_helper()
             classes.update(patch_market(classes['a.class'], jar.read('k.class')))
             classes.update(patch_farm_audio(classes['a.class'],classes['k.class']))
+            classes['GloftGF2M.class']=patch_audio_boot(jar.read('GloftGF2M.class'))
             classes.update(patch_kitchen_queue(classes['a.class'], classes['GF3CatalogSave.class']))
             classes['a.class'] = patch_unlocks(patch_journal(classes['a.class']))
             classes.update(patch_hives(classes['a.class'], jar.read('f.class')))

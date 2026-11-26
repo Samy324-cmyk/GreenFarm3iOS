@@ -100,7 +100,7 @@ def build(source, output, api, javac="javac"):
         stub = temp / "g.java"
         stub.write_text("abstract class g extends javax.microedition.lcdui.Canvas {static boolean o; static int M;"
                         "public abstract void gf3OriginalPaint(javax.microedition.lcdui.Graphics graphics);}"
-                        "abstract class a extends g {void gf3PointerPressed(int x,int y){} "
+                        "abstract class a extends g {static int a(){return 0;}void gf3PointerPressed(int x,int y){} "
                         "void gf3PointerReleased(int x,int y){} void gf3PointerDragged(int x,int y){}} "
                         "class f {static void b(){}} class k {static int[][] a; static int[] p;"
                         "static void a(javax.microedition.lcdui.Graphics g,int x,int y,int layer){}}",

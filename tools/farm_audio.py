@@ -9,6 +9,18 @@ from tools.media import (MUSIC, EFFECTS, GAMEPLAY_SOUNDS, ANIMAL_SOUNDS, ORIGINA
 from tools.timing.classfile import ClassFile, code_parts, convert_helper, pack_code, u2
 
 
+def patch_audio_boot(data):
+    cf=ClassFile(data)
+    # Keep all of the original startApp's branches and stack maps intact.
+    for i,(flags,n,d,attributes) in enumerate(cf.methods):
+        if (cf.string(n),cf.string(d))==('startApp','()V'):
+            cf.methods[i]=(2,cf.utf('gf3StartApp'),d,attributes)
+            call=b'\xb8'+u2(cf.ref('GF3AudioDevice','prime','()V'))+b'\x2a\xb7'+u2(cf.ref('GloftGF2M','gf3StartApp','()V'))+b'\xb1'
+            cf.methods.append((flags,n,d,[(cf.utf('Code'),pack_code(u2(1)*2,call,u2(0),[]))]))
+            return cf.bytes()
+    raise ValueError('Missing MIDlet startup')
+
+
 def patch_farm_audio(game_data,sound_data):
     game=ClassFile(game_data)
     sound=ClassFile(sound_data)
@@ -38,7 +50,13 @@ def patch_farm_audio(game_data,sound_data):
     start=u2(sound.ref('GF3AudioDevice','start','(ILjavax/microedition/media/Player;[BI)V'))
     old_start=bytes.fromhex('b2004b1a3209b900e2030058b2004b1a32b900e30100')
     new_start=bytes.fromhex('1ab2004b1a32b2004d1b321db8')+start
-    patch_code(sound,'c','(IIIII)V',[(20,previous,ready),(101,old_start,new_start)])
+    # Some MMAPI providers expose no VolumeControl. Preserve the volume
+    # arithmetic, but do not let a missing control abort playback.
+    volume=u2(sound.ref('GF3AudioDevice','volume','(Ljavax/microedition/media/Player;I)V'))
+    patch_code(sound,'c','(IIIII)V',[(20,previous,ready),
+        (72,bytes.fromhex('1218b900da0200c00035'),b'\x00'*10),
+        (95,bytes.fromhex('b900e9020057'),b'\xb8'+volume),
+        (101,old_start,new_start)])
     expose(sound,sound.methods,{('g','()V')})
     patch_code(sound,'run','()V',[(6,b'\xb8'+u2(sound.ref('k','g','()V')),
                                   b'\xb8'+u2(sound.ref('GF3AudioDevice','update','()V')))])
@@ -92,10 +110,17 @@ def patch_farm_audio(game_data,sound_data):
         api=folder/'javax/microedition/media/Player.java'
         api.parent.mkdir(parents=True)
         api.write_text('package javax.microedition.media; public interface Player {int REALIZED=200,STARTED=400;'
-                       'int getState(); long getMediaTime(); long setMediaTime(long time); void start(); void stop();}',encoding='ascii')
+                       'int getState(); long getMediaTime(); long setMediaTime(long time); void start(); void stop(); void close(); void realize(); void prefetch(); Control getControl(String name);}',encoding='ascii')
+        control=api.with_name('Control.java')
+        control.write_text('package javax.microedition.media; public interface Control {}',encoding='ascii')
+        manager=api.with_name('Manager.java')
+        manager.write_text('package javax.microedition.media; public class Manager {public static Player createPlayer(java.io.InputStream in,String type){return null;}}',encoding='ascii')
+        volume_api=api.parent/'control/VolumeControl.java'
+        volume_api.parent.mkdir()
+        volume_api.write_text('package javax.microedition.media.control; public interface VolumeControl extends javax.microedition.media.Control {int setLevel(int n);}',encoding='ascii')
         device=source.with_name('GF3AudioDevice.java')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',tmp,
-                        str(stub),str(ids),str(source),str(api),str(device)],check=True)
+                        str(stub),str(ids),str(source),str(api),str(control),str(manager),str(volume_api),str(device)],check=True)
         cf=ClassFile((folder/'GF3FarmAudio.class').read_bytes())
         for alias,actual in (('loaded','a'),('playing','b'),('loadSound','l'),('intro','c'),
                              ('lastEffect','e')):

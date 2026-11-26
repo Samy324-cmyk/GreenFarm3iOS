@@ -79,6 +79,12 @@ def patch_marketfront(classes,apk,locale):
         if [i for i,_ in ordered]!=list(range(len(ordered))) or not ordered:
             raise ValueError(f'Non-contiguous original shelf {category}')
         items.append([row for _,row in ordered])
+    cash_labels=[]
+    for amount in range(3,11):
+        name=str(amount)+" billetes"
+        if name not in groups[0]:groups[0].append(name)
+        cash_labels.append(groups[0].index(name))
+    if len(groups[0])>1024:raise ValueError('No room for weekly offer labels')
     panels=entries(classes['6']); old=_controls(panels[2],False)
     mobile=_controls(entries(apk.read(prefix+'10'))[2],True)
     if len(old)!=122 or len(mobile)!=213:raise ValueError('Unexpected shop panel')
@@ -99,8 +105,8 @@ def patch_marketfront(classes,apk,locale):
     game=ClassFile(classes['a.class'])
     reserve_ui_sheets(game)
     limits=hive_limits(game,apk)
-    expose(game,game.fields,{('cu','I'),('cv','I'),('cw','I'),('ct','I')})
-    expose(game,game.methods,{('ad','(I)V'),('u','(I)V'),('af','(I)V')})
+    expose(game,game.fields,{('cu','I'),('cv','I'),('cw','I'),('ct','I'),('bR','I')})
+    expose(game,game.methods,{('ad','(I)V'),('u','(I)V'),('af','(I)V'),('d','()I'),('e','()I'),('f','()I'),('g','(I)V'),('h','(I)V'),('c','(Z)V')})
     entry(game,'o','(I)Z','gf3MarketScreen','screen','(I)Z',b'\x1a','GF3MarketFront')
     _wrap(game,'r','(II)V','gf3MarketPopulate','populate',b'\x1a\x1b',2)
     _wrap(game,'I','(I)V','gf3MarketHit','hit',b'\x1a',1)
@@ -109,11 +115,13 @@ def patch_marketfront(classes,apk,locale):
         data=folder/'GF3MarketRows.java'
         data.write_text('class GF3MarketRows {static String empty='+json.dumps(adapt(spanish[908]))+';'
             +'static int[][] cards='+arr(cards)+',items='+arr(items)+';'
-            +'static int[] kinds='+arr(shops)+',x='+arr([int.from_bytes(t[3:5],"little",signed=True) for t in nav])
+            +'static int[] cashLabels='+arr(cash_labels)+',kinds='+arr(shops)+',x='+arr([int.from_bytes(t[3:5],"little",signed=True) for t in nav])
             +',y='+arr([int.from_bytes(t[5:7],"little",signed=True) for t in nav])+',icons='+
             arr([t[9] for t in mobile[22:28]])+';}',encoding='ascii')
         stub=folder/'a.java'
-        stub.write_text('''class a {static int C,cu,cv,cw,ct;static short[][][] controls;static e[] assets;
+        stub.write_text('''class a {static int C,cu,cv,cw,ct,maxBills;static short[][][] controls;static e[] assets;
+           static int d(){return 0;}static int e(){return 0;}static int f(){return 0;}
+           static void giveCoins(int n){}static void giveBills(int n){}static void saveFarm(boolean force){}
            static boolean i(int row){return false;}static int a(){return 0;}static void c(int s){}
            static void a(String text,int gui,int row,int x,int y){}
            static void gf(){}static void H(int gui){}static void ad(int i){}static void af(int i){}static void u(int i){}
@@ -121,11 +129,11 @@ def patch_marketfront(classes,apk,locale):
            static void gf3MarketHit(int i){}}
            class GF3HiveLimits {static int owned(){return 0;}static int capacity(){return 0;}}
            class h {static h[] tables;int[][] rows;int b;}
-           class e {void a(byte[] b,int offset){}} class g {static void openAsset(String n){} static byte[] readChunk(int i){return null;}static void l(){}}''',encoding='ascii')
+           class e {void a(byte[] b,int offset){}} class g {static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',str(folder),str(data),
                         str(stub),str(src)],check=True)
         helper=ClassFile((folder/'GF3MarketFront.class').read_bytes())
-        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','openAsset':'c','readChunk':'a'}.items():
+        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
             helper.pool[helper.utf(key)]=helper.pool[helper.utf(actual)]
         return {**limits,'a.class':game.bytes(),'6':pack(panels),'EN':write_groups(groups),
                 'GF3MarketFront.class':convert_helper(helper.bytes()),

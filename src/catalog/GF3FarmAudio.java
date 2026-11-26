@@ -5,6 +5,9 @@ final class GF3FarmAudio {
     private static long musicStarted,ambientRequested;
     private static int next,previous=-1,effectChannel=FIRST_EFFECT;
     private static boolean ambient;
+    private static final int[] pending=new int[24];
+    private static int pendingHead,pendingCount;
+    private static final long[] reservedUntil=new long[8];
 
     private static void loadSlot(int cue) {
         if(!k.loaded(cue)) {
@@ -45,12 +48,28 @@ final class GF3FarmAudio {
         // Its master level comes from the saved setting, including on MMAPI
         // providers that cannot report the volume of a finished waveform.
         int slot=cue==a.aw ? GF3AnimalMarket.alternate(cue) : cue;
+        if(!playEffect(slot) && pendingCount<pending.length){
+            pending[(pendingHead+pendingCount)%pending.length]=slot;
+            pendingCount++;
+        }
+    }
+
+    private static boolean playEffect(int slot) {
+        long now=System.currentTimeMillis();
+        int channel=-1;
+        for(int i=0;i<=LAST_EFFECT-FIRST_EFFECT;i++){
+            int candidate=FIRST_EFFECT+(effectChannel-FIRST_EFFECT+i)%(LAST_EFFECT-FIRST_EFFECT+1);
+            if(now>=reservedUntil[candidate] && !k.playing(candidate)){channel=candidate;break;}
+        }
+        if(channel<0)return false;
         load(slot,-1);
-        if(!k.loaded(slot)) return;
+        if(!k.loaded(slot)) return true;
         a.aw=slot;
         a.lastEffect=System.currentTimeMillis();
-        k.a(effectChannel,slot,1,a.at,2);
-        effectChannel=effectChannel==LAST_EFFECT ? FIRST_EFFECT : effectChannel+1;
+        reservedUntil[channel]=now+200L;
+        k.a(channel,slot,1,a.at,2);
+        effectChannel=channel==LAST_EFFECT ? FIRST_EFFECT : channel+1;
+        return true;
     }
 
     static void music(int cue,boolean repeat) {
@@ -66,12 +85,18 @@ final class GF3FarmAudio {
                 for(int channel=MUSIC;channel<=LAST_EFFECT;channel++) k.a(channel,true);
             }
         }
+        pendingCount=pendingHead=0;
+        for(int i=0;i<reservedUntil.length;i++)reservedUntil[i]=0;
         ambient=false;
         musicStarted=0;
     }
 
     static void update() {
         if(!a.R) return;
+        if(!a.S){pendingCount=0;pendingHead=0;}
+        else while(pendingCount>0 && playEffect(pending[pendingHead])){
+            pendingHead=(pendingHead+1)%pending.length;pendingCount--;
+        }
         if(!a.intro && a.C!=-1) {
             music(13,false);
             a.intro=true;

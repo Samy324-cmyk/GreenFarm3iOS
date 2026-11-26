@@ -2,6 +2,9 @@ import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import javax.microedition.media.Player;
+import javax.microedition.media.Manager;
+import javax.microedition.media.control.VolumeControl;
+import java.io.ByteArrayInputStream;
 
 /** Track source duration on providers that leave completed WAV players started. */
 final class GF3AudioDevice {
@@ -49,6 +52,37 @@ final class GF3AudioDevice {
         }
     }
 
+    private static boolean primed;
+    /** Resolve MMAPI's reflective backend before loading the large game heap.
+     * Manic 2.0.2 has a 24-bit reflection-string address guard. A tiny original
+     * cue is realized (not played) at startup, not when a menu has allocated
+     * dozens of sprites. On a device without MMAPI, leave gameplay available.
+     */
+    static void prime() {
+        if(primed)return;
+        primed=true;
+        Player p=null;
+        try {
+            byte[] pcm=readSound("/3",138);
+            if(pcm!=null){
+                p=Manager.createPlayer(new ByteArrayInputStream(pcm),"audio/x-wav");
+                p.realize();
+                p.prefetch();
+            }
+        } catch(Exception unavailable) {
+            System.out.println("GF3 MMAPI warmup: "+unavailable);
+        } finally {
+            if(p!=null)try {p.close();}catch(Exception ignored){}
+        }
+    }
+
+    static void volume(Player p,int level) {
+        try {
+            VolumeControl volume=(VolumeControl)p.getControl("VolumeControl");
+            if(volume!=null)volume.setLevel(Math.max(0,Math.min(100,level)));
+        }catch(Exception unavailable){}
+    }
+
     static boolean ready(int channelState,Player player) {
         return channelState==1 && player!=null && player.getState()>=Player.REALIZED;
     }
@@ -63,7 +97,7 @@ final class GF3AudioDevice {
     }
 
     static void start(int channel,Player player,byte[] wav,int loops) throws Exception {
-        player.setMediaTime(0L);
+        try {player.setMediaTime(0L);}catch(Exception unsupported){}
         player.start();
         players[channel]=null;
         if(wav==null || wav.length<44 || littleInt(wav,0)!=0x46464952 ||
@@ -94,7 +128,7 @@ final class GF3AudioDevice {
                     missedEnd=true;
                 } else {
                     p.stop();
-                    p.setMediaTime(0L);
+                    try {p.setMediaTime(0L);}catch(Exception unsupported){}
                     p.start();
                     ends[i]=now+durations[i];
                 }
