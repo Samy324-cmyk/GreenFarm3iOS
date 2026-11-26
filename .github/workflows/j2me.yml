@@ -72,6 +72,10 @@ jobs:
           python3 tests/sprites/verify.py --apk "$SOURCE_APK" --jar build/GreenFarm3-MX.jar --api "$MIDP_API"
           python3 tests/sprites/verify_farm.py --reference "$SOURCE_JAR" --apk "$SOURCE_APK" --jar build/GreenFarm3-MX.jar --api "$MIDP_API"
 
+      - name: Abrir la rueda original, pagar un giro y verificar su premio
+        if: ${{ !cancelled() }}
+        run: python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" wheel-check --probe wheel --rms-from tests/emulator/fixtures/level3
+
       - name: Verificar caseta, juguetes, nombre y adiestramiento del perro
         if: ${{ !cancelled() }}
         run: |
@@ -225,6 +229,8 @@ jobs:
           path: |
             pantalla-carga/carga.png
             pantalla-carga/run.log
+            wheel-check/run.log
+            wheel-check/*.png
             doghouse-independent/run.log
             pet-name-independent/*/run.log
             pet-lesson-independent/*/run.log

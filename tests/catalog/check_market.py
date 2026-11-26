@@ -14,7 +14,7 @@ def main():
     p.add_argument('--rms-from',type=Path)
     p.add_argument('--java',default='java')
     p.add_argument('--javac',default='javac')
-    p.add_argument('--probe',choices=('market','acres','flock','campaign','zoom','horizon','scenery','motion','orders','orders-reload','pond','pond-reload','plane','pause','mill','mill-reload','edits','edits-reload'),default='market')
+    p.add_argument('--probe',choices=('market','acres','flock','campaign','zoom','horizon','scenery','motion','orders','orders-reload','pond','pond-reload','plane','pause','mill','mill-reload','edits','edits-reload','wheel'),default='market')
     p.add_argument('--deed',type=int,choices=(6,12),default=12)
     args = p.parse_args()
     root = args.profile.resolve()
@@ -33,7 +33,7 @@ def main():
     test=root/'TouchBench.java'
     probe = {'market':'MarketProbe','acres':'AcreProbe','flock':'FlockProbe','campaign':'CampaignProbe','zoom':'ZoomProbe','horizon':'HorizonProbe','scenery':'SceneCacheProbe','motion':'SceneMotionProbe',
              'orders':'OrderProbe','orders-reload':'OrderProbe','pond':'PondProbe','pond-reload':'PondProbe','plane':'PlaneProbe','pause':'PauseProbe',
-             'mill':'MillProbe','mill-reload':'MillProbe','edits':'FarmEditsProbe','edits-reload':'FarmEditsProbe'}[args.probe]
+             'mill':'MillProbe','mill-reload':'MillProbe','edits':'FarmEditsProbe','edits-reload':'FarmEditsProbe','wheel':'WheelProbe'}[args.probe]
     argument = f', {args.deed}' if args.probe == 'acres' else ''
     if probe=='OrderProbe':argument=', '+str(args.probe=='orders-reload').lower()
     if probe=='PondProbe':argument=', '+str(args.probe=='pond-reload').lower()

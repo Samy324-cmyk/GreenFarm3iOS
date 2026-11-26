@@ -106,7 +106,7 @@ final class GF3Wheel {
         for(int i=0;i<ANGLES.length;i++){
             screen.setColor(COLORS[i]);
             g.arc(screen,cx-142,cy-142,284,284,angle,ANGLES[i],true);
-            double r=(angle+ANGLES[i]/2)*Math.PI/180.0;
+            double r=(angle+ANGLES[i]/2)*3.141592653589793/180.0;
             int px=cx+(int)(90*Math.cos(r)),py=cy-(int)(90*Math.sin(r));
             int icon=COINS[i]>0?0:1;
             sheet.a(screen,icon,px-sheet.d(icon)/2,py-sheet.e(icon)/2,0);
@@ -123,7 +123,7 @@ final class GF3Wheel {
         int[] states=a.states;
         if(states==null || index<0 || index>=states.length || states[index]!=SCREEN)
             return a.gf3WheelPreviousScreen(phase,index);
-        if(phase==0)load();
+        if(phase==0){result=-1;rotation=0;load();}
         if(phase==1){enterCache();a.E(GUI);fill();}
         if(phase==2){
             update();
