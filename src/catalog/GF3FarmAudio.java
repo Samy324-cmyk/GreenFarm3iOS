@@ -14,15 +14,10 @@ final class GF3FarmAudio {
     }
     private static void load(int cue,int alternate) {
         if(k.loaded(cue) && (alternate<0 || k.loaded(alternate))) return;
-        String previous=g.packName;
-        try {
-            loadSlot(cue);
-            if(alternate>=0) loadSlot(alternate);
-        } finally {
-            // A deferred sound can be requested in the middle of a menu
-            // update. Give its sprites back the same indexed resource pack.
-            if(previous!=null && !previous.equals(g.packName)) g.open(previous);
-        }
+        // k now reads each recording from a private stream, so the active
+        // menu/terrain pack is never closed or rewound by an audio request.
+        loadSlot(cue);
+        if(alternate>=0) loadSlot(alternate);
     }
 
     private static void queue(int channel,int cue,boolean repeat) {

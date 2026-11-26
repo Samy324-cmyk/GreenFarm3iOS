@@ -13,7 +13,7 @@ import zipfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / "tools"))
-from media import unpack
+from media import read_audio_bank
 
 
 def main():
@@ -138,7 +138,7 @@ def main():
         raise RuntimeError("Capture sink or emulator failed. Inspect run.log.")
     hashes = {}
     with zipfile.ZipFile(game) as jar:
-        for index, cue in enumerate(unpack(jar.read("3"))):
+        for index, cue in enumerate(read_audio_bank(jar)):
             if cue[1:5] != b"RIFF":
                 continue
             with wave.open(io.BytesIO(cue[1:])) as wav:

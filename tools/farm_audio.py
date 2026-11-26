@@ -21,6 +21,14 @@ def patch_farm_audio(game_data,sound_data):
                     if code[5:9]!=bytes.fromhex('04b3006c') or ex!=u2(0) or extras:
                         raise ValueError('Unknown sound channel initialization')
                     attributes[index]=tag,pack_code(header,code[:5]+b'\x10\x08'+code[6:],ex,extras)
+    # k.a(String,int,boolean) originally opens the global g resource reader.
+    # Load only the requested audio shard using an independent stream instead.
+    def field(owner,name,desc):
+        typ=sound.intern(b'\x0c'+u2(sound.utf(name))+u2(sound.utf(desc)))
+        return u2(sound.intern(b'\x09'+u2(sound.cls(owner))+u2(typ)))
+    old_read=b'\x2a\xb8'+u2(sound.ref('g','c','(Ljava/lang/String;)V'))+b'\x1b\xb8'+u2(sound.ref('g','a','(I)[B'))+b'\xb2'+field('g','V','I')
+    new_read=b'\x2a\x1b\xb8'+u2(sound.ref('GF3AudioDevice','readSound','(Ljava/lang/String;I)[B'))+b'\xb2'+field('GF3AudioDevice','soundType','I')+b'\x00'*3
+    patch_code(sound,'a','(Ljava/lang/String;IZ)V',[(12,old_read,new_read)])
     # k.c(IIIII) must check the actual MMAPI state before touching volume,
     # media time or playback. A silent provider can accept prefetch as a no-op.
     check=u2(sound.ref('GF3AudioDevice','ready','(ILjavax/microedition/media/Player;)Z'))
@@ -90,7 +98,7 @@ def patch_farm_audio(game_data,sound_data):
                         str(stub),str(ids),str(source),str(api),str(device)],check=True)
         cf=ClassFile((folder/'GF3FarmAudio.class').read_bytes())
         for alias,actual in (('loaded','a'),('playing','b'),('loadSound','l'),('intro','c'),
-                             ('lastEffect','e'),('packName','c'),('open','c')):
+                             ('lastEffect','e')):
             cf.pool[cf.utf(alias)]=cf.pool[cf.utf(actual)]
         device_class=ClassFile((folder/'GF3AudioDevice.class').read_bytes())
         device_class.pool[device_class.utf('tick')]=device_class.pool[device_class.utf('g')]

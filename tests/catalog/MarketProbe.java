@@ -119,8 +119,10 @@ final class MarketProbe {
         // the kitchen, flush its queued requests and draw its item frame.
         Object[] menuArt=(Object[])field(game,null,"a",spriteArray);
         int[] capacity=(int[])field(game,null,"i",int[].class);
-        if(capacity[1]!=138 || menuArt.length!=138)
+        if(capacity[1]!=138 || menuArt.length!=173)
             throw new AssertionError("Physical UI sprite limits "+capacity[1]+"/"+menuArt.length);
+        // Native packed count remains 138; independently loaded UI sheets
+        // through 172 share this same expanded cache.
         for (int slot=126;slot<=135;slot++) method(game,"d",Void.TYPE,int.class,int.class).invoke(null,1,slot);
         // A deferred hive or pet cue can arrive inside a menu update.
         Class<?> pack=Class.forName("g",true,loader);

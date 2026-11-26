@@ -92,6 +92,12 @@ def resource_index(jar, changes):
         cursor += 4
     if cursor != len(data):
         raise ValueError('Unexpected resource index trailer')
+    # Keep newly introduced native audio shards in the resource-size index.
+    extra = [name for name in changes if name.startswith('3.') and name not in jar.namelist()]
+    for name in sorted(extra, key=lambda n: int(n.split('.')[1])):
+        label = name.encode('ascii')
+        data.extend(struct.pack('<I',len(label))+label+struct.pack('<I',len(changes[name])))
+    struct.pack_into('<I',data,0,struct.unpack_from('<I',data)[0]+len(extra))
     return bytes(data)
 
 

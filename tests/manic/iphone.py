@@ -4,6 +4,7 @@ from hashlib import sha256
 import gzip
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -78,7 +79,26 @@ def run(jar, out):
             (project/"App/endpoint.txt").write_text(f"http://127.0.0.1:{http.server_port}/index.html",encoding="ascii")
             subprocess.run(["xcodegen","generate"], cwd=project, check=True)
             xcode_project = project/"ManicFarmTest.xcodeproj"
-            runtime, device = select_iphone(xcode_project)
+            # A hosted macOS image may contain runtimes for another installed Xcode.
+            # Probe each toolchain, keep the first with a real eligible iPhone,
+            # and use that same Xcode for simctl and the complete test run.
+            selected = os.environ.get("DEVELOPER_DIR")
+            candidates = [selected] if selected else [None]
+            candidates.extend(str(p/"Contents/Developer") for p in sorted(Path("/Applications").glob("Xcode*.app"),reverse=True))
+            failures=[]
+            for developer in dict.fromkeys(candidates):
+                if developer:
+                    os.environ["DEVELOPER_DIR"]=developer
+                else:
+                    os.environ.pop("DEVELOPER_DIR",None)
+                try:
+                    runtime, device = select_iphone(xcode_project)
+                    print("Selected iPhone toolchain:", developer or "system default",runtime,device["name"])
+                    break
+                except (RuntimeError, subprocess.SubprocessError) as error:
+                    failures.append(str(developer)+": "+str(error))
+            else:
+                raise RuntimeError("No installed Xcode can test an iPhone:\n"+"\n".join(failures))
             udid = device["udid"]
             if device["state"] != "Booted":
                 simctl("boot", udid)

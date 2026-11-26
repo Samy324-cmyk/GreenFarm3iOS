@@ -1,3 +1,6 @@
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.io.IOException;
 import javax.microedition.media.Player;
 
 /** Track source duration on providers that leave completed WAV players started. */
@@ -7,6 +10,44 @@ final class GF3AudioDevice {
     private static final boolean[] looping=new boolean[8];
     private static final long[] ends=new long[8];
     private static boolean missedEnd;
+    static int soundType;
+
+    private static int readLE32(DataInputStream in) throws IOException {
+        return in.readUnsignedByte() | (in.readUnsignedByte()<<8) |
+               (in.readUnsignedByte()<<16) | (in.readUnsignedByte()<<24);
+    }
+
+    /** Audio has its own stream: never change g's currently open sprite pack. */
+    static byte[] readSound(String pack,int cue) throws IOException {
+        if(!"/3".equals(pack) || cue<0) return null;
+        String name=cue==0 ? "/3" : "/3."+cue;
+        InputStream stream=new GF3AudioDevice().getClass().getResourceAsStream(name);
+        if(stream==null) return null;
+        DataInputStream in=new DataInputStream(stream);
+        try {
+            int header=0;
+            if(cue==0) {
+                int count=in.readUnsignedByte() | (in.readUnsignedByte()<<8);
+                int parts=in.readUnsignedByte() | (in.readUnsignedByte()<<8);
+                if(count<=0 || parts!=count) throw new IOException("Audio shard count");
+                for(int i=0;i<parts;i++) {
+                    int start=in.readUnsignedByte() | (in.readUnsignedByte()<<8);
+                    if(start!=i) throw new IOException("Audio shard index");
+                }
+                header=4+2*parts;
+            }
+            int first=readLE32(in), after=readLE32(in);
+            if(first!=header+8 || after<first || after-first>4*1024*1024)
+                throw new IOException("Audio shard bounds");
+            if(after==first) return null;
+            soundType=in.readUnsignedByte();
+            byte[] pcm=new byte[after-first-1];
+            in.readFully(pcm);
+            return pcm;
+        } finally {
+            in.close();
+        }
+    }
 
     static boolean ready(int channelState,Player player) {
         return channelState==1 && player!=null && player.getState()>=Player.REALIZED;

@@ -3,7 +3,7 @@ name: Compilar y probar Green Farm 3 en Java ME
 on:
   workflow_dispatch:
   push:
-    branches: [j2me]
+    branches: [j2me, j2me-fixes]
 
 permissions:
   contents: read
@@ -331,11 +331,13 @@ jobs:
         run: python tests/manic/audio.py build/GreenFarm3-MX.jar manic-audio --engine chromium
 
       - name: Recorrer el mercado, el granero y la restauración de la mansión
+        if: ${{ !cancelled() }}
         run: |
           python tests/manic/scenes.py build/GreenFarm3-MX.jar manic-escenas --engine webkit --size 480x800
           python tests/manic/scenes.py build/GreenFarm3-MX.jar manic-escenas-240 --engine webkit --size 240x320
 
       - name: Medir el arrastre táctil y comprobar el terreno en las dos resoluciones
+        if: ${{ !cancelled() }}
         run: |
           python tests/manic/pan.py build/GreenFarm3-MX.jar manic-pan --engine webkit --size 480x800
           python tests/manic/pan.py build/GreenFarm3-MX.jar manic-pan-240 --engine webkit --size 240x320

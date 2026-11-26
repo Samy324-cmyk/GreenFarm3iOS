@@ -29,7 +29,7 @@ En una pantalla horizontal de 1280 × 720 o 1920 × 1080, el juego amplía la im
 
 Para alternar entre 50 % y 100 % en FreeJ2ME, abre **Pausa → Opciones → Alejar** o **Acercar** y regresa a la granja. En equipos con eventos multitáctiles Nokia, junta o separa dos dedos sobre la granja para elegir también los aumentos intermedios.
 
-El MIDlet funciona sin cuenta y sin acceso a Internet. Conserva la resolución de los sprites del APK y las 82 grabaciones originales a 32 kHz. El icono de instalación es el original de 512 × 512.
+El MIDlet funciona sin cuenta y sin acceso a Internet. El banco de sonido se divide en recursos independientes por grabación, sin cambiar su PCM, para evitar la expansión de un único bloque de más de 32 MB en Manic y las interferencias con la carga de sprites. Conserva la resolución de los sprites del APK y las 82 grabaciones originales a 32 kHz. El icono de instalación es el original de 512 × 512.
 
 El instalador identifica la edición como 4.4.4. El nombre de la aplicación, el proveedor de la edición táctil y el formato anterior de RecordStore se conservan para poder reabrir las partidas del JAR 1.0.6.
 

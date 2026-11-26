@@ -14,7 +14,7 @@ import wave
 from zipfile import ZipFile
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
-from tools.media import unpack
+from tools.media import unpack, read_audio_bank
 
 
 def aac_reference(path, source, decoder):
@@ -38,7 +38,10 @@ def verify(apk,game,decoder):
         raise ValueError('Audio report belongs to another JAR')
     with ZipFile(apk) as source,ZipFile(game) as port:
         originals=unpack(source.read('assets/800x480/8'))
-        bank=unpack(port.read('3'))
+        bank=read_audio_bank(port)
+        parts=struct.unpack_from('<H',port.read('3'),2)[0]
+        if parts!=len(bank) or any(port.getinfo('3' if i==0 else f'3.{i}').file_size>4*1024*1024 for i in range(parts)):
+            raise AssertionError('Audio bank is not isolated into bounded single-cue shards')
     by_source={}
     for info in report['media']['apkAudio']:
         idx=info['apk']

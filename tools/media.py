@@ -410,12 +410,51 @@ def build_audio(jar, apk, decoder):
     return data, metadata
 
 
+def shard_audio(data):
+    """Keep the native Gameloft pack layout, with one independently readable cue per shard.
+
+    J2meJS expands resource streams in its Java heap. A 32 MB monolithic WAV pack
+    can move reflection strings beyond the address range supported by Manic 2.0.2.
+    Each shard contains the same format byte and original encoded PCM bytes.
+    """
+    entries = unpack(data)
+    count = len(entries)
+    prefix = struct.pack("<HH", count, count) + struct.pack(f"<{count}H", *range(count))
+    result = {}
+    for i, block in enumerate(entries):
+        head = prefix if i == 0 else b""
+        first = len(head) + 8
+        result["3" if i == 0 else f"3.{i}"] = head + struct.pack("<II", first, first+len(block)) + block
+    return result
+
+
+def read_audio_bank(jar):
+    """Read and validate the native single- or multi-shard audio bank in slot order."""
+    base = jar.read("3")
+    count, parts = struct.unpack_from("<HH", base)
+    starts = [*struct.unpack_from(f"<{parts}H", base, 4), count]
+    if not parts or starts[0] != 0 or any(a >= b for a, b in zip(starts, starts[1:])):
+        raise ValueError("Invalid audio shard boundaries")
+    result = []
+    for part, (first, after) in enumerate(zip(starts, starts[1:])):
+        block = base if part == 0 else jar.read(f"3.{part}")
+        header = 4 + 2*parts if part == 0 else 0
+        offsets = struct.unpack_from(f"<{after-first+1}I", block, header)
+        if offsets[0] != header+4*len(offsets) or offsets[-1] != len(block) or list(offsets) != sorted(offsets):
+            raise ValueError(f"Invalid audio offsets in shard {part}")
+        result.extend(block[a:b] for a,b in zip(offsets,offsets[1:]))
+    if len(result) != count:
+        raise ValueError("Audio shard count mismatch")
+    return result
+
+
 def build_media(jar: zipfile.ZipFile, apk: zipfile.ZipFile, *, decoder=None):
     from .store_locale import localize_store
     data, report = localize(jar, apk)
     audio, cues = build_audio(jar, apk, decoder)
-    updates = {"EN": data, "3": audio, **localize_store(jar)}
+    updates = {"EN": data, **shard_audio(audio), **localize_store(jar)}
     updates["999"] = resize_index(jar.read("999"), updates, jar)
     return updates, {"language": "es-MX", "strings": report, "apkAudio": cues,
                      "distinctAndroidRecordings":len({row['apk'] for row in cues}),
+                     "audioShards":len(shard_audio(audio)),
                      "catalogLabels":23, "regionalNotices":11}
