@@ -39,17 +39,16 @@ final class GF3Presentation {
         long paintStart=System.currentTimeMillis();
         // serviceRepaints may return before the asynchronous LCD paint.
         // Do not let extra repaint callbacks advance the original simulation.
-        if(!intermediate && (lastNative==0 || paintStart-lastNative>=PERIOD-4)) {
+        if(!intermediate) {
             lastNative=paintStart;
             long previousTick=tickStart;
             tickStart=System.currentTimeMillis();
             backgroundGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
             Graphics original=gameGraphics;
             original.setClip(0,0,w,h);
-            GF3Draw.begin(original);
-            try {owner.gf3OriginalPaint(original);}
-            finally {GF3Draw.stop();}
-            moving=g.M<0 && tickStart>=previousTick && tickStart-previousTick<2*PERIOD ? GF3Draw.match() : 0;
+            owner.gf3OriginalPaint(original);
+            // Present the complete native composition; never replay a partial scene.
+            moving=0;
             ticks++;
             matchedSprites+=moving;
         }

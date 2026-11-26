@@ -80,8 +80,8 @@ def patch_marketfront(classes,apk,locale):
             raise ValueError(f'Non-contiguous original shelf {category}')
         items.append([row for _,row in ordered])
     cash_labels=[]
-    for amount in range(3,11):
-        name=str(amount)+" billetes"
+    for amount in range(3,31):
+        name="Lote: "+str(amount)+" billetes"
         if name not in groups[0]:groups[0].append(name)
         cash_labels.append(groups[0].index(name))
     if 'Agotado' not in groups[0]:groups[0].append('Agotado')
@@ -107,10 +107,16 @@ def patch_marketfront(classes,apk,locale):
     game=ClassFile(classes['a.class'])
     reserve_ui_sheets(game)
     limits=hive_limits(game,apk)
-    expose(game,game.fields,{('cu','I'),('cv','I'),('cw','I'),('ct','I'),('bR','I')})
+    expose(game,game.fields,{('cu','I'),('cv','I'),('cw','I'),('ct','I'),('bR','I'),('b','[Le;')})
     expose(game,game.methods,{('ad','(I)V'),('u','(I)V'),('af','(I)V'),('d','()I'),('e','()I'),('f','()I'),('g','(I)V'),('h','(I)V'),('c','(Z)V')})
     entry(game,'o','(I)Z','gf3MarketScreen','screen','(I)Z',b'\x1a','GF3MarketFront')
     _wrap(game,'r','(II)V','gf3MarketPopulate','populate',b'\x1a\x1b',2)
+    # Disable the legacy offers-only hard-coded 90% scale. The regular
+    # native renderer now fits each preview to the requested pixel bounds.
+    cw=game.intern(b'\x09'+u2(game.cls('a'))+u2(game.intern(b'\x0c'+u2(game.utf('cw'))+u2(game.utf('I')))))
+    old_scale=b'\xb2'+u2(cw)+b'\x07\xa0\x00\x30'
+    patch_code(game,'a','(I[SIII)V',[(909,old_scale,b'\xb2'+u2(cw)+b'\x02\xa0\x00\x30')])
+    _wrap(game,'a','(I[SIII)V','gf3DrawControl','drawControl',b'\x1a\x2b\x1c\x1d\x15\x04',5)
     _wrap(game,'I','(I)V','gf3MarketHit','hit',b'\x1a',1)
     with tempfile.TemporaryDirectory() as tmp:
         folder=Path(tmp)
@@ -121,21 +127,21 @@ def patch_marketfront(classes,apk,locale):
             +',y='+arr([int.from_bytes(t[5:7],"little",signed=True) for t in nav])+',icons='+
             arr([t[9] for t in mobile[22:28]])+';}',encoding='ascii')
         stub=folder/'a.java'
-        stub.write_text('''class a {static int C,cu,cv,cw,ct,maxBills;static short[][][] controls;static e[] assets;
+        stub.write_text('''class a {static int C,cu,cv,cw,ct,maxBills;static short[][][] controls;static e[] assets,worldAssets;
            static int d(){return 0;}static int e(){return 0;}static int f(){return 0;}
            static void giveCoins(int n){}static void giveBills(int n){}static void saveFarm(boolean force){}
            static boolean i(int row){return false;}static int a(){return 0;}static void c(int s){}
            static void a(String text,int gui,int row,int x,int y){}
            static void gf(){}static void H(int gui){}static void ad(int i){}static void af(int i){}static void u(int i){}
            static boolean gf3MarketScreen(int p){return false;}static void gf3MarketPopulate(int t,int c){}
-           static void gf3MarketHit(int i){}}
+           static void gf3MarketHit(int i){} static void gf3DrawControl(int gui,short[] c,int x,int y,int i){}}
            class GF3HiveLimits {static int owned(){return 0;}static int capacity(){return 0;}}
            class h {static h[] tables;int[][] rows;int b;}
-           class e {void a(byte[] b,int offset){}} class g {static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
+           class e {void a(byte[] b,int offset){} int d(int frame){return 0;}int e(int frame){return 0;}int f(int frame){return 0;}int g(int frame){return 0;}} class g {static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',str(folder),str(data),
                         str(stub),str(src)],check=True)
         helper=ClassFile((folder/'GF3MarketFront.class').read_bytes())
-        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
+        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','worldAssets':'b','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
             helper.pool[helper.utf(key)]=helper.pool[helper.utf(actual)]
         return {**limits,'a.class':game.bytes(),'6':pack(panels),'EN':write_groups(groups),
                 'GF3MarketFront.class':convert_helper(helper.bytes()),

@@ -229,7 +229,7 @@ def build(args):
         report = {'sourceJar': JAR_DIGEST, 'sourceApk': APK_DIGEST, 'jarSha256': digest(result),
                   'world': world_report, 'catalog': catalog_report,
                   'media': media_report, 'sprites': sprite_report,
-                  'timingPatchApplied': True, 'targetFps': 60,
+                  'timingPatchApplied': True, 'targetFps': 20,
                   'originalSceneSize': [800,480]}
         (temp / 'build.json').write_text(json.dumps(report, ensure_ascii=False, indent=2),
                                          encoding='utf-8')

@@ -49,6 +49,9 @@ final class GF3FarmAudio {
         // Never defer a farm action. A late harvest sound is worse than
         // dropping an effect while all five voices are occupied.
         if(cue>=67 && cue<=118)cue-=52;
+        // The legacy dialog-opening slot was removed during the APK-only
+        // audio conversion. Use the Android panel-opening recording.
+        if(cue==58)cue=60;
         if(cue<0 || cue>=lastCue.length)return;
         long now=System.currentTimeMillis();
         if(now-lastCue[cue]<100L)return;
