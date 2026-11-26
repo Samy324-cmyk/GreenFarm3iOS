@@ -55,7 +55,10 @@ final class GF3FarmAudio {
         if(cue<0 || cue>=lastCue.length)return;
         long now=System.currentTimeMillis();
         if(now-lastCue[cue]<100L)return;
-        if(playEffect(cue))lastCue[cue]=now;
+        int slot=cue;
+        if(cue>=119 && cue<=126 && a.aw==cue)slot=cue+8;
+        if(cue==135 && a.aw==135)slot=136;
+        if(playEffect(slot))lastCue[cue]=now;
     }
 
     private static boolean playEffect(int slot) {

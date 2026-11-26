@@ -50,10 +50,9 @@ final class HarvestTests: XCTestCase {
         app.launch()
         XCTAssertTrue(waitFor(app,"farm",150))
         // Opening these screens in sequence used to unload the barn and manor artwork.
-        let menus: [(String,CGFloat,CGFloat)] = [
-            ("mercado",41,747),("cultivos",179,142),("animales",336,218),("edificios",336,334),
-            ("decoracion",336,450),("mascotas",336,566),("ofertas",336,686),("cerrar-mercado",428,753),
-            ("granero",129,53),("cerrar-granero",428,753)]
+        // Filled from scenes.json by iphone.py, so newly added regression
+        // routes cannot leave the native touchscreen test behind.
+        let menus: [(String,CGFloat,CGFloat)] = [/* GF3_MENU_ROUTE */]
         for (name,x,y) in menus {
             press(app,x,y)
             XCTAssertTrue(waitFor(app,"menu-"+name,25), "No se dibujó "+name)

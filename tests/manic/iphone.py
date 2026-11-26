@@ -56,7 +56,15 @@ def run(jar, out):
         stages = {"letter","inheritance","wheat","harvested","farm","pan","journal","walt","mision",
                   "aviso","cerrar-aviso","blueprint","kitchen"}
         steps = json.loads((site/"scenes.json").read_bytes())
-        stages.update("menu-"+s["name"] for s in steps[:next(i for i,s in enumerate(steps) if s["name"]=="diario")])
+        menus = steps[:next(i for i,s in enumerate(steps) if s["name"]=="diario")]
+        stages.update("menu-"+s["name"] for s in menus)
+        driver = project/"Tests/HarvestTests.swift"
+        swift = driver.read_text(encoding="utf8")
+        marker = "/* GF3_MENU_ROUTE */"
+        if swift.count(marker)!=1:
+            raise ValueError("iPhone route template missing or duplicated")
+        route = ",\n            ".join("("+json.dumps(s["name"],ensure_ascii=False)+","+str(s["tap"][0])+","+str(s["tap"][1])+")" for s in menus)
+        driver.write_text(swift.replace(marker,route),encoding="utf8")
         allowed = {s+".png" for s in stages} | {"pan.json"}
 
         class EvidenceServer(SimpleHTTPRequestHandler):

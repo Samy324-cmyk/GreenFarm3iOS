@@ -43,6 +43,7 @@
             route = steps.slice(0, finish + 1);
         }
         const goal = route[routeIndex];
+        if (!goal) return;
         if (!gf3Scenes.matches(goal) || goal.name === "diario" && !journalOpen(lcd)) return;
         if (goal.region) {
             if (!art.has(goal.name)) {
