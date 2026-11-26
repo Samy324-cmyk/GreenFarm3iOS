@@ -167,8 +167,9 @@ final class GF3MarketFront {
     }
 
     private static void show(int row,boolean visible,boolean hit) {
-        short[] control=a.controls[GUI][row];control[10]=(short)(visible?1:0);
-        control[18]=(short)(hit?1:0);
+        short[] control=a.controls[GUI][row];
+        if(control[0]==204)control[15]=(short)(visible?1:0);
+        else{control[10]=(short)(visible?1:0);control[18]=(short)(hit?1:0);}
     }
 
     private static boolean enabled() {
@@ -197,7 +198,7 @@ final class GF3MarketFront {
             }
         }
         show(PET_BUTTON,true,true);show(PET_ACTIVE,tab==4,false);show(PET_ICON,true,false);
-        rows[125][15]=0;
+        rows[125][15]=(short)(tab==5 && offerCount==0?1:0);
         show(126,false,false);
         if(tab==5)offerArt();
         a.gf();a.H(GUI);
@@ -294,6 +295,7 @@ final class GF3MarketFront {
                 nav();
             }
         }
+        if(phase==3 && tab==5 && offerCount==0)a.a(GF3MarketRows.empty,GUI,125,0,0);
         if(phase==3 && tab==0 && first==9 && GF3HiveLimits.capacity()>0){
             short[][] rows=a.controls[GUI];
             // Android panel 2/36 draws the tally over the third crop family.

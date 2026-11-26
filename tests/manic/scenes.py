@@ -49,6 +49,20 @@ async def run(jar, out, size, engine):
                 await page.wait_for_function("step => gf3Scenes.matches(step)", arg=step, timeout=30000)
                 await page.wait_for_timeout(650)
                 result = {"name": step["name"], **{k: step[k] for k in ("screen","tab","shelf","room") if k in step}}
+                if step["name"]=="ofertas":
+                    state=await page.evaluate("gf3Scenes.state()")
+                    count=state.get("offerCount",0)
+                    ids=state.get("offerIds",[])[:count]
+                    if count not in (2,3) or len(ids)!=count or len(set(x for x in ids if x>=0))!=sum(x>=0 for x in ids):
+                        raise AssertionError(f"Invalid weekly cards: {state}")
+                    # Wait across multiple paints, rather than accepting one
+                    # transient screen immediately before a crash.
+                    await page.wait_for_timeout(1800)
+                    after=await page.evaluate("gf3Scenes.state()")
+                    if after.get("screen")!=7 or after.get("tab")!=5 or after.get("offerIds")!=state["offerIds"]:
+                        raise AssertionError("Weekly offers changed or exited during rendering")
+                    result["offerCount"]=count
+                    result["offerIds"]=ids
                 if "region" in step:
                     result["pixels"] = await compare(page, step)
                     pixels = result["pixels"]

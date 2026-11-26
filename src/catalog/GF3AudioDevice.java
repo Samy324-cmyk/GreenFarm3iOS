@@ -12,6 +12,7 @@ final class GF3AudioDevice {
     private static final int[] durations=new int[8];
     private static final boolean[] looping=new boolean[8];
     private static final long[] ends=new long[8];
+    private static boolean missedEnd;
 
     static int soundType;
 
@@ -116,7 +117,7 @@ final class GF3AudioDevice {
         long now=System.currentTimeMillis();
         for(int i=0;i<players.length;i++) {
             Player p=players[i];
-            if(p==null || now<ends[i] || looping[i]) continue;
+            if(p==null || now<ends[i] || (looping[i] && !missedEnd)) continue;
             try {
                 if(p.getState()!=Player.STARTED) players[i]=null;
                 else if(!looping[i]) {
@@ -125,6 +126,16 @@ final class GF3AudioDevice {
                     if(now-ends[i]<120L) continue;
                     p.stop();
                     players[i]=null;
+                    // This provider failed to deliver END_OF_MEDIA. Its loop
+                    // count is also unreliable (Manic's WebAudio source is
+                    // not marked looping). Only restart explicitly on such a
+                    // provider, never on a working native MMAPI loop.
+                    missedEnd=true;
+                } else {
+                    p.stop();
+                    try {p.setMediaTime(0L);}catch(Exception unsupported){}
+                    p.start();
+                    ends[i]=now+durations[i];
                 }
             } catch(Exception ended) {
                 players[i]=null;

@@ -17,7 +17,10 @@ window.gf3Scenes = (() => {
       const hits=Array.from(array(field("a","i","[[I"))).map(array)
                         .filter(r=>r[2]>0 && r[3]>0 && r[5]>0);
       return {screen,room:field("a","G","I"),tab:field("GF3MarketFront","tab","I"),
-              shelf:field("GF3MarketFront","shelf","I"),hits:hits.map(r=>Array.from(r))};
+              shelf:field("GF3MarketFront","shelf","I"),offerCount:field("GF3MarketFront","offerCount","I"),
+              offerIds:Array.from(array(field("GF3MarketFront","offerIds","[I"))),
+              offerBills:Array.from(array(field("GF3MarketFront","offerBills","[I"))),
+              hits:hits.map(r=>Array.from(r))};
     } catch (error) { return {}; }  // MIDlet classes may still be loading.
   }
   function matches(goal) {

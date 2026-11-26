@@ -36,6 +36,47 @@ final class MarketProbe {
             checkWithinFrame(loader);
         }
     }
+    private static void checkWeekly(ClassLoader loader,Class<?> game) throws Exception {
+        Class<?> offers=Class.forName("GF3MarketFront",true,loader);
+        Method week=method(offers,"week",int.class,int.class,int.class,int.class);
+        int friday=(Integer)week.invoke(null,2026,11,27);
+        if((Integer)week.invoke(null,2026,11,28)!=friday+1 ||
+           (Integer)week.invoke(null,2026,12,4)!=friday+1)
+            throw new AssertionError("Saturday rollover");
+        Method open=method(offers,"open",void.class,int.class);
+        Field count=variable(offers,"offerCount",int.class),stamp=variable(offers,"offerWeek",int.class);
+        Field loaded=variable(offers,"offersLoaded",boolean.class);
+        Field redeemed=variable(offers,"offerRedeemed",int.class);
+        open.invoke(null,5);
+        if(count.getInt(null)<2 || count.getInt(null)>3)throw new AssertionError("Weekly offer generation");
+        int[] ids=(int[])field(offers,null,"offerIds",int[].class);
+        int[] discounts=(int[])field(offers,null,"offerDiscount",int[].class);
+        int[] coins=(int[])field(offers,null,"offerCoins",int[].class);
+        int[] bills=(int[])field(offers,null,"offerBills",int[].class);
+        for(int n=2;n<=3;n++){
+            count.setInt(null,n);loaded.setBoolean(null,true);redeemed.setInt(null,0);
+            ids[0]=64;discounts[0]=25;coins[0]=bills[0]=0;
+            ids[1]=-1;discounts[1]=0;coins[1]=450;bills[1]=3;
+            ids[2]=65;discounts[2]=40;coins[2]=bills[2]=0;
+            open.invoke(null,5);
+            int[] marketIds=(int[])field(game,null,"M",int[].class);
+            int[] prices=(int[])field(game,null,"Q",int[].class);
+            int[] cash=(int[])field(game,null,"R",int[].class);
+            if(marketIds.length!=n || marketIds[0]!=64 || cash[0]!=113 || prices[1]!=450 ||
+                n==3 && marketIds[2]!=65)throw new AssertionError("Mixed weekly cards");
+            short[][][] controls=(short[][][])field(game,null,"a",short[][][].class);
+            short[] icon=controls[2][44],wallet=controls[2][6];
+            if(icon[5]!=wallet[5] || icon[6]!=wallet[6] || icon[9]!=0)
+                throw new AssertionError("Currency card is not using the static wallet icon");
+            method(offers,"saveOffers",void.class).invoke(null);
+            loaded.setBoolean(null,false);count.setInt(null,0);
+            method(offers,"loadOffers",void.class).invoke(null);
+            if(count.getInt(null)!=n || ids[0]!=64 || ids[1]!=-1)
+                throw new AssertionError("Weekly record does not survive reload");
+        }
+        System.out.println("WEEKLY_OK Saturday, 2/3 cards, currency art and RMS");
+    }
+
     private static void checkWithinFrame(ClassLoader loader) throws Exception {
         Class<?> game=Class.forName("a",true,loader), actor=Class.forName("f",true,loader);
         Class<?> sprite=Class.forName("e",true,loader);
@@ -151,6 +192,7 @@ final class MarketProbe {
             if(ink<20) throw new AssertionError("empty recipe icon "+slot+"/"+ink);
             System.out.println("RECIPE_ICON "+slot+" "+ink);
         }
+        checkWeekly(loader,game);
         System.out.println("MARKET_OK");
     }
 }
