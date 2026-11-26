@@ -156,7 +156,7 @@ final class GF3MarketFront {
                     try {
                         if(billPreview==null)billPreview=Image.createImage("/gf3-bills.png");
                         Graphics gr=g.graphics;
-                        if(gr!=null)gr.drawImage(billPreview,479-control[3],control[2],Graphics.HCENTER|Graphics.VCENTER);
+                        if(gr!=null)gr.drawImage(billPreview,479-(card[3]+108),card[2]+86,Graphics.HCENTER|Graphics.VCENTER);
                     }catch(IOException missing){System.out.println("GF3 bill preview "+missing);}
                     return;
                 }

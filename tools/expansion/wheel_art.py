@@ -36,7 +36,16 @@ def rgba_frame(blob,frame):
     parts=[]
     for m,x,y,pal,transform,custom in shape[1][first:first+count]:
         kind,w,h,color,params=shape[0][m]
-        if kind!=0 or transform&~3 or pal or custom:raise ValueError('Unexpected original wheel frame transform')
+        if pal or custom:raise ValueError('Unexpected original wheel palette transform')
+        if kind==254:
+            # APK panel 45 contains solid ARGB rectangles, including rotated
+            # border segments. They have no texture coordinates.
+            if transform&~7:raise ValueError('Unexpected rectangle transform')
+            if transform&4:w,h=h,w
+            rgba=bytes(((color>>16)&255,(color>>8)&255,color&255,(color>>24)&255))
+            parts.append((x,y,w,h,rgba*(w*h)))
+            continue
+        if kind!=0 or transform&~3:raise ValueError('Unexpected original wheel frame transform')
         page,u,v=locations[m]
         aw,ah,colors,ix,alpha=atlases[page]
         if u+w>aw or v+h>ah:raise ValueError('Frame outside APK atlas')
