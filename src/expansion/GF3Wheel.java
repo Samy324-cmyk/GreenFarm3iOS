@@ -1,4 +1,6 @@
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import java.io.IOException;
 import java.util.Random;
 
 /** APK 4.4.4 panel 45 and world building 1019 (sheet 185).
@@ -18,6 +20,7 @@ final class GF3Wheel {
     private static l[] previousImages,images;
     private static byte[] previousFlags,flags;
     private static boolean loaded,cache,spinning;
+    private static Image background,rim,coin,bill;
     private static long started;
     private static int rotation,startRotation,endRotation,result=-1;
 
@@ -46,6 +49,12 @@ final class GF3Wheel {
             }
         }finally{g.l();}
         a.b(GUI,true);
+        try {
+            background=Image.createImage("/gf3-wheel-bg.png");
+            rim=Image.createImage("/gf3-wheel-rim.png");
+            coin=Image.createImage("/gf3-wheel-coin.png");
+            bill=Image.createImage("/gf3-wheel-bill.png");
+        }catch(IOException ex){throw new IllegalStateException("Missing original wheel artwork: "+ex);}
         loaded=true;
     }
     private static void show(int i,boolean visible,boolean hit){
@@ -56,9 +65,11 @@ final class GF3Wheel {
     private static void fill(){
         String[] text=a.captions[GUI];
         text[2]=GF3WheelText.TITLE;
-        text[8]=GF3WheelText.SPIN+" ("+PRICE+" billetes)";
+        text[8]=GF3WheelText.SPIN;
         text[12]=spinning?"Girando...":result<0?"Usa "+PRICE+" billetes para girar.":"Premio: "+reward(result);
         text[11]="Billetes: "+a.e();
+        short[] balance=a.controls[GUI][11];balance[2]=374;balance[3]=315;balance[5]=240;
+        short[] button=a.controls[GUI][6];button[2]=374;button[3]=224;button[6]=18;
         show(4,true,!spinning);show(5,false,false);show(6,true,!spinning);
         show(7,false,false);show(8,true,false);show(9,false,false);show(10,false,false);
         show(11,true,false);show(12,true,false);
@@ -94,30 +105,42 @@ final class GF3Wheel {
     }
     private static void draw(){
         Graphics screen=g.graphics;
-        if(screen==null || !loaded)return;
-        String[] text=a.captions[GUI];
-        a.captions[GUI]=EMPTY;
-        try{a.F(GUI);}finally{a.captions[GUI]=text;}
-        e sheet=a.assets[BASE+3];
-        // Panel 45 draws the five wedges procedurally inside APK frame 34,
-        // whose hole is 284 px across. Native g rotates landscape to portrait.
-        final int x=25,y=40,cx=x+157,cy=y+182;
-        int angle=rotation;
-        for(int i=0;i<ANGLES.length;i++){
-            screen.setColor(COLORS[i]);
-            g.arc(screen,cx-142,cy-142,284,284,angle,ANGLES[i],true);
-            double r=(angle+ANGLES[i]/2)*3.141592653589793/180.0;
-            int px=cx+(int)(90*Math.cos(r)),py=cy-(int)(90*Math.sin(r));
-            int icon=COINS[i]>0?0:1;
-            sheet.a(screen,icon,px-sheet.d(icon)/2,py-sheet.e(icon)/2,0);
-            // Native text routine uses the panel's rotated coordinates.
-            screen.setColor(0x28221b);
-            screen.drawString(Integer.toString(COINS[i]>0?COINS[i]:BILLS[i]),479-py,px+20,Graphics.HCENTER|Graphics.TOP);
-            angle+=ANGLES[i];
-        }
-        sheet.a(screen,34,x,y,0);
-        for(int i=0;i<text.length;i++)if(text[i]!=null && a.controls[GUI][i][0]==204 && a.controls[GUI][i][15]==1)
-            a.a(text[i],GUI,i,0,0);
+        if(screen==null || !loaded || background==null)return;
+        // Do not ask the native UI cache to paint panel 45. Its frame
+        // offsets, alpha and cached sprite slots differ from the MIDP UI.
+        int clipX=screen.getClipX(),clipY=screen.getClipY(),clipW=screen.getClipWidth(),clipH=screen.getClipHeight();
+        try {
+            screen.setClip(0,0,480,800);
+            screen.drawImage(background,0,0,Graphics.TOP|Graphics.LEFT);
+            final int x=25,y=40,cx=x+157,cy=y+182;
+            final int px=479-cy,py=cx;
+            int angle=rotation;
+            for(int i=0;i<ANGLES.length;i++){
+                screen.setColor(COLORS[i]);
+                screen.fillArc(px-142,py-142,284,284,angle-90,ANGLES[i]);
+                angle+=ANGLES[i];
+            }
+            angle=rotation;
+            for(int i=0;i<ANGLES.length;i++){
+                double r=(angle+ANGLES[i]/2-90)*3.141592653589793/180.0;
+                int ix=px+(int)(91*Math.cos(r)),iy=py-(int)(91*Math.sin(r));
+                screen.drawImage(COINS[i]>0?coin:bill,ix,iy,Graphics.HCENTER|Graphics.VCENTER);
+                short[] amount=a.controls[GUI][9];
+                short ox=amount[2],oy=amount[3],ow=amount[5],visible=amount[15];
+                try{
+                    amount[2]=(short)(iy-22);amount[3]=(short)(479-ix+24);amount[5]=84;amount[15]=1;
+                    a.a(Integer.toString(COINS[i]>0?COINS[i]:BILLS[i]),GUI,9,0,0);
+                }finally{amount[2]=ox;amount[3]=oy;amount[5]=ow;amount[15]=visible;}
+                screen.setClip(0,0,480,800);
+                angle+=ANGLES[i];
+            }
+            screen.drawImage(rim,480-y-412,x,Graphics.TOP|Graphics.LEFT);
+            String[] text=a.captions[GUI];
+            for(int i=0;i<text.length;i++)if(text[i]!=null && a.controls[GUI][i][0]==204 && a.controls[GUI][i][15]==1){
+                screen.setClip(0,0,480,800);
+                a.a(text[i],GUI,i,0,0);
+            }
+        }finally{screen.setClip(clipX,clipY,clipW,clipH);}
     }
     static boolean dispatch(int phase,int index){
         int[] states=a.states;
@@ -134,6 +157,7 @@ final class GF3Wheel {
         if(phase==4)leaveCache();
         if(phase==5){
             leaveCache();loaded=false;spinning=false;images=null;flags=null;
+            background=rim=coin=bill=null;
             for(int i=0;i<4;i++)a.assets[BASE+i]=null;
         }
         return false;

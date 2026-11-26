@@ -24,6 +24,11 @@ final class WheelProbe {
         if(!(Boolean)MarketProbe.method(wheel,"openBuilding",boolean.class,int.class).invoke(null,29))
             throw new AssertionError("Native building 1019 is not connected");
         waitScreen(screen,50);
+        for(String resource:new String[]{"/gf3-wheel-bg.png","/gf3-wheel-rim.png","/gf3-wheel-coin.png","/gf3-wheel-bill.png","/gf3-bills.png"}){
+            java.io.InputStream in=wheel.getResourceAsStream(resource);
+            if(in==null || in.read()!=137 || in.read()!=80)throw new AssertionError("Missing original PNG "+resource);
+            in.close();
+        }
         int[][] hits=(int[][])MarketProbe.field(game,null,"i",int[][].class);
         boolean pressed=false;
         for(int[] r:hits)if(r[5]==1966086 && r[2]>0 && r[3]>0){

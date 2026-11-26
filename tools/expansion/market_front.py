@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 
 from tools.media import read_groups,write_groups
+from .wheel_art import shop_bill
 from tools.mexican_spanish import adapt
 from tools.timing.classfile import ClassFile,convert_helper,pack_code,u2
 from tools.world import entries,labels,pack,table
@@ -136,12 +137,14 @@ def patch_marketfront(classes,apk,locale):
            class e {void a(byte[] b,int offset){} int d(int frame){return 0;}int e(int frame){return 0;}int f(int frame){return 0;}int g(int frame){return 0;} int frames(){return 0;} int palette(){return 0;} void setPalette(int n){} void paintScaled(javax.microedition.lcdui.Graphics g,int f,int x,int y,int z){} } class g {static javax.microedition.lcdui.Graphics graphics;static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
         graphics=folder/'javax/microedition/lcdui/Graphics.java'
         graphics.parent.mkdir(parents=True)
-        graphics.write_text('package javax.microedition.lcdui; public class Graphics {}',encoding='ascii')
+        graphics.write_text('package javax.microedition.lcdui; public class Graphics {public static final int HCENTER=1, VCENTER=2; public void drawImage(Image i,int x,int y,int anchor){}}',encoding='ascii')
+        image=graphics.with_name('Image.java')
+        image.write_text('package javax.microedition.lcdui; public class Image {public static Image createImage(String s)throws java.io.IOException{return null;}}',encoding='ascii')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',str(folder),str(data),
-                        str(stub),str(src),str(graphics)],check=True)
+                        str(stub),str(src),str(graphics),str(image)],check=True)
         helper=ClassFile((folder/'GF3MarketFront.class').read_bytes())
-        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','worldAssets':'b','frames':'a','palette':'f','setPalette':'d','paintScaled':'c','graphics':'a','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
+        for key,actual in {'controls':'a','tables':'a','rows':'a','assets':'a','worldAssets':'b','frames':'b','palette':'f','setPalette':'d','paintScaled':'c','graphics':'a','openAsset':'c','readChunk':'a','readOffer':'a','writeOffer':'a','giveCoins':'g','giveBills':'h','saveFarm':'c','maxBills':'bR'}.items():
             helper.pool[helper.utf(key)]=helper.pool[helper.utf(actual)]
         return {**limits,'a.class':game.bytes(),'6':pack(panels),'EN':write_groups(groups),
                 'GF3MarketFront.class':convert_helper(helper.bytes()),
-                'GF3MarketRows.class':convert_helper((folder/'GF3MarketRows.class').read_bytes())}
+                'GF3MarketRows.class':convert_helper((folder/'GF3MarketRows.class').read_bytes()),'gf3-bills.png':shop_bill(apk)}

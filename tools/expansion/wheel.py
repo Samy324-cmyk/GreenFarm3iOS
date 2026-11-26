@@ -7,6 +7,7 @@ from tempfile import TemporaryDirectory
 from .hives import patch_code
 from .neighbor import expose
 from .visit_predators import _controls
+from .wheel_art import wheel_images
 from tools.timing.classfile import ClassFile, code_parts, instruction_offsets, pack_code, convert_helper, u2
 from tools.world import entries, labels, pack, table
 
@@ -83,8 +84,8 @@ def patch_wheel(classes, apk, api):
                         '-d',str(folder),str(stub),str(strings),str(src)],check=True)
         helper=ClassFile((folder/'GF3Wheel.class').read_bytes())
         for alias,actual in {'states':'a','controls':'a','captions':'a','assets':'a','images':'a','flags':'f',
-                             'graphics':'a','open':'c','read':'a','arc':'a'}.items():
+                             'graphics':'a','open':'c','read':'a'}.items():
             helper.pool[helper.utf(alias)]=helper.pool[helper.utf(actual)]
         result={'GF3Wheel.class':convert_helper(helper.bytes()),
                 'GF3WheelText.class':convert_helper((folder/'GF3WheelText.class').read_bytes())}
-    return {**result,'a.class':game.bytes(),'6':pack(panels)}
+    return {**result,**wheel_images(apk),'a.class':game.bytes(),'6':pack(panels)}

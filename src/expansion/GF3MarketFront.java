@@ -1,5 +1,8 @@
 import java.util.Calendar;
 import java.util.Random;
+import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.Graphics;
+import java.io.IOException;
 
 /** Android's animal, pet, and field subcategories over the original MIDP purchase handlers. */
 final class GF3MarketFront {
@@ -7,6 +10,7 @@ final class GF3MarketFront {
     private static final int BACKGROUND_SHEET=171;
     private static int tab=-1, first=-1, shelf=-1;
     private static boolean installing;
+    private static Image billPreview;
     // A local RMS record makes the lottery stable across shop visits and restarts.
     // The date key is based on the local civil day, not elapsed UTC hours (DST safe).
     private static final String OFFER_SAVE="GF3-WEEKLY-2";
@@ -141,9 +145,22 @@ final class GF3MarketFront {
         if(gui==GUI && tab==5 && a.a()==7 && index>=28 && index<112 &&
                 a.controls!=null && a.controls[GUI]!=null) {
             int local=(index-28)/14,part=(index-28)%14,i=local+a.ct;
-            if(i>=0 && i<offerCount && control[10]==1) {
+            if(i>=0 && i<offerCount) {
                 if(offerIds[i]<0 && (part==8 || part==10 || part==13))return;
-                if(part==2) {
+                if(part==2 && offerIds[i]<0) {
+                    // The Android bill stack is sheet 20/frame 114, decoded
+                    // into a standalone rotated PNG. Draw even if the native
+                    // placeholder preview is hidden. Never read its cache.
+                    short[] card=a.controls[GUI][28+14*local];
+                    if(card[10]!=1)return;
+                    try {
+                        if(billPreview==null)billPreview=Image.createImage("/gf3-bills.png");
+                        Graphics gr=g.graphics;
+                        if(gr!=null)gr.drawImage(billPreview,479-control[3],control[2],Graphics.HCENTER|Graphics.VCENTER);
+                    }catch(IOException missing){System.out.println("GF3 bill preview "+missing);}
+                    return;
+                }
+                if(part==2 && control[10]==1) {
                     // Use the known, loaded currency price sheet for bills.
                     // Never pass a synthetic control to the renderer's image cache.
                     boolean cash=offerIds[i]<0;

@@ -1,0 +1,103 @@
+"""Render specific original Android ASprite frames to independent MIDP PNGs.
+
+The wheel panel uses multi-page textures and per-pixel alpha. Direct PNGs
+avoid the shared native sprite/animation cache, including the shop price sheet.
+"""
+import struct
+import zlib
+from tools.sprites import geometry, indices, shards
+
+def png(w,h,rgba):
+    def chunk(name,data):
+        return struct.pack('>I',len(data))+name+data+struct.pack('>I',zlib.crc32(name+data)&0xffffffff)
+    scan=b''.join(b'\0'+rgba[y*w*4:(y+1)*w*4] for y in range(h))
+    return b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>2I5B',w,h,8,6,0,0,0))+chunk(b'IDAT',zlib.compress(scan,9))+chunk(b'IEND',b'')
+
+def rgba_frame(blob,frame):
+    shape,locations,r,flags,extra=geometry(blob)
+    pixel,mode,pages=r.num('H'),r.num('H'),r.num('B')
+    if pixel not in (0x8808,0x8888):raise ValueError('Unexpected wheel palette')
+    palettes=[]
+    for _ in range(pages):
+        variants,colors=r.num('B'),r.num('B') or 256
+        stride=4 if pixel==0x8888 else 3
+        raw=r.take(variants*colors*stride)
+        palettes.append((colors,[tuple(raw[i:i+3][::-1]) for i in range(0,colors*stride,stride)]))
+    atlases=[]
+    for n,pal in palettes:
+        w,h=r.num('H'),r.num('H');raw=r.take(r.num('I'))
+        if pixel==0x8888:
+            if mode!=0xa562 or len(raw)!=2*w*h:raise ValueError('Unknown alpha atlas')
+            ix,alpha=raw[1::2],raw[::2]
+        else:
+            ix=indices(raw,mode,w*h,n);alpha=None
+        atlases.append((w,h,pal,ix,alpha))
+    count,first,_=shape[3][frame]
+    parts=[]
+    for m,x,y,pal,transform,custom in shape[1][first:first+count]:
+        kind,w,h,color,params=shape[0][m]
+        if kind!=0 or transform&~3 or pal or custom:raise ValueError('Unexpected original wheel frame transform')
+        page,u,v=locations[m]
+        aw,ah,colors,ix,alpha=atlases[page]
+        if u+w>aw or v+h>ah:raise ValueError('Frame outside APK atlas')
+        pixels=bytearray(w*h*4)
+        for yy in range(h):
+            for xx in range(w):
+                index=(v+(h-1-yy if transform&2 else yy))*aw+u+(w-1-xx if transform&1 else xx)
+                rgb=colors[ix[index]]
+                a=alpha[index] if alpha is not None else (0 if rgb==(255,0,255) else 255)
+                pos=(yy*w+xx)*4
+                pixels[pos:pos+4]=bytes((*rgb,a))
+        parts.append((x,y,w,h,pixels))
+    return parts
+
+def blit(dst,w,h,parts,x=0,y=0):
+    for ox,oy,pw,ph,rgba in parts:
+        for yy in range(ph):
+            dy=y+oy+yy
+            if not 0<=dy<h:continue
+            for xx in range(pw):
+                dx=x+ox+xx
+                if not 0<=dx<w:continue
+                si=(yy*pw+xx)*4;di=(dy*w+dx)*4
+                a=rgba[si+3]
+                if a==255:dst[di:di+4]=rgba[si:si+4]
+                elif a:
+                    old=dst[di+3];out=a+old*(255-a)//255
+                    for k in range(3):dst[di+k]=(rgba[si+k]*a+dst[di+k]*old*(255-a)//255)//out
+                    dst[di+3]=out
+
+def portrait(w,h,pixels):
+    result=bytearray(w*h*4)
+    for y in range(h):
+        for x in range(w):
+            i=(y*w+x)*4;j=(x*h+h-1-y)*4
+            result[j:j+4]=pixels[i:i+4]
+    return png(h,w,result)
+
+def single(parts,scale=1):
+    left=min(p[0] for p in parts);top=min(p[1] for p in parts)
+    w=max(x+a for x,y,a,b,p in parts)-left
+    h=max(y+b for x,y,a,b,p in parts)-top
+    data=bytearray(w*h*4);blit(data,w,h,parts,-left,-top)
+    if scale!=1:
+        data=bytearray(b''.join(bytes(data[(y*w+x)*4:(y*w+x)*4+4])*scale for y in range(h) for _ in range(scale) for x in range(w)))
+    return portrait(w*scale,h*scale,data)
+
+def shop_bill(apk):
+    source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
+    return single(rgba_frame(source[20],114),2)
+
+def wheel_images(apk):
+    source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
+    # APK panel 45: original background, decorative border, close control.
+    canvas=bytearray(bytes((245,227,188,255))*(800*480))
+    for sheet,frame,x,y in [(22,2,8,2),(22,0,2,115),(33,0,-2,0),(20,122,716,9),(41,18,374,224)]:
+        blit(canvas,800,480,rgba_frame(source[sheet],frame),x,y)
+    rim=rgba_frame(source[41],34)
+    # Keep the original one-pixel origin; its center is at (157,182).
+    data=bytearray(316*412*4);blit(data,316,412,rim)
+    return {'gf3-wheel-bg.png':portrait(800,480,canvas),
+            'gf3-wheel-rim.png':portrait(316,412,data),
+            'gf3-wheel-coin.png':single(rgba_frame(source[41],0)),
+            'gf3-wheel-bill.png':single(rgba_frame(source[41],1))}
