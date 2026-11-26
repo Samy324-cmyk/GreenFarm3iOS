@@ -48,6 +48,8 @@ def summarize(name, run, out):
                p95ms=sorted(intervals)[int((len(intervals)-1)*.95)], maxGapMs=max(intervals),
                cameraPixels=distance, logicTicks=cameras[-1][2]-cameras[0][2],
                maxObservedQueuedEvents=max(run["queues"], default=0))
+    if name=="timed" and run["fps"]<45:
+        raise AssertionError(f"Presentation throughput regressed: {run['fps']:.2f} FPS")
     if name=="still" and distance:
         raise AssertionError(f"The camera moved {distance} pixels before the pointer gesture")
     if name!="still" and (distance < 200 or run["logicTicks"] < 2):

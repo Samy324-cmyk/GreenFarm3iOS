@@ -107,7 +107,7 @@ final class GF3PetNames {
     }
 
     static void farmTick(f pet) {
-        if(pet!=pending && !swapped)return;
+        if(pet==null || (pending==null && !swapped) || (pending!=null && pet!=pending))return;
         if(a.a()!=17 || a.transition!=-1)return;
         if(swapped){
             swapped=false;
@@ -162,6 +162,7 @@ final class GF3PetNames {
             if(key==19 || key==11){a.c(61);close(false);}
         }
         if(phase==3){
+            if(input==null)input="";
             a.captions[GUI][16]=(System.currentTimeMillis()/500L&1L)==0?input:input+"_";
             GF3Doghouse.draw(GUI);
         }
@@ -174,7 +175,7 @@ final class GF3PetNames {
     }
 
     static void hit(int id) {
-        if(editing<0)return;
+        if(editing<0 || editing>=names.length || input==null)return;
         if(id==2){a.c(61);close(false);return;}
         if(id==10){a.c(61);close(true);return;}
         if(id==8){

@@ -13,6 +13,9 @@ final class GF3Presentation {
     private static volatile int moving;
     private static long lastNative;
     private static Graphics gameGraphics;
+    private static Image composed;
+    private static Graphics composedGraphics;
+    private static int screenId=-1;
     private static volatile int nativeCost,betweenCost;
     public static int ticks, presentations, interpolated, matchedSprites;
 
@@ -34,6 +37,8 @@ final class GF3Presentation {
             gameGraphics=game.getGraphics();
             background=Image.createImage(w,h);
             backgroundGraphics=background.getGraphics();
+            composed=Image.createImage(w,h);
+            composedGraphics=composed.getGraphics();
             moving=0;
         }
         long paintStart=System.currentTimeMillis();
@@ -46,19 +51,27 @@ final class GF3Presentation {
             backgroundGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
             Graphics original=gameGraphics;
             original.setClip(0,0,w,h);
-            owner.gf3OriginalPaint(original);
-            // Present the complete native composition; never replay a partial scene.
-            moving=0;
+            GF3Draw.begin(original);
+            try {owner.gf3OriginalPaint(original);}
+            finally {GF3Draw.stop();}
+            int nextScreen=a.a();
+            moving=g.M<0 && screenId==17 && nextScreen==17 && tickStart>=previousTick && tickStart-previousTick<2*PERIOD ? GF3Draw.match() : 0;
+            screenId=nextScreen;
             ticks++;
             matchedSprites+=moving;
         }
         long elapsed=System.currentTimeMillis()-tickStart;
         screen.setClip(0,0,w,h);
         if(moving!=0 && GF3Draw.valid && elapsed>=0 && elapsed<PERIOD) {
-            if(!GF3Draw.hasGround()) screen.drawImage(background,0,0,Graphics.TOP|Graphics.LEFT);
-            GF3Draw.replay(screen,PERIOD-(int)elapsed,PERIOD);
+            // Never replay primitives onto the device LCD. Manic may expose
+            // a partially painted canvas during native calls. Compose offscreen
+            // and submit exactly one complete image, even when clipping changes.
+            composedGraphics.setClip(0,0,w,h);
+            composedGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
+            GF3Draw.replay(composedGraphics,PERIOD-(int)elapsed,PERIOD);
             if(intermediate) interpolated++;
-            screen.setClip(0,0,w,h);
+            if(fit) physicalSource=composed;
+            else screen.drawImage(composed,0,0,Graphics.TOP|Graphics.LEFT);
         } else {
             moving=0;
             if(fit)physicalSource=game;
@@ -80,7 +93,7 @@ final class GF3Presentation {
         nextDeadline=end;
         g owner=canvas;
         // Only fill actual idle time. A slow renderer never causes extra simulation updates.
-        for(int step=1;owner!=null && moving!=0 && step<=2;step++) {
+        for(int step=1;owner!=null && step<=2;step++) {
             // A simulation frame takes longer to draw than an intermediate
             // frame. Align completed presentations, not just repaint calls.
             int compensation=Math.max(0,Math.min(7,nativeCost-betweenCost));

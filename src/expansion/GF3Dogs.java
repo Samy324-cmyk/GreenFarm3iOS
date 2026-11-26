@@ -61,7 +61,7 @@ final class GF3Dogs {
     }
 
     static int level(f x) {
-        if (stored(x)) return (int)((x.e >>> 24) & 255);
+        if (stored(x)) return Math.min(10,(int)((x.e >>> 24) & 255));
         return x.J==2068 || x.J==2075?1:0;
     }
 
@@ -75,7 +75,7 @@ final class GF3Dogs {
     }
 
     private static void rewardLevel(f pet,int before,int after) {
-        if(after<=before || a.F!=0)return;
+        if(after<=before || before<0 || before>=LEVEL_BILLS.length || a.F!=0)return;
         GF3FarmAudio.original(11);
         f.a(47,2,new int[]{0,0,14}).a(pet.r-50,pet.s-20,6,1000,false,LEVEL_BILLS[before]);
     }

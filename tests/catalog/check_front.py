@@ -56,7 +56,7 @@ def main():
             commands.append(f'shop {i}')
             if i in (0,6,7,8,11):commands.append(f'shot categoria-{i}')
         commands+=['shop buy','shop offers','shot ofertas','quit']
-        markers=('SHOP_BUY_OK','SHOP_OFFLINE_OFFERS_OK')
+        markers=('SHOP_BUY_OK','SHOP_WEEKLY_OFFERS_OK')
     with (out/'run.log').open('wb') as log:
         proc=subprocess.run([a.java,'-Djava.security.manager=allow','-Djava.awt.headless=true',
                  '-Dfile.encoding=ISO_8859_1',f'-Duser.home={out}',f'-Djava.io.tmpdir={out}',

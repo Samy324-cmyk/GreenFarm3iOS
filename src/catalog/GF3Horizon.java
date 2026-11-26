@@ -32,7 +32,6 @@ final class GF3Horizon {
         if (zoom != lastZoom || zoom != 100 && k.dirtyCount > 0) a.l = true;
         int horizon = HORIZON * zoom / 100;
         boolean moved = x != lastX || y != lastY || zoom != lastZoom;
-        if(moved)a.l=true;
         parallax = y < horizon && (moved || k.dirtyCount > 0);
         lastX = x;
         lastY = y;

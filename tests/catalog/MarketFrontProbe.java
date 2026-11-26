@@ -173,11 +173,12 @@ final class MarketFrontProbe {
         } else if(command.equals("offers")) {
             hit(rect(14));
             short[][] entries=((short[][][])MarketProbe.field(game,null,"a",short[][][].class))[2];
-            if(integer(front,"tab")!=5 || (Character)MarketProbe.field(game,null,"c",char.class)!=0 ||
-                    entries[125][15]!=1 || entries[126][10]!=1)
-                throw new AssertionError("Offline offers tab="+integer(front,"tab")+" count="+
-                    (int)(Character)MarketProbe.field(game,null,"c",char.class)+" caption="+entries[125][15]+" sign="+entries[126][10]);
-            System.out.println("SHOP_OFFLINE_OFFERS_OK");
+            int count=integer(front,"offerCount");
+            if(integer(front,"tab")!=5 || count<2 || count>3 ||
+                    (Character)MarketProbe.field(game,null,"c",char.class)!=count ||
+                    entries[125][15]!=0 || entries[126][10]!=0)
+                throw new AssertionError("Weekly offer tab="+integer(front,"tab")+" count="+count);
+            System.out.println("SHOP_WEEKLY_OFFERS_OK");
         } else if(command.equals("buy")) {
             Class<?> toys=Class.forName("GF3DogToys",true,Mobile.getPlatform().loader);
             Method items=MarketProbe.method(toys,"quantity",int.class,int.class);

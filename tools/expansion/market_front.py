@@ -113,9 +113,6 @@ def patch_marketfront(classes,apk,locale):
     _wrap(game,'r','(II)V','gf3MarketPopulate','populate',b'\x1a\x1b',2)
     # Disable the legacy offers-only hard-coded 90% scale. The regular
     # native renderer now fits each preview to the requested pixel bounds.
-    cw=game.intern(b'\x09'+u2(game.cls('a'))+u2(game.intern(b'\x0c'+u2(game.utf('cw'))+u2(game.utf('I')))))
-    old_scale=b'\xb2'+u2(cw)+b'\x07\xa0\x00\x30'
-    patch_code(game,'a','(I[SIII)V',[(909,old_scale,b'\xb2'+u2(cw)+b'\x02\xa0\x00\x30')])
     _wrap(game,'a','(I[SIII)V','gf3DrawControl','drawControl',b'\x1a\x2b\x1c\x1d\x15\x04',5)
     _wrap(game,'I','(I)V','gf3MarketHit','hit',b'\x1a',1)
     with tempfile.TemporaryDirectory() as tmp:

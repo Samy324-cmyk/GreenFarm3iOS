@@ -65,8 +65,8 @@ final class MarketProbe {
             if(marketIds.length!=n || marketIds[0]!=64 || cash[0]!=113 || prices[1]!=450 ||
                 n==3 && marketIds[2]!=65)throw new AssertionError("Mixed weekly cards");
             short[][][] controls=(short[][][])field(game,null,"a",short[][][].class);
-            short[] icon=controls[2][44],wallet=controls[2][6];
-            if(icon[5]!=wallet[5] || icon[6]!=wallet[6] || icon[9]!=0)
+            short[] icon=controls[2][44],price=controls[2][47];
+            if(icon[5]!=price[5] || icon[6]!=114 || icon[9]!=0)
                 throw new AssertionError("Currency card is not using the static wallet icon");
             method(offers,"saveOffers",void.class).invoke(null);
             loaded.setBoolean(null,false);count.setInt(null,0);

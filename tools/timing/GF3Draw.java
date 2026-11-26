@@ -306,7 +306,7 @@ final class GF3Draw {
             cameraDy=difference(current.tileY,previous.tileY,current.tileHeight);
             if(Math.abs(cameraDx)>32 || Math.abs(cameraDy)>32) cameraDx=cameraDy=0;
         }
-        if(a.a()!=17 || current.tileImage==null || (cameraDx==0 && cameraDy==0))return 0;
+        if(a.a()!=17 || current.tileImage==null || current.worldEnd<=current.groundEnd || (cameraDx==0 && cameraDy==0))return 0;
         findStableSky();
         previousParts.clear();
         for(int i=previous.groundEnd;i<previous.size;i++) {
@@ -341,6 +341,8 @@ final class GF3Draw {
             best.used=true;
             if(best.x==c.x && best.y==c.y) continue;
             if(!world || best.x-c.x!=cameraDx || best.y-c.y!=cameraDy) continue;
+            // Fixed sky and HUD art never inherit a ground translation.
+            if(c.x>=stableSkyStart || c.cx>=stableSkyStart)continue;
             c.dx=best.x-c.x; c.dy=best.y-c.y;
             c.clipDx=best.cx-c.cx; c.clipDy=best.cy-c.cy;
             matched++;

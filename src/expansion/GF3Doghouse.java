@@ -10,6 +10,7 @@ final class GF3Doghouse {
     private static final l[][] menuImages=new l[2][];
     private static final byte[][] menuFlags=new byte[2][];
     private static boolean cacheActive;
+    private static int activeGui=-1;
     private static int assetUsers;
 
     private GF3Doghouse() {}
@@ -44,7 +45,8 @@ final class GF3Doghouse {
     }
 
     static void load(int gui) {
-        if(assetUsers++!=0){a.b(gui,true);return;}
+        if(assetUsers>0 && a.assets!=null && a.assets.length>=BASE+16 && a.assets[BASE]!=null){assetUsers++;a.b(gui,true);return;}
+        assetUsers=1;
         if(a.assets.length<BASE+16) {
             e[] enlarged=new e[BASE+16];
             System.arraycopy(a.assets,0,enlarged,0,a.assets.length);
@@ -62,8 +64,9 @@ final class GF3Doghouse {
 
     static void unload() {
         leaveCache();
+        if(assetUsers<=0)return;
         if(--assetUsers==0){
-            for(int i=0;i<16;i++) a.assets[BASE+i]=null;
+            if(a.assets!=null)for(int i=0;i<16 && BASE+i<a.assets.length;i++) a.assets[BASE+i]=null;
             for(int i=0;i<2;i++){menuImages[i]=null;menuFlags[i]=null;}
         }
     }
@@ -85,14 +88,15 @@ final class GF3Doghouse {
     }
 
     static void enterCache(int gui) {
-        if(cacheActive) return;
+        if(cacheActive && activeGui==gui)return;
+        if(cacheActive)leaveCache();
         priorImages=a.images;
         priorFlags=a.flags;
         int slot=gui-GUI;
         if(menuImages[slot]==null){menuImages[slot]=new l[256];menuFlags[slot]=new byte[256];}
         a.images=menuImages[slot];
         a.flags=menuFlags[slot];
-        cacheActive=true;
+        cacheActive=true;activeGui=gui;
     }
 
     static void leaveCache() {
@@ -101,7 +105,7 @@ final class GF3Doghouse {
         a.flags=priorFlags;
         priorImages=null;
         priorFlags=null;
-        cacheActive=false;
+        cacheActive=false;activeGui=-1;
     }
 
     private static void show(int i,boolean on){
@@ -162,7 +166,7 @@ final class GF3Doghouse {
             show(3,false);
             return;
         }
-        int level=GF3Dogs.level(pet),xp=GF3Dogs.xp(pet);
+        int level=Math.max(0,Math.min(10,GF3Dogs.level(pet))),xp=Math.max(0,GF3Dogs.xp(pet));
         int[] record=h.registry[0].rows[pet.y];
         show(3,true);
         int b=breed();
@@ -202,7 +206,7 @@ final class GF3Doghouse {
     }
 
     private static void clock() {
-        if(pet==null || breed()<0 || GF3Dogs.level(pet)==0) return;
+        if(pet==null || breed()<0 || GF3Dogs.level(pet)<=0 || GF3Dogs.level(pet)>10) return;
         int left=(int)Math.max(0L,(GF3DogToys.nextBonus-System.currentTimeMillis()+999L)/1000L);
         if(left==lastSecond) return;
         lastSecond=left;
@@ -231,14 +235,14 @@ final class GF3Doghouse {
     }
 
     static void draw(int gui){
-        boolean overlay=!cacheActive;
+        boolean overlay=!cacheActive || activeGui!=gui;
         if(overlay)enterCache(gui);
         String[] text=a.captions[gui];
         try {
             a.captions[gui]=emptyCaptions;
             try {a.F(gui);} finally {a.captions[gui]=text;}
-            for(int i=0;i<text.length;i++){
-                if(text[i]==null || a.controls[gui][i][0]!=204 || a.controls[gui][i][15]!=1)continue;
+            for(int i=0;i<text.length && i<a.controls[gui].length;i++){
+                if(text[i]==null || a.controls[gui][i]==null || a.controls[gui][i][0]!=204 || a.controls[gui][i][15]!=1)continue;
                 if(gui==GUI && i>=26 && i<=54 && (i-26)%7==0)
                     a.b(text[i],gui,i,i==54?11:0,0);
                 else

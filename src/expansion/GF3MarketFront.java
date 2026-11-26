@@ -157,10 +157,10 @@ final class GF3MarketFront {
     // The native updater can rewrite the preview after a scroll or selection.
     // Apply the offer's own artwork immediately before each native draw.
     static void drawControl(int gui,short[] control,int x,int y,int index) {
-        if(gui==GUI && tab==5 && a.a()==7 && a.controls[GUI]!=null) {
+        if(gui==GUI && tab==5 && a.a()==7 && a.controls!=null && a.controls[GUI]!=null) {
             for(int local=0;local<6;local++) {
                 int i=local+a.ct,base=28+14*local;
-                if(i<0 || i>=offerCount || control!=a.controls[GUI][base+2])continue;
+                if(i<0 || i>=offerCount || base+5>=a.controls[GUI].length || control!=a.controls[GUI][base+2])continue;
                 short[] icon=new short[control.length];
                 System.arraycopy(control,0,icon,0,control.length);
                 if(offerIds[i]<0) {
