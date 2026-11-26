@@ -41,6 +41,8 @@ El plano de la mansión se abre al aceptar el encargo de Walt en el diario y toc
 
 La última pestaña del mercado ofrece dos o tres tarjetas semanales con descuentos variables y, algunas semanas, un intercambio de monedas por billetes. La selección se guarda localmente y cambia el sábado según el calendario del equipo. No usa servicios externos ni dinero real.
 
+La rueda de la suerte (edificio 1019) usa el panel 45, el marco y los cinco sectores del APK 4.4.4. El giro local cuesta 3 billetes del juego; los premios offline de monedas y billetes sustituyen el servicio de anuncios. Se guardan el pago y el premio en una sola escritura de la partida.
+
 La interpolación se limita al desplazamiento real de la cámara en la granja. Los menús y las escenas estacionarias conservan el cuadro nativo, evitando emparejar imágenes repetidas como si fueran el mismo objeto.
 
 El workflow prueba el mismo JAR con FreeJ2ME-Plus, el núcleo de Manic EMU 2.0.2 y un simulador de iPhone con WKWebView. El artefacto de Manic incluye el audio detectado y la medición del arrastre en 480 × 800 y 240 × 320. El artefacto de iPhone incluye capturas del juego y los intervalos medidos durante tres arrastres en el simulador. Las cifras dependen del dispositivo y del emulador.

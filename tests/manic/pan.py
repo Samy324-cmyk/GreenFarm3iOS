@@ -60,6 +60,8 @@ def summarize(name, run, out):
         run["visiblyChangedFps"] = 1000*changed/span
         if changed < 3:
             raise AssertionError("The farm camera moved but the WebView canvas remained still")
+        if name=="visible" and run["visiblyChangedFps"]<25:
+            raise AssertionError(f"Only {run['visiblyChangedFps']:.2f} distinct visual frames per second during drag")
         for idx, (time, png, score) in enumerate(run["samples"]):
             path = out / f"pose-{idx:03}.png"
             path.write_bytes(base64.b64decode(png))

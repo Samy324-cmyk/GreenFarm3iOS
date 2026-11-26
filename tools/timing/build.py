@@ -77,6 +77,7 @@ def patch(data, entry):
             if entry == "g.class" and name == "run" and desc == "()V":
                 if hashlib.sha256(ins).hexdigest() != RUN_SHA:
                     raise ValueError("unsupported reference game loop")
+                code[23:26] = b"\xb8" + u2(cf.ref("GF3Presentation", "requestNative", "(Lg;)V"))
                 code[89:92] = b"\xb8" + u2(cf.ref("GF3Presentation", "waitForTick", "(J)V"))
                 recognized.add("run")
             attrs[i] = attribute, pack_code(header, code, exceptions, extra)

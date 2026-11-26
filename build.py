@@ -40,6 +40,7 @@ from tools.expansion.visit_predators import patch_visit_predators
 from tools.expansion.extractor_ui import patch_extractor_ui
 from tools.expansion.honey_tutorial import patch_honey_tutorial
 from tools.expansion.market_front import patch_marketfront
+from tools.expansion.wheel import patch_wheel
 from tools.expansion.farm_edits import patch_farm_edits
 from tools.expansion.customer_orders import patch_customer_orders
 from tools.expansion.crop_duster import patch_crop_duster
@@ -206,6 +207,7 @@ def build(args):
             classes.update(patch_pause(classes,apk,api))
             classes.update(build_zoom(classes,apk,api))
             classes.update(patch_farm_edits(classes,apk))
+            classes.update(patch_wheel(classes,apk,api))
             changes = world | media | sprites | renderer | classes
             # The source APK's default launcher icon is the original 512 px artwork.
             changes['icon.png'] = apk.read('res/NR.png')

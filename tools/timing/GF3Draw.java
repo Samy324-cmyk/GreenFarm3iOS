@@ -37,7 +37,7 @@ final class GF3Draw {
         return g;
     }
     private static void beforeWrite(Graphics g) {
-        if(sources.isEmpty() || !valid) return;
+        if(target==null || sources.isEmpty() || !valid) return;
         for(GraphicsBinding b=bindings[(g.hashCode() & 0x7fffffff)%bindings.length];b!=null;b=b.next) {
             if(b.graphics.get()!=g) continue;
             Image image=(Image)b.image.get();
@@ -95,6 +95,8 @@ final class GF3Draw {
         current.width=screen.getClipWidth();current.height=screen.getClipHeight();
     }
     static void stop() { target=null; current.complete=valid; }
+    static void invalidate() {target=null;valid=false;current.clear();previous.clear();current.complete=previous.complete=false;sources.clear();}
+    static boolean canReplay(int remaining,int period){return valid && hasGround() && groundCovered(remaining,period);}
     static void world() {
         f.b();
         if(target!=null) current.worldEnd=current.size;
@@ -335,12 +337,15 @@ final class GF3Draw {
             }
             // Repeated cels occur in crops and text. Only animate an unambiguous instance.
             if(best==null || (first>0 && second-first<Math.max(4,first/2))) {
-                // Ambiguous repeated cels stay in the native pose.
+                // Repeated crop/animal cels do not identify an actor. Keep
+                // them aligned with the same camera rather than leaving them
+                // behind while their underlying ground interpolates.
+                if(world && c.x<stableSkyStart && c.cx<stableSkyStart){c.dx=cameraDx;c.dy=cameraDy;matched++;}
                 continue;
             }
             best.used=true;
             if(best.x==c.x && best.y==c.y) continue;
-            if(!world || best.x-c.x!=cameraDx || best.y-c.y!=cameraDy) continue;
+            if(!world || Math.abs(best.x-c.x-cameraDx)>4 || Math.abs(best.y-c.y-cameraDy)>4) continue;
             // Fixed sky and HUD art never inherit a ground translation.
             if(c.x>=stableSkyStart || c.cx>=stableSkyStart)continue;
             c.dx=best.x-c.x; c.dy=best.y-c.y;
@@ -352,7 +357,7 @@ final class GF3Draw {
     }
     static void replay(Graphics g,int remaining,int period) {
         if(hasGround()) {
-            if(!groundCovered(remaining,period)) remaining=0;
+            if(!groundCovered(remaining,period)) throw new IllegalStateException("Incomplete interpolation coverage");
             drawGround(g,remaining,period);
         }
         int lastClipX=-1,lastClipY=-1,lastClipW=-1,lastClipH=-1;

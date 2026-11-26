@@ -5,11 +5,10 @@ import javax.microedition.lcdui.Image;
 final class GF3Presentation {
     private static final int PERIOD=50;
     private static volatile g canvas;
-    private static volatile boolean intermediate;
+    private static volatile boolean nativePending;
+    private static int lastRemaining;
     private static long tickStart, nextDeadline;
     private static Image game;
-    private static Image background;
-    private static Graphics backgroundGraphics;
     private static volatile int moving;
     private static long lastNative;
     private static Graphics gameGraphics;
@@ -19,7 +18,14 @@ final class GF3Presentation {
     private static volatile int nativeCost,betweenCost;
     public static int ticks, presentations, interpolated, matchedSprites;
 
+    static void requestNative(g owner) {
+        nativePending=true;
+        owner.repaint();
+    }
+
     static synchronized void paint(g owner,Graphics screen) {
+        boolean intermediate=!nativePending;
+        if(!intermediate)nativePending=false;
         canvas=owner;
         int width=owner.getWidth(),height=owner.getHeight();
         if(width<=0 || height<=0) return;
@@ -35,8 +41,6 @@ final class GF3Presentation {
         if(game==null || w!=game.getWidth() || h!=game.getHeight()) {
             game=Image.createImage(w,h);
             gameGraphics=game.getGraphics();
-            background=Image.createImage(w,h);
-            backgroundGraphics=background.getGraphics();
             composed=Image.createImage(w,h);
             composedGraphics=composed.getGraphics();
             moving=0;
@@ -48,12 +52,20 @@ final class GF3Presentation {
             lastNative=paintStart;
             long previousTick=tickStart;
             tickStart=System.currentTimeMillis();
-            backgroundGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
             Graphics original=gameGraphics;
             original.setClip(0,0,w,h);
-            GF3Draw.begin(original);
-            try {owner.gf3OriginalPaint(original);}
-            finally {GF3Draw.stop();}
+            // Do not record or snapshot the market, mansion or other menus.
+            // Their native composition is already complete and must not be
+            // paired with any preceding farm pose.
+            if(screenId==17) {
+                GF3Draw.begin(original);
+                try {owner.gf3OriginalPaint(original);}
+                finally {GF3Draw.stop();}
+            }else{
+                GF3Draw.invalidate();
+                owner.gf3OriginalPaint(original);
+            }
+            lastRemaining=PERIOD;
             int nextScreen=a.a();
             moving=g.M<0 && screenId==17 && nextScreen==17 && tickStart>=previousTick && tickStart-previousTick<2*PERIOD ? GF3Draw.match() : 0;
             screenId=nextScreen;
@@ -62,18 +74,19 @@ final class GF3Presentation {
         }
         long elapsed=System.currentTimeMillis()-tickStart;
         screen.setClip(0,0,w,h);
-        if(moving!=0 && GF3Draw.valid && elapsed>=0 && elapsed<PERIOD) {
+        int remaining=Math.min(lastRemaining,Math.max(0,PERIOD-(int)elapsed));
+        if(moving!=0 && GF3Draw.valid && elapsed>=0 && remaining>0 && GF3Draw.canReplay(remaining,PERIOD)) {
+            lastRemaining=remaining;
             // Never replay primitives onto the device LCD. Manic may expose
             // a partially painted canvas during native calls. Compose offscreen
             // and submit exactly one complete image, even when clipping changes.
             composedGraphics.setClip(0,0,w,h);
-            composedGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
-            GF3Draw.replay(composedGraphics,PERIOD-(int)elapsed,PERIOD);
+            GF3Draw.replay(composedGraphics,remaining,PERIOD);
             if(intermediate) interpolated++;
             if(fit) physicalSource=composed;
             else screen.drawImage(composed,0,0,Graphics.TOP|Graphics.LEFT);
         } else {
-            moving=0;
+            moving=0;lastRemaining=0;
             if(fit)physicalSource=game;
             else screen.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
         }
@@ -102,9 +115,9 @@ final class GF3Presentation {
             if(due>=end || delay< -4 || owner!=canvas || g.o) continue;
             if(delay>0) Thread.sleep(delay);
             if(System.currentTimeMillis()>=end) break;
-            intermediate=true;
-            try {owner.repaint();owner.serviceRepaints();}
-            finally {intermediate=false;}
+            // Native repaint requests are marked at the game-loop entry.
+            // An asynchronous/coalesced paint cannot advance logic twice.
+            owner.repaint();owner.serviceRepaints();
         }
         long left=end-System.currentTimeMillis();
         if(left>0 && left<=millis+6) Thread.sleep(left);
