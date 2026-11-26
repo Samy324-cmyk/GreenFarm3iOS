@@ -84,6 +84,8 @@ def patch_marketfront(classes,apk,locale):
         name=str(amount)+" billetes"
         if name not in groups[0]:groups[0].append(name)
         cash_labels.append(groups[0].index(name))
+    if 'Agotado' not in groups[0]:groups[0].append('Agotado')
+    sold_label=groups[0].index('Agotado')
     if len(groups[0])>1024:raise ValueError('No room for weekly offer labels')
     panels=entries(classes['6']); old=_controls(panels[2],False)
     mobile=_controls(entries(apk.read(prefix+'10'))[2],True)
@@ -115,7 +117,7 @@ def patch_marketfront(classes,apk,locale):
         data=folder/'GF3MarketRows.java'
         data.write_text('class GF3MarketRows {static String empty='+json.dumps(adapt(spanish[908]))+';'
             +'static int[][] cards='+arr(cards)+',items='+arr(items)+';'
-            +'static int[] cashLabels='+arr(cash_labels)+',kinds='+arr(shops)+',x='+arr([int.from_bytes(t[3:5],"little",signed=True) for t in nav])
+            +'static int soldLabel='+str(sold_label)+';static int[] cashLabels='+arr(cash_labels)+',kinds='+arr(shops)+',x='+arr([int.from_bytes(t[3:5],"little",signed=True) for t in nav])
             +',y='+arr([int.from_bytes(t[5:7],"little",signed=True) for t in nav])+',icons='+
             arr([t[9] for t in mobile[22:28]])+';}',encoding='ascii')
         stub=folder/'a.java'

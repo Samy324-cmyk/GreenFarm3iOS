@@ -51,6 +51,9 @@ def verify(apk,game,decoder):
         if idx in by_source and by_source[idx]!=data[1:]:
             raise AssertionError(f'Playback banks disagree for Android {idx}')
         by_source[idx]=data[1:]
+    mapped={info['j2me'] for info in report['media']['apkAudio']}
+    if any(data for slot,data in enumerate(bank) if slot not in mapped):
+        raise AssertionError('A legacy recording survived the original-only audio bank')
     if set(by_source)!=set(range(82)) or len(originals)!=82:
         raise AssertionError('Incomplete Android audio library')
     checked=0

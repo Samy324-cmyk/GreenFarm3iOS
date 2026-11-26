@@ -10,7 +10,9 @@ final class GF3Presentation {
     private static Image game;
     private static Image background;
     private static Graphics backgroundGraphics;
-    private static int moving;
+    private static volatile int moving;
+    private static long lastNative;
+    private static Graphics gameGraphics;
     private static volatile int nativeCost,betweenCost;
     public static int ticks, presentations, interpolated, matchedSprites;
 
@@ -29,16 +31,21 @@ final class GF3Presentation {
         }
         if(game==null || w!=game.getWidth() || h!=game.getHeight()) {
             game=Image.createImage(w,h);
+            gameGraphics=game.getGraphics();
             background=Image.createImage(w,h);
             backgroundGraphics=background.getGraphics();
             moving=0;
         }
         long paintStart=System.currentTimeMillis();
-        if(!intermediate) {
+        // serviceRepaints may return before the asynchronous LCD paint.
+        // Do not let extra repaint callbacks advance the original simulation.
+        if(!intermediate && (lastNative==0 || paintStart-lastNative>=PERIOD-4)) {
+            lastNative=paintStart;
             long previousTick=tickStart;
             tickStart=System.currentTimeMillis();
             backgroundGraphics.drawImage(game,0,0,Graphics.TOP|Graphics.LEFT);
-            Graphics original=game.getGraphics();
+            Graphics original=gameGraphics;
+            original.setClip(0,0,w,h);
             GF3Draw.begin(original);
             try {owner.gf3OriginalPaint(original);}
             finally {GF3Draw.stop();}
@@ -74,7 +81,7 @@ final class GF3Presentation {
         nextDeadline=end;
         g owner=canvas;
         // Only fill actual idle time. A slow renderer never causes extra simulation updates.
-        for(int step=1;owner!=null && step<=2;step++) {
+        for(int step=1;owner!=null && moving!=0 && step<=2;step++) {
             // A simulation frame takes longer to draw than an intermediate
             // frame. Align completed presentations, not just repaint calls.
             int compensation=Math.max(0,Math.min(7,nativeCost-betweenCost));

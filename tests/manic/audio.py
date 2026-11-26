@@ -109,6 +109,8 @@ async def check(jar, out, engine, report):
                                                      'webAudio':events},indent=2),'utf8')
             await page.screenshot(path=out/'cosecha.png')
             (out/'run.log').write_text('\n'.join(logs),'utf8')
+        if any(p['id'] is None for p in events):
+            raise AssertionError('A WAV without verified Android provenance played')
         starts = [p['start'] for p in audible if p['id']==39]
         if not any(0<b-a<1 for a,b in zip(starts,starts[1:])):
             raise AssertionError('No audible harvest repeat within one second')

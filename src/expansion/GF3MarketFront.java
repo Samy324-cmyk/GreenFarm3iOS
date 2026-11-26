@@ -23,8 +23,12 @@ final class GF3MarketFront {
     }
 
     private static int currentWeek() {
-        Calendar c=Calendar.getInstance();
-        return week(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DATE));
+        try {
+            Calendar c=Calendar.getInstance();
+            return week(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DATE));
+        }catch(Exception unsupported) {
+            return (int)((System.currentTimeMillis()/86400000L-2)/7);
+        }
     }
 
     private static int getInt(byte[] b,int pos) {
@@ -36,14 +40,16 @@ final class GF3MarketFront {
     private static void loadOffers() {
         if(offersLoaded)return;
         offersLoaded=true;
-        byte[] data=g.readOffer(OFFER_SAVE);
+        byte[] data=null;
+        try {data=g.readOffer(OFFER_SAVE);}catch(Exception unavailable){return;}
         if(data==null || data.length!=60 || getInt(data,0)!=0x314f4647)return;
         int count=data[8]&255;
         if(count<2 || count>3)return;
         for(int i=0;i<count;i++){
             int p=12+16*i,id=getInt(data,p),discount=getInt(data,p+4),coins=getInt(data,p+8),bills=getInt(data,p+12);
-            if(id< -1 || id>=76 || discount<0 || discount>50 || coins<0 || bills<0 || bills>10)return;
+            if(id< -1 || id>=68 || discount<0 || discount>50 || coins<0 || bills<0 || bills>10)return;
             if(id==-1 && (coins<=0 || bills<3))return;
+            if(id>=0 && (discount<15 || chosen(id,i,offerIds)))return;
             offerIds[i]=id;offerDiscount[i]=discount;offerCoins[i]=coins;offerBills[i]=bills;
         }
         offerWeek=getInt(data,4);offerCount=count;
@@ -56,7 +62,7 @@ final class GF3MarketFront {
             int p=12+16*i;
             putInt(data,p,offerIds[i]);putInt(data,p+4,offerDiscount[i]);putInt(data,p+8,offerCoins[i]);putInt(data,p+12,offerBills[i]);
         }
-        g.writeOffer(OFFER_SAVE,data);
+        try {g.writeOffer(OFFER_SAVE,data);}catch(Exception unavailable){}
     }
     private static boolean chosen(int id,int used,int[] ids) {
         for(int i=0;i<used;i++)if(ids[i]==id)return true;
@@ -78,13 +84,13 @@ final class GF3MarketFront {
         // animals or unique dogs. Preserve the normal level requirements.
         for(int i=0;i<rows.length;i++){
             int[] row=rows[i];
-            if((row[5]>=0 || i==64 || i==65) && row[2]>=0 &&
+            if(row[5]>=0 && row[2]>=0 &&
                (row[6]>0 || row[7]>0) && row[8]<=a.f() &&
                (i<68) && !chosen(i,oldCount,previous))candidates[n++]=i;
         }
         if(n<offerCount)for(int i=0;i<rows.length;i++){
             int[] row=rows[i];
-            if(i<68 && row[2]>=0 && (row[5]>=0 || i==64 || i==65) &&
+            if(i<68 && row[2]>=0 && row[5]>=0 &&
                 (row[6]>0 || row[7]>0) && row[8]<=a.f() && !chosen(i,n,candidates))candidates[n++]=i;
         }
         // At least one animal; a second or third card can exchange farm
@@ -115,8 +121,11 @@ final class GF3MarketFront {
             int[] row=new int[source.length];System.arraycopy(source,0,row,0,source.length);
             row[5]=i;row[9]=TAG-1;
             if(id<0){
-                row[2]=GF3MarketRows.cashLabels[offerBills[i]-3];row[3]=20;row[4]=13;
-                row[6]=offerCoins[i];row[7]=0;row[8]=0;row[32]=0;
+                // Populate with a valid animal sheet first: the original card
+                // initializer interprets animal sheet/frame numbers as actors.
+                // The already loaded wallet icon is installed below as static UI.
+                row[2]=(offerRedeemed&(1<<i))!=0?GF3MarketRows.soldLabel:GF3MarketRows.cashLabels[offerBills[i]-3];
+                row[6]=offerCoins[i];row[7]=0;row[8]=0;
             }else{
                 row[6]=discounted(row[6],offerDiscount[i]);row[7]=discounted(row[7],offerDiscount[i]);
             }
@@ -131,22 +140,28 @@ final class GF3MarketFront {
             int base=28+14*i;
             if(offerIds[i]<0){
                 // Native card, currency icon and price badge. No animal stats.
-                a.controls[GUI][base+2][9]=0;
+                short[] icon=a.controls[GUI][base+2],wallet=a.controls[GUI][6];
+                icon[5]=wallet[5];icon[6]=wallet[6];icon[8]=0;icon[9]=0;
                 show(base+13,false,false);
-                if((offerRedeemed&(1<<i))!=0)show(base,false,false);
+                for(int detail=6;detail<=11;detail++)show(base+detail,false,false);
+                if((offerRedeemed&(1<<i))!=0) {
+                    // Keep the card and its label visible, disable its hit target.
+                    show(base,true,false);
+                }
             }
         }
     }
     private static boolean offerHit(int row){
-        if(row<28 || (row-28)%14!=0)return false;
+        if(row<28 || row>=28+14*6)return false;
         int i=(row-28)/14+a.ct;
         if(i<0 || i>=offerCount || offerIds[i]>=0)return false;
+        if((row-28)%14!=0)return true;
         if((offerRedeemed&(1<<i))!=0 || a.d()<offerCoins[i] || a.e()>a.maxBills-offerBills[i]){
             a.c(56);return true;
         }
         a.giveCoins(-offerCoins[i]);a.giveBills(offerBills[i]);
         offerRedeemed|=1<<i;
-        a.saveFarm(true);saveOffers();a.c(49);
+        saveOffers();a.saveFarm(true);a.c(49);
         offers();nav();
         return true;
     }
@@ -234,7 +249,10 @@ final class GF3MarketFront {
         if(tab==0 || tab==1 || tab==4) categories(tab);
         else if(tab==2 || tab==3) selectShelf(tab==2?12:13);
         else {
-            first=shelf=-1;offers();
+            first=shelf=-1;
+            try {offers();}catch(Exception invalid){
+                a.gf3MarketPopulate(0,TAG-1);offerCount=0;
+            }
         }
         a.u(tab==4?1:tab==5?4:tab);
         nav();
@@ -271,7 +289,8 @@ final class GF3MarketFront {
         if(phase==1 && enabled()) {
             if(tab<0 && (a.cv==-1 || a.cu!=0)) open(a.cw==4?5:a.cw);
             else if(tab>=0) {
-                if(tab==5) offers(); else if(shelf>=0) selectShelf(shelf); else if(first>=0) categories(tab);
+                if(tab==5){if(offerCount==0)try {offers();}catch(Exception invalid){offerCount=0;}}
+                else if(shelf>=0) selectShelf(shelf); else if(first>=0) categories(tab);
                 nav();
             }
         }
@@ -281,7 +300,7 @@ final class GF3MarketFront {
             int offset=rows[56][2]-rows[28][2];
             a.a(Integer.toString(GF3HiveLimits.owned())+"/"+GF3HiveLimits.capacity(),GUI,27,offset,20);
         }
-        if(phase==2 && tab==5 && currentWeek()>offerWeek){offers();nav();}
+        if(phase==2 && tab==5 && currentWeek()>offerWeek){try {offers();nav();}catch(Exception invalid){offerCount=0;}}
         if(phase==5) {
             tab=first=shelf=-1;
             if(a.assets.length>BACKGROUND_SHEET) a.assets[BACKGROUND_SHEET]=null;

@@ -5,8 +5,7 @@ final class GF3FarmAudio {
     private static long musicStarted,ambientRequested;
     private static int next,previous=-1,effectChannel=FIRST_EFFECT;
     private static boolean ambient;
-    private static final int[] pending=new int[24];
-    private static int pendingHead,pendingCount;
+    private static final long[] lastCue=new long[163];
     private static final long[] reservedUntil=new long[8];
 
     private static void loadSlot(int cue) {
@@ -47,11 +46,13 @@ final class GF3FarmAudio {
         // Android cGame.oz rotates ordinary effects through channels 3–7.
         // Its master level comes from the saved setting, including on MMAPI
         // providers that cannot report the volume of a finished waveform.
-        int slot=cue==a.aw ? GF3AnimalMarket.alternate(cue) : cue;
-        if(!playEffect(slot) && pendingCount<pending.length){
-            pending[(pendingHead+pendingCount)%pending.length]=slot;
-            pendingCount++;
-        }
+        // Never defer a farm action. A late harvest sound is worse than
+        // dropping an effect while all five voices are occupied.
+        if(cue>=67 && cue<=118)cue-=52;
+        if(cue<0 || cue>=lastCue.length)return;
+        long now=System.currentTimeMillis();
+        if(now-lastCue[cue]<100L)return;
+        if(playEffect(cue))lastCue[cue]=now;
     }
 
     private static boolean playEffect(int slot) {
@@ -63,10 +64,10 @@ final class GF3FarmAudio {
         }
         if(channel<0)return false;
         load(slot,-1);
-        if(!k.loaded(slot)) return true;
+        if(!k.loaded(slot)) return false;
         a.aw=slot;
         a.lastEffect=System.currentTimeMillis();
-        reservedUntil[channel]=now+200L;
+        reservedUntil[channel]=System.currentTimeMillis()+180L;
         k.a(channel,slot,1,a.at,2);
         effectChannel=channel==LAST_EFFECT ? FIRST_EFFECT : channel+1;
         return true;
@@ -85,18 +86,15 @@ final class GF3FarmAudio {
                 for(int channel=MUSIC;channel<=LAST_EFFECT;channel++) k.a(channel,true);
             }
         }
-        pendingCount=pendingHead=0;
         for(int i=0;i<reservedUntil.length;i++)reservedUntil[i]=0;
+        for(int i=0;i<lastCue.length;i++)lastCue[i]=0;
         ambient=false;
         musicStarted=0;
     }
 
     static void update() {
         if(!a.R) return;
-        if(!a.S){pendingCount=0;pendingHead=0;}
-        else while(pendingCount>0 && playEffect(pending[pendingHead])){
-            pendingHead=(pendingHead+1)%pending.length;pendingCount--;
-        }
+        // No backlog is drained after the action has finished.
         if(!a.intro && a.C!=-1) {
             music(13,false);
             a.intro=true;

@@ -12,7 +12,7 @@ final class GF3AudioDevice {
     private static final int[] durations=new int[8];
     private static final boolean[] looping=new boolean[8];
     private static final long[] ends=new long[8];
-    private static boolean missedEnd;
+
     static int soundType;
 
     private static int readLE32(DataInputStream in) throws IOException {
@@ -116,7 +116,7 @@ final class GF3AudioDevice {
         long now=System.currentTimeMillis();
         for(int i=0;i<players.length;i++) {
             Player p=players[i];
-            if(p==null || now<ends[i] || (looping[i] && !missedEnd)) continue;
+            if(p==null || now<ends[i] || looping[i]) continue;
             try {
                 if(p.getState()!=Player.STARTED) players[i]=null;
                 else if(!looping[i]) {
@@ -125,12 +125,6 @@ final class GF3AudioDevice {
                     if(now-ends[i]<120L) continue;
                     p.stop();
                     players[i]=null;
-                    missedEnd=true;
-                } else {
-                    p.stop();
-                    try {p.setMediaTime(0L);}catch(Exception unsupported){}
-                    p.start();
-                    ends[i]=now+durations[i];
                 }
             } catch(Exception ended) {
                 players[i]=null;

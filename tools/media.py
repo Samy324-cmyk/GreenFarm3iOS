@@ -375,7 +375,9 @@ def build_audio(jar, apk, decoder):
     if len(original)!=119:
         raise ValueError("Unsupported legacy sound bank")
     extra = PET_SOURCE_TO_SLOT | EXTRACTOR_SOURCE_TO_SLOT
-    result = [*original,*([b'']*(2*len(extra)+2+2*len(ADDITIONAL_SOUNDS)))]
+    # The legacy recordings are deliberately not copied. Unmatched event IDs
+    # are silent until their original Android correspondence is established.
+    result = [b'']*(len(original)+2*len(extra)+2+2*len(ADDITIONAL_SOUNDS))
     for source,slot in extra.items():
         cues[slot]=source
         cues[slot+len(extra)]=source
