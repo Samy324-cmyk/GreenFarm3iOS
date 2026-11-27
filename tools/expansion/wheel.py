@@ -85,7 +85,7 @@ def patch_wheel(classes, apk, api):
         stub=folder/'a.java'
         stub.write_text('''class a {static int[] states;static short[][][] controls;
             static String[][] captions;static e[] assets;static l[] images;static byte[] flags;
-            static void a(int n){}static void c(int n){}static void c(boolean b){}static void g(int n){}static void h(int n){}
+            static int a(){return 0;}static void a(int n){}static void c(int n){}static void c(boolean b){}static void g(int n){}static void h(int n){}
             static boolean f(int n){return false;}static int e(){return 0;}static int d(){return 0;}static int bR,C;
             static void b(int i,boolean load){}static void E(int i){}static void F(int i){}static void H(int i){}static void gf(){}static void t(){}
             static void a(String s,int gui,int i,int x,int y){}
