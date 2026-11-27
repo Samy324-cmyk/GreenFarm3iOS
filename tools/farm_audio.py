@@ -64,7 +64,7 @@ def patch_farm_audio(game_data,sound_data):
                          b'\xb8'+u2(sound.ref('GF3AudioDevice','time','(Ljavax/microedition/media/Player;)J')))])
     expose(game,game.fields,{('R','Z'),('T','Z'),('S','Z'),('V','Z'),('at','I'),('C','I'),
                              ('e','J'),('c','Z'),('aw','I'),('W','Z')})
-    expose(game,game.methods,{('l','(I)Z')})
+    expose(game,game.methods,{('l','(I)Z'),('a','()I')})
     # The credits screen calls the private single-channel dispatcher
     # directly, bypassing the public sound-effect entry point.
     credit=bytes.fromhex('03102203b8')+u2(game.ref('a','c','(IIZ)V'))
@@ -97,7 +97,7 @@ def patch_farm_audio(game_data,sound_data):
         stub=folder/'a.java'
         stub.write_text('''class a {static boolean R,T,S,V,W,intro;static int at,C,aw; static long lastEffect;static int[][] d;
             static void e(int id,int flags){} static boolean loadSound(int id){return false;}
-            static void c(int cue){} static void gf3StopSound(){}}
+            static int a(){return 0;} static void c(int cue){} static void gf3StopSound(){}}
             class k {static boolean loaded(int cue){return false;} static boolean playing(int ch){return false;}
             static void tick(){} static void a(int ch,int cue,int loops,int volume,int priority){} static void a(int ch,boolean stop){}}
             class GF3AnimalMarket {static int alternate(int id){return 0;}}

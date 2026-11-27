@@ -5,6 +5,11 @@ final class GF3FarmAudio {
     private static long musicStarted,ambientRequested;
     private static int next,previous=-1,effectChannel=FIRST_EFFECT;
     private static boolean ambient;
+    // f.B() selects native slots 26..29 at the wildlife animation boundary.
+    // Prepare the corresponding short APK clips ahead of that event.
+    private static final int[] farmCues={26,27,28,29,137};
+    private static int warmCursor;
+    private static long warmAt;
     private static final long[] lastCue=new long[163];
     private static final long[] reservedUntil=new long[8];
 
@@ -98,6 +103,7 @@ final class GF3FarmAudio {
         for(int i=0;i<reservedUntil.length;i++)reservedUntil[i]=0;
         for(int i=0;i<lastCue.length;i++)lastCue[i]=0;
         ambient=false;
+        warmCursor=0;warmAt=0;
         musicStarted=0;
     }
 
@@ -122,6 +128,12 @@ final class GF3FarmAudio {
         } else if(!a.S && ambient) {
             k.a(AMBIENCE,true);
             ambient=false;
+        }
+        if(a.S && !a.W && a.C==-1 && a.a()==17 && now>=warmAt) {
+            // Only one short resource per interval, with no playback queued.
+            loadSlot(farmCues[warmCursor]);
+            warmCursor=(warmCursor+1)%farmCues.length;
+            warmAt=now+750L;
         }
         if(!a.T || now-musicStarted<25000L || now-a.lastEffect<5000L || k.playing(MUSIC)) return;
         if(next==0) {
