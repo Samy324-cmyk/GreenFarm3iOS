@@ -54,6 +54,8 @@ def patch(data, entry):
             code=b"\x2a\x1b\x1c"+bytes([3+phase])+b"\xb8"+u2(cf.ref("GF3Viewport","pointer","(La;III)V"))+b"\xb1"
             pointers.append((flags,k,d,[(cf.utf("Code"),pack_code(u2(4)+u2(3),code,u2(0),[]))]))
             changed=True
+        if entry=="f.class" and (name,desc) in {('B','()V'),('a','(I)Lf;')}:
+            pass # verified wildlife call patched below without modifying its selection
         if entry == "g.class" and name == "paint" and desc == SIGNATURE:
             cf.methods[n] = flags, cf.utf("gf3OriginalPaint"), d, attrs
             recognized.add("paint")
@@ -63,6 +65,13 @@ def patch(data, entry):
             header, ins, exceptions, extra = code_parts(body)
             code = bytearray(ins)
             for pc in instruction_offsets(ins):
+                if entry=='f.class' and ins[pc]==0xb8:
+                    ref=int.from_bytes(ins[pc+1:pc+3],'big')
+                    if ref==cf.ref('a','c','(I)V'):
+                        if (name,desc) in {('B','()V'),('a','(I)Lf;')} and pc in (7,40):
+                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','wildlife','(I)V'))
+                        elif pc>=2 and ins[pc-2:pc]==b'\x10\x24':
+                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','feeding','(I)V'))
                 if ins[pc]==0xb8:
                     ref=int.from_bytes(ins[pc+1:pc+3],"big")
                     if ref in scene_refs and (entry!="f.class" or (name,desc)==("b","()V")):
@@ -88,6 +97,25 @@ def patch(data, entry):
         cf.methods.append((1, cf.utf("paint"), cf.utf(SIGNATURE), [(cf.utf("Code"), pack_code(u2(2)+u2(2),code,u2(0),[]))]))
         changed = True
     if entry=="a.class":
+        def field(name,desc):
+            typ=cf.intern(b'\x0c'+u2(cf.utf(name))+u2(cf.utf(desc)))
+            return u2(cf.intern(b'\x09'+u2(cf.cls('a'))+u2(typ)))
+        # Save only the owned farm, after the tutorial and on a stable screen.
+        # c(Z) also validates F=0 and d=-1 internally.
+        code=b'\xb2'+field('F','I')+b'\x9a\x00\x1a'+b'\xb2'+field('d','I')+b'\x02\xa0\x00\x13'+b'\xb2'+field('C','I')+b'\x02\xa0\x00\x0c'+b'\xb8'+u2(cf.ref('a','a','()I'))+b'\x10\x11\xa0\x00\x05\x04\xac\x03\xac'
+        cf.methods.append((8,cf.utf('gf3SaveReady'),cf.utf('()Z'),[(cf.utf('Code'),pack_code(u2(2)+u2(0),code,u2(0),[]))]))
+        # On app backgrounding the game thread is paused by g.h(). Save
+        # first, while the data and canvas still exist.
+        for name,desc,alias,load,ret,flagsize in [('h','()V','gf3PauseLifecycle',b'\x2a',b'\xb1',1),('et','()V','gf3QuitNative',b'',b'\xb1',0)]:
+            matches=[i for i,(_,n,d,_) in enumerate(cf.methods) if (cf.string(n),cf.string(d))==(name,desc)]
+            if len(matches)!=1:raise ValueError('Missing lifecycle '+name)
+            i=matches[0];flags,n,d,attrs=cf.methods[i]
+            cf.methods[i]=(flags,cf.utf(alias),d,attrs)
+            # Pause wrapper calls synchronized save before the native pause.
+            # Quit wrapper uses the existing native save gate (even on pause screen).
+            call=(b'\xb8'+u2(cf.ref('GF3Presentation','saveNow','()V')) if load else b'\x04\xb8'+u2(cf.ref('a','c','(Z)V')))
+            call+=load+(b'\xb7' if load else b'\xb8')+u2(cf.ref('a',alias,desc))+ret
+            cf.methods.append((flags,n,d,[(cf.utf('Code'),pack_code(u2(1)+u2(flagsize),call,u2(0),[]))]))
         if len(pointers)!=3: raise ValueError("Missing physical touch inputs")
         cf.methods.extend(pointers)
     if entry in ("f.class","a.class") and not recognized:
@@ -101,8 +129,9 @@ def build(source, output, api, javac="javac"):
         stub = temp / "g.java"
         stub.write_text("abstract class g extends javax.microedition.lcdui.Canvas {static boolean o; static int M;"
                         "public abstract void gf3OriginalPaint(javax.microedition.lcdui.Graphics graphics);}"
-                        "abstract class a extends g {static int a(){return 0;}void gf3PointerPressed(int x,int y){} "
+                        "abstract class a extends g {static int a(){return 0;}static boolean gf3SaveReady(){return false;}static void c(boolean force){}void gf3PointerPressed(int x,int y){} "
                         "void gf3PointerReleased(int x,int y){} void gf3PointerDragged(int x,int y){}} "
+                        "class GF3Wheel {static boolean resourcePointer(int x,int y,int phase){return false;}} "
                         "class f {static void b(){}} class k {static int[][] a; static int[] p;"
                         "static void a(javax.microedition.lcdui.Graphics g,int x,int y,int layer){}}",
                         encoding="ascii")

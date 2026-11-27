@@ -42,6 +42,13 @@ final class GF3FarmAudio {
         } else effect(cue);
     }
 
+    static void wildlife(int cue) {
+        if(a.R && a.S && !a.W)effect(cue);
+    }
+    static void feeding(int unused) {
+        if(a.R && a.S && !a.W)effect(137);
+    }
+
     static void effect(int cue) {
         if(!a.R || !a.S || a.W) return;
         if(cue<15) {

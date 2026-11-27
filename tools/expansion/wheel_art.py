@@ -160,6 +160,13 @@ def cash_shop_images(apk):
         blit(canvas,800,480,rgba_frame(source[33],0),0,0)
         blit(canvas,800,480,rgba_frame(source[20],122),715,10)
         images['gf3-cash-shop.png' if cash else 'gf3-coin-shop.png']=portrait(800,480,canvas)
+    selector=bytearray(155*138*4)
+    blit(selector,155,138,stretched(rgba_frame(source[20],166),155,138),0,0)
+    icon=rgba_frame(source[38],4)
+    left=min(q[0] for q in icon);top=min(q[1] for q in icon)
+    right=max(q[0]+q[2] for q in icon);bottom=max(q[1]+q[3] for q in icon)
+    blit(selector,155,138,icon,77-(left+right)//2,69-(top+bottom)//2)
+    images['gf3-cash-selector.png']=portrait(155,138,selector)
     return images
 
 def wheel_images(apk):

@@ -15,6 +15,22 @@ final class GF3Presentation {
     private static Image composed;
     private static Graphics composedGraphics;
     private static int screenId=-1;
+    private static long lastSave;
+    private static boolean saving;
+
+    static synchronized void saveNow(){
+        if(saving || !a.gf3SaveReady())return;
+        saving=true;
+        try{a.c(true);lastSave=System.currentTimeMillis();}
+        catch(Exception failure){System.out.println("GF3 save failed: "+failure);}
+        finally{saving=false;}
+    }
+    private static void autosave(){
+        long now=System.currentTimeMillis();
+        if(!a.gf3SaveReady()){lastSave=0;return;}
+        if(lastSave==0){lastSave=now;return;}
+        if(now<lastSave || now-lastSave>=15000L)saveNow();
+    }
     private static volatile int nativeCost,betweenCost;
     public static int ticks, presentations, interpolated, matchedSprites;
 
@@ -71,6 +87,7 @@ final class GF3Presentation {
             screenId=nextScreen;
             ticks++;
             matchedSprites+=moving;
+            autosave();
         }
         long elapsed=System.currentTimeMillis()-tickStart;
         screen.setClip(0,0,w,h);

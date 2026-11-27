@@ -53,13 +53,25 @@ final class WheelProbe {
                 MobilePlatform.pointerPressed(x,y);Thread.sleep(100);MobilePlatform.pointerReleased(x,y);break;
             }
         waitScreen(screen,17);
-        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,65550);
+        Method action=MarketProbe.method(wheel,"resourceAction",int.class,int.class,int.class,int.class);
+        for(int i=0;i<6;i++){
+            if((Integer)action.invoke(null,51,250+182*(i%3),225+163*(i/3))!=5+3*i)
+                throw new AssertionError("Cash button "+i);
+        }
+        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,65547);
+        waitScreen(screen,34);
+        // Native gold shop is still the real screen. Click its added side tab.
+        MobilePlatform.pointerPressed(479-350,110);Thread.sleep(80);MobilePlatform.pointerReleased(479-350,110);
         waitScreen(screen,51);
-        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|23);
-        if((Boolean)MarketProbe.field(wheel,null,"cashTab",boolean.class))throw new AssertionError("Gold selector");
-        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|25);
-        if(!(Boolean)MarketProbe.field(wheel,null,"cashTab",boolean.class))throw new AssertionError("Cash selector");
-        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|2);
+        MarketProbe.method(game,"g",void.class,int.class).invoke(null,5000);
+        int beforeGold=(Integer)money.invoke(null),beforeCash=(Integer)wallet.invoke(null);
+        MobilePlatform.pointerPressed(479-225,250);Thread.sleep(80);MobilePlatform.pointerReleased(479-225,250);
+        Thread.sleep(500);
+        if((Integer)money.invoke(null)!=beforeGold-1500 || (Integer)wallet.invoke(null)!=beforeCash+10)
+            throw new AssertionError("Cash touch purchase did not debit and credit");
+        MobilePlatform.pointerPressed(479-50,750);Thread.sleep(80);MobilePlatform.pointerReleased(479-50,750);
+        waitScreen(screen,34);
+        MarketProbe.method(game,"t",void.class).invoke(null);
         waitScreen(screen,17);
         System.out.println("WHEEL_OK paid=3 prize="+prize);
     }

@@ -22,6 +22,10 @@ final class GF3Wheel {
     private static boolean loaded,cache,spinning;
     private static Image background,rim,coin,bill,cashShop,coinShop;
     private static boolean cashTab=true;
+    private static Image cashSelector;
+    private static boolean fromGold;
+    private static volatile int pendingTouch=-1;
+    private static int pressedScreen=-1,pressedAction=-1;
     private static final int CASH_SCREEN=51,CASH_GUI=31;
     private static final int[] CASH_AMOUNTS={10,25,50,100,250,500};
     private static final int[] CASH_COSTS={1500,3500,6500,12000,28000,50000};
@@ -166,6 +170,63 @@ final class GF3Wheel {
         if(!a.f(GOLD_COSTS[pack]))return false;
         a.g(GOLD_AMOUNTS[pack]);a.c(true);return true;
     }
+    // All coordinates below use the game's 800x480 landscape design.
+    // GF3Viewport has already converted physical touches to logical portrait.
+    static int resourceAction(int screen,int x,int y) {
+        if(screen==34)return x>=35 && x<190 && y>=285 && y<423?25:-1;
+        if(screen!=CASH_SCREEN)return -1;
+        if(x>=710 && y<90)return 2;
+        if(x>=30 && x<200 && y>=110 && y<270)return 23;
+        for(int i=0;i<6;i++){
+            int bx=218+182*(i%3),by=204+163*(i/3);
+            if(x>=bx && x<bx+154 && y>=by && y<by+47)return 5+3*i;
+        }
+        return -1;
+    }
+    static boolean resourcePointer(int px,int py,int phase){
+        int screen=a.a();
+        if(screen!=34 && screen!=CASH_SCREEN){pressedScreen=pressedAction=-1;return false;}
+        int action=resourceAction(screen,py,479-px);
+        if(phase==0){pressedScreen=screen;pressedAction=action;}
+        boolean capture=screen==CASH_SCREEN || (pressedScreen==screen && pressedAction>=0);
+        if(phase==1){
+            if(pressedScreen==screen && action==pressedAction && action>=0)
+                pendingTouch=(screen<<16)|action;
+            pressedScreen=pressedAction=-1;
+        }
+        return capture;
+    }
+    private static void resourceInput(int screen){
+        int event=pendingTouch;
+        if(event<0)return;
+        pendingTouch=-1;
+        if((event>>>16)!=screen)return;
+        int action=event&65535;
+        if(screen==34 && action==25){
+            fromGold=true;cashTab=true;a.c(60);a.a(CASH_SCREEN);return;
+        }
+        if(screen==CASH_SCREEN){
+            if(action==2){a.c(57);a.t();}
+            else if(action==23){
+                a.c(61);
+                if(fromGold)a.t();
+                else{cashTab=false;a.t();a.gf3WheelPreviousHit(65547);}
+            }else if(action>=5 && (action-5)%3==0 && (action-5)/3<6)
+                a.c(buyCash((action-5)/3)?49:56);
+        }
+    }
+    private static void drawCashSelector(){
+        Graphics gr=g.graphics;
+        if(gr==null)return;
+        try{
+            if(cashSelector==null)cashSelector=Image.createImage("/gf3-cash-selector.png");
+            int x=gr.getClipX(),y=gr.getClipY(),w=gr.getClipWidth(),h=gr.getClipHeight();
+            try{
+                gr.setClip(0,0,480,800);
+                gr.drawImage(cashSelector,479-423,35,Graphics.TOP|Graphics.LEFT);
+            }finally{gr.setClip(x,y,w,h);}
+        }catch(IOException missing){}
+    }
     private static void cashFill(){
         cashControl(1,true,false);cashControl(2,true,true);
         cashControl(3,true,false);cashControl(4,true,false);
@@ -183,13 +244,13 @@ final class GF3Wheel {
             catch(IOException missing){throw new IllegalStateException("Resource shop artwork "+missing);}
         }
         if(phase==1){enterCache();a.E(CASH_GUI);cashFill();}
-        if(phase==2){int key=g.i();if(key==19 || key==11)a.t();}
+        if(phase==2){resourceInput(CASH_SCREEN);int key=g.i();if(key==19 || key==11)a.t();}
         if(phase==3 && cashShop!=null && g.graphics!=null){
             Graphics gr=g.graphics;
             int x=gr.getClipX(),y=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
             try{
                 gr.setClip(0,0,480,800);
-                gr.drawImage(cashTab?cashShop:coinShop,0,0,Graphics.TOP|Graphics.LEFT);
+                gr.drawImage(cashShop,0,0,Graphics.TOP|Graphics.LEFT);
                 a.a("¡Más!",CASH_GUI,1,0,0);
                 gr.setClip(0,0,480,800);a.a(cashTab?"Monedas":"Monedas *",CASH_GUI,24,0,0);
                 gr.setClip(0,0,480,800);a.a(cashTab?"Billetes *":"Billetes",CASH_GUI,26,0,0);
@@ -211,6 +272,13 @@ final class GF3Wheel {
         int[] states=a.states;
         if(states!=null && index>=0 && index<states.length){
             if(states[index]==CASH_SCREEN)return cashScreen(phase);
+            if(states[index]==34){
+                if(phase==2)resourceInput(34);
+                boolean handled=a.gf3WheelPreviousScreen(phase,index);
+                if(phase==3)drawCashSelector();
+                if(phase==5)cashSelector=null;
+                return handled;
+            }
             if(states[index]==17 && (phase==1 || phase==2)){
                 boolean handled=a.gf3WheelPreviousScreen(phase,index);
                 // The old IAP gate hides the bills '+' when offline.
@@ -240,12 +308,12 @@ final class GF3Wheel {
         return false;
     }
     static void hit(int event){
-        if((event==65550 || event==65547) && a.a()==17 && a.C==-1){cashTab=event==65550;a.c(60);a.a(CASH_SCREEN);return;}
+        if(event==65550 && a.a()==17 && a.C==-1){fromGold=false;cashTab=true;a.c(60);a.a(CASH_SCREEN);return;}
         if((event>>>16)==CASH_GUI && a.a()==CASH_SCREEN){
             int row=event&65535;
             if(row==2){a.c(57);a.t();}
-            else if(row==23 || row==25){cashTab=row==25;a.c(61);}
-            else if(row>=5 && (row-5)%3==0 && (row-5)/3<6){a.c((cashTab?buyCash((row-5)/3):buyGold((row-5)/3))?49:56);}
+            else if(row==23){a.c(61);if(fromGold)a.t();else{a.t();a.gf3WheelPreviousHit(65547);}}
+            else if(row>=5 && (row-5)%3==0 && (row-5)/3<6){a.c(buyCash((row-5)/3)?49:56);}
             return;
         }
         if((event>>>16)!=GUI){a.gf3WheelPreviousHit(event);return;}

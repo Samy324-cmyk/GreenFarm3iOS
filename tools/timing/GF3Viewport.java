@@ -103,6 +103,7 @@ final class GF3Viewport {
             y=horizontal?u:v;
             if(phase==1) captured&=~mask;
         }
+        if(GF3Wheel.resourcePointer(x,y,phase))return;
         if(phase==0) canvas.gf3PointerPressed(x,y);
         else if(phase==1) canvas.gf3PointerReleased(x,y);
         else canvas.gf3PointerDragged(x,y);

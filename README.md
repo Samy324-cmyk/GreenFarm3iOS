@@ -41,7 +41,7 @@ El plano de la mansión se abre al aceptar el encargo de Walt en el diario y toc
 
 La última pestaña del mercado ofrece dos o tres tarjetas diarias, renovadas a medianoche local con contador. Los paquetes de billetes usan el atlas 38 del panel 8 de Android. El signo + de billetes abre la tienda de recursos offline; sus seis precios en monedas son una adaptación local, no una cotización del antiguo servicio de compras. No usa dinero real.
 
-La rueda de la suerte (edificio 1019) usa el panel 45, el marco y los cinco sectores del APK 4.4.4. El giro local cuesta 3 billetes del juego; los premios offline de monedas y billetes sustituyen el servicio de anuncios. Se guardan el pago y el premio en una sola escritura de la partida.
+La tienda nativa de monedas (pantalla 34) conserva su composición original; un selector lateral de billetes abre la tienda offline. Las compras usan zonas táctiles del propio diseño. La granja guarda cada 15 segundos mientras está activa y al salir mediante la rutina RMS existente.\n\nLa rueda de la suerte (edificio 1019) usa el panel 45, el marco y los cinco sectores del APK 4.4.4. El giro local cuesta 3 billetes del juego; los premios offline de monedas y billetes sustituyen el servicio de anuncios. Se guardan el pago y el premio en una sola escritura de la partida.
 
 La interpolación se limita al desplazamiento real de la cámara en la granja. Los menús y las escenas estacionarias conservan el cuadro nativo, evitando emparejar imágenes repetidas como si fueran el mismo objeto.
 
