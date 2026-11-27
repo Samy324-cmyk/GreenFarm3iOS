@@ -149,19 +149,12 @@ def cash_shop_images(apk):
             if sheet==20 and frame in (12,13):
                 parts=stretched(parts,176 if frame==12 else 138,42)
             blit(canvas,800,480,parts,x,y)
-        # The large resource illustration is the only decoration in the upper
-        # left, just like the native basket of coins. The other tab goes below.
-        hero=resize_parts(rgba_frame(source[38 if cash else 37],4 if cash else 3),118,122)
-        blit(canvas,800,480,hero,47,138)
-        selector=bytearray(155*138*4)
-        blit(selector,155,138,resize_parts(card,155,138),0,0)
-        other=rgba_frame(source[37 if cash else 38],3 if cash else 4)
-        left=min(q[0] for q in other);top=min(q[1] for q in other)
-        right=max(q[0]+q[2] for q in other);bottom=max(q[1]+q[3] for q in other)
-        blit(selector,155,138,other,77-(left+right)//2,51-(top+bottom)//2)
-        blit(selector,155,138,green,8,101)
-        # Selector is a small native-style tab, not an extra package card.
-        blit(canvas,800,480,[(0,0,155,138,selector)],35,285)
+        # Panel 8 uses the original resource illustrations, not package
+        # thumbnails or purchase buttons. Highlight only the active resource.
+        blit(canvas,800,480,rgba_frame(source[43],5 if cash else 4),51,142)
+        selector=bytearray(155*152*4)
+        blit(selector,155,152,rgba_frame(source[43],0 if cash else 1),14,9)
+        blit(canvas,800,480,[(0,0,155,152,selector)],35,285)
         for i,(x,y,ax,ay,bx,by) in enumerate(RESOURCE_CARDS):
             blit(canvas,800,480,card,x,y)
             blit(canvas,800,480,rgba_frame(source[38 if cash else 37],i),ax,ay)
@@ -174,7 +167,21 @@ def cash_shop_images(apk):
         blit(canvas,800,480,rgba_frame(source[33],0),0,0)
         blit(canvas,800,480,rgba_frame(source[20],122),715,10)
         images['gf3-cash-shop.png' if cash else 'gf3-coin-shop.png']=portrait(800,480,canvas)
-        if not cash:images['gf3-cash-selector.png']=portrait(155,138,selector)
+        if not cash:images['gf3-cash-selector.png']=portrait(155,152,selector)
+    return images
+
+HOUSE_FRAMES=(12,13,62,206,246,247,248,251)
+def house_images(apk):
+    source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
+    images={}
+    for frame in HOUSE_FRAMES:
+        parts=rgba_frame(source[20],frame)
+        width=max(x+w for x,y,w,h,p in parts)
+        height=max(y+h for x,y,w,h,p in parts)
+        parts=stretched(parts,width,height)
+        canvas=bytearray(width*height*4)
+        blit(canvas,width,height,parts)
+        images['gf3-house-%d.png'%frame]=portrait(width,height,canvas)
     return images
 
 def wheel_images(apk):

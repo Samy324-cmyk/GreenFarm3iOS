@@ -370,6 +370,12 @@ def build_sprites(jar, apk):
                     converted.append([dest,index,source,index])
                     changed = True
                     continue
+                if dest == 7 and index == 10:
+                    source_geometry=geometry(android[10])[0]
+                    if len(source_geometry[3])!=18 or len(geom[3])!=18:
+                        raise ValueError('Unexpected journal portrait count')
+                    blocks[i]=convert_sprite(android[10]);converted.append([dest,index,source,10]);changed=True
+                    continue
                 if dest == 7 and index in (2, 34):
                     extended = geometry(android[index])[0]
                     if any(a != b[:len(a)] for a, b in zip(geom, extended)):

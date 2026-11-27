@@ -22,6 +22,8 @@ def patch_toys(a_class,f_class,save_class,javac='javac'):
             a.methods[i] = flags&~2,n,d,attrs
             break
     else: raise ValueError('Missing touch ribbon refresh')
+    # B() always emits the old tool sound even on a pet ribbon.
+    patch_code(a,'B','()V',[(2,b'\xb8'+u2(a.ref('a','c','(I)V')),b'\xb8'+u2(a.ref('GF3DogToys','wheelSound','(I)V')))])
     for cf, key, original, handler, desc, load, ret in [
         (a,('af','(I)V'),'gf3PreviousBuy','buy','(I)V',b'\x1a',b'\xb1'),
         (a,('I','(I)V'),'gf3PreviousControl','control','(I)V',b'\x1a',b'\xb1'),
@@ -50,7 +52,7 @@ def patch_toys(a_class,f_class,save_class,javac='javac'):
         stub.write_text("""class a {
           static int ct,cu,aF,aG,aH,F; static int[] M,Q,R,k,l,m,n;static boolean[] f;
           static short[][][] controls;static e[] assets,world;static int[][] hits;
-          static void sound(int id){} static void gf3PreviousBuy(int b){} static boolean c(int n){return false;}
+          static int screen(){return 0;}static void clearTool(int id){} static void sound(int id){} static void gf3PreviousBuy(int b){} static boolean c(int n){return false;}
           static boolean f(int n){return false;} static int f(){return 0;}
           static void a(boolean b,int mode,int slot){} static void B(){} static void gf(){} static void H(int panel){} static void gf3PreviousControl(int e){}
           static int b(int id,int q,int ac){return 0;} }
@@ -74,7 +76,7 @@ def patch_toys(a_class,f_class,save_class,javac='javac'):
         subprocess.run([javac,'--release','8','-g:none','-d',str(folder),str(source),str(stub)],check=True)
         helper=ClassFile((folder/'GF3DogToys.class').read_bytes())
         # The original bytecode distinguishes these members by return/field type.
-        for old,real in (('rows','a'),('sprite','a'),('animations','a'),('frames','b'),('aId','a'),('frameNumber','b'),('sound','c'),('controls','a'),('assets','a'),('world','b'),('hits','i')):
+        for old,real in (('screen','a'),('clearTool','e'),('rows','a'),('sprite','a'),('animations','a'),('frames','b'),('aId','a'),('frameNumber','b'),('sound','c'),('controls','a'),('assets','a'),('world','b'),('hits','i')):
             helper.pool[helper.utf(old)] = helper.pool[helper.utf(real)]
         cooked=convert_helper(helper.bytes())
     return {'a.class':a.bytes(),'f.class':f.bytes(),'GF3CatalogSave.class':save.bytes(),'GF3DogToys.class':cooked}

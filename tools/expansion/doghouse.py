@@ -10,6 +10,7 @@ from tools.sprites import convert_sprite, shards
 from tools.timing.classfile import ClassFile, convert_helper, pack_code, u2
 from tools.world import entries, labels, pack, table
 from .hives import patch_code
+from .wheel_art import house_images
 
 SHEETS = (1, 3, 9, 20, 22, 33, 41, 48)
 BASE = 150
@@ -136,7 +137,7 @@ def patch_house(engine, renderer, original_layout, apk):
            static void c(int id){}static void d(int store,int category,boolean push){}static void c(boolean all){}
            static int d(){return 0;}static int e(){return 0;}static void g(int quantity){}
            static int totalStored(int arg){return 0;}static int capacity(){return 0;}
-           static f placedPet;static int mode,transition;static int[] Q,R;static void gf3PreviousPlacement(){}
+           static f placedPet;static int mode,transition,F;static int[] Q,R,bD,cb;static void gf3PreviousPlacement(){}
            static void b(f building){}static void c(f dog){}static int a(){return 0;}static void gf3PreviousBuy(int b){}
            static boolean spend(int n){return false;}static boolean f(int n){return false;}
            static void a(String name,String body,int button){}
@@ -144,7 +145,7 @@ def patch_house(engine, renderer, original_layout, apk):
            class f {int q,y,J;static f[] heads;f next;boolean a(int n){return false;}}
            class h {static h[] registry;int[][] rows;}class l {}
            class e{short[] c;void a(byte[] b,int off){}void a(int part,int x){}int b(int part){return 0;}int j(int frame){return 0;}}
-           class g {static void open(String name){}static byte[] read(int i){return null;}static void l(){}
+           class g {static javax.microedition.lcdui.Graphics graphics;static void open(String name){}static byte[] read(int i){return null;}static void l(){}
             static String c(int i){return null;}static int i(){return 0;}}
            class GF3Dogs{static void floor(f p,int h){}static boolean dog(f p){return false;}static int xp(f p){return 0;}static int happiness(f p){return 0;}static int level(f p){return 0;}
                static int nextXp(int level){return 0;}static int nextBills(int level){return 0;}}
@@ -152,11 +153,16 @@ def patch_house(engine, renderer, original_layout, apk):
            class GF3DogTutorial{static boolean closeHouse(){return true;}static void house(){}
               static int hint(){return -1;}static void claimed(){}static void placed(int row){}}
            class GF3KitchenQueue{static boolean openBuilding(int row){return false;}}""",encoding='ascii')
+        graphics=folder/'javax/microedition/lcdui/Graphics.java'
+        graphics.parent.mkdir(parents=True)
+        graphics.write_text('package javax.microedition.lcdui; public class Graphics {public static final int TOP=16,LEFT=4;public void drawImage(Image i,int x,int y,int anchor){}}',encoding='ascii')
+        image=graphics.with_name('Image.java')
+        image.write_text('package javax.microedition.lcdui; public class Image {public static Image createImage(String n)throws java.io.IOException{return null;}public int getWidth(){return 0;}}',encoding='ascii')
         src=Path(__file__).resolve().parents[2]/'src/expansion/GF3Doghouse.java'
         subprocess.run(['javac','--release','8','-g:none','-d',str(folder),str(stub),str(src),
-                        str(src.with_name('GF3PetNames.java')),str(data)],check=True)
+                        str(src.with_name('GF3PetNames.java')),str(data),str(graphics),str(image)],check=True)
         remap={**{k:v[0] for k,v in fieldmap.items()},'open':'c','read':'a','registry':'a','rows':'a',
-               'heads':'a','next':'a','spend':'c','totalStored':'b','capacity':'c'}
+               'heads':'a','next':'a','graphics':'a','spend':'c','totalStored':'b','capacity':'c'}
         result={'GF3HouseData.class':convert_helper((folder/'GF3HouseData.class').read_bytes())}
         for name in ('GF3Doghouse.class','GF3PetNames.class'):
             helper=ClassFile((folder/name).read_bytes())
@@ -174,4 +180,4 @@ def patch_house(engine, renderer, original_layout, apk):
     else: raise ValueError('Missing native sprite frame-size function')
     sheets=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
     return {**result,'a.class':cf.bytes(),'e.class':sprite.bytes(),'6':layout(original_layout,apk),
-            'dh':pack([convert_sprite(sheets[i]) for i in SHEETS])}
+            'dh':pack([convert_sprite(sheets[i]) for i in SHEETS]),**house_images(apk)}

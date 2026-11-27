@@ -154,11 +154,12 @@ def build(source, output, api, javac="javac"):
                         "abstract class a extends g {static int a(){return 0;}static boolean gf3SaveReady(){return false;}static void c(boolean force){}void gf3PointerPressed(int x,int y){} "
                         "void gf3PointerReleased(int x,int y){} void gf3PointerDragged(int x,int y){}} "
                         "class GF3Wheel {static boolean resourcePointer(int x,int y,int phase){return false;}} "
+                        "class GF3DogToys {static boolean pointer(int x,int y,int phase){return false;}} "
                         "class f {static void b(){}} class k {static int[][] a; static int[] p;"
                         "static void a(javax.microedition.lcdui.Graphics g,int x,int y,int layer){}}",
                         encoding="ascii")
         subprocess.run([javac, "--release", "8", "-g:none", "-classpath", str(api.resolve()), "-d", str(temp), str(stub), *map(str, sorted(HERE.glob("GF3*.java")))], check=True)
-        helpers = {p.name: convert_helper(p.read_bytes()) for p in temp.glob("GF3*.class") if p.stem != "GF3Wheel"}
+        helpers = {p.name: convert_helper(p.read_bytes()) for p in temp.glob("GF3*.class") if p.stem not in ("GF3Wheel","GF3DogToys")}
         if source.resolve() == output.resolve():
             raise ValueError("choose a separate output JAR")
         output.parent.mkdir(parents=True, exist_ok=True)

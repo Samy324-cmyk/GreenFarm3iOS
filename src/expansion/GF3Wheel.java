@@ -174,7 +174,7 @@ final class GF3Wheel {
     // GF3Viewport has already converted physical touches to logical portrait.
     static int resourceAction(int screen,int x,int y) {
         if(screen==34){
-            if(x>=35 && x<190 && y>=285 && y<423)return 25;
+            if(x>=35 && x<190 && y>=285 && y<437)return 25;
             for(int i=0;i<6;i++){
                 int bx=226+(i%3==0?0:i%3==1?169:337),by=221+160*(i/3);
                 if(x>=bx && x<bx+139 && y>=by && y<by+32)return 5+3*i;
@@ -183,7 +183,7 @@ final class GF3Wheel {
         }
         if(screen!=CASH_SCREEN)return -1;
         if(x>=710 && y<90)return 2;
-        if(x>=35 && x<190 && y>=285 && y<423)return 23;
+        if(x>=35 && x<190 && y>=285 && y<437)return 23;
         for(int i=0;i<6;i++){
             int bx=226+(i%3==0?0:i%3==1?169:337),by=221+160*(i/3);
             if(x>=bx && x<bx+139 && y>=by && y<by+32)return 5+3*i;
@@ -235,21 +235,14 @@ final class GF3Wheel {
             int x=gr.getClipX(),y=gr.getClipY(),w=gr.getClipWidth(),h=gr.getClipHeight();
             try{
                 gr.setClip(0,0,480,800);
-                gr.drawImage(cashSelector,480-423,35,Graphics.TOP|Graphics.LEFT);
-                // Reuse the actual coin-shop price caption without altering it.
-                short[] label=a.controls[8][119];
-                short ox=label[2],oy=label[3],ow=label[5],vis=label[15];
-                try {
-                    label[2]=43;label[3]=388;label[5]=139;label[15]=1;
-                    a.a("Billetes",8,119,0,0);
-                }finally{label[2]=ox;label[3]=oy;label[5]=ow;label[15]=vis;}
+                gr.drawImage(cashSelector,480-437,35,Graphics.TOP|Graphics.LEFT);
             }finally{gr.setClip(x,y,w,h);}
         }catch(IOException missing){}
     }
     private static void cashFill(){
         cashControl(1,true,false);cashControl(2,true,true);
         cashControl(3,true,false);cashControl(4,true,false);
-        cashControl(23,true,true);cashControl(24,true,false);
+        cashControl(23,true,true);cashControl(24,false,false);
         cashControl(25,false,false);cashControl(26,false,false);
         for(int i=0;i<6;i++){
             int r=5+3*i;
@@ -272,7 +265,6 @@ final class GF3Wheel {
                 gr.setClip(0,0,480,800);
                 gr.drawImage(cashShop,0,0,Graphics.TOP|Graphics.LEFT);
                 a.a("¡Más!",CASH_GUI,1,0,0);
-                gr.setClip(0,0,480,800);a.a("Monedas",CASH_GUI,24,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.d()),CASH_GUI,3,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.e()),CASH_GUI,4,0,0);
                 for(int i=0;i<6;i++){

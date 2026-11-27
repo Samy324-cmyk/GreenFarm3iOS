@@ -8,6 +8,11 @@ final class GF3DogToys {
     private static final int[][] XP = {{3,5,6,6},{9,14,18,18},{8,12,16,16},{26,39,52,52}};
     private static final int[][] FARM_XP = {{0,0,0,0},{30,45,60,60},{20,30,40,40},{90,135,180,180}};
     private static f selected;
+    private static volatile int gesture=-1;
+    private static volatile boolean pointerCaptured;
+    private static int pressX,pressY;
+    static boolean ribbonActive(){return selected!=null && a.aH==2 && a.k!=null;}
+    static void wheelSound(int cue){if(selected==null)a.sound(cue);}
     private static f sounding;
     private static int lastStep=-1,lastClip=-1,lastFrame=-1;
     private static boolean eatingHeard;
@@ -21,34 +26,53 @@ final class GF3DogToys {
         return sheet!=null && clip<sheet.animations() && sheet.a(clip)>0;
     }
 
-    /** The world toy frames have no embedded touchscreen rectangles. */
-    private static void hitAreas() {
-        if(a.controls==null || a.controls[1]==null || a.hits==null)return;
-        short[][] rows=a.controls[1];
-        for(int item=0;item<4;item++){
-            short[] row=rows[65+item];
-            int id=65601+item, free=-1;
-            for(int i=0;i<a.hits.length-2;i++){
-                if(a.hits[i][5]==id){free=i;break;}
-                if(free==-1 && a.hits[i][4]==-1 && a.hits[i][5]==-1)free=i;
-            }
-            if(free<0)continue;
-            e[] bank=row[5]>=1000?a.world:a.assets;
-            int index=row[5]>=1000?row[5]-1000:row[5];
-            if(bank==null || index<0 || index>=bank.length)continue;
-            e sheet=bank[index];
-            if(sheet==null || row[6]<0 || row[6]>=sheet.frames())continue;
-            int scale=Math.max(50,100-Math.abs(g.K/2-row[2]));
-            int frame=row[6];
-            int[] box=a.hits[free];
-            box[0]=row[2]+sheet.f(frame)*scale/100;
-            box[1]=row[3]+sheet.g(frame)*scale/100;
-            box[2]=Math.max(1,sheet.d(frame)*scale/100);
-            box[3]=Math.max(1,sheet.e(frame)*scale/100);
-            box[4]=0;box[5]=id;box[6]=0;box[7]=0;
+    // Touch coordinates have already been rotated into the logical canvas.
+    // Consume the entire gesture while the pet ribbon is open: the crop
+    // handler must never receive a stray release from a pet selection.
+    static boolean pointer(int px,int py,int phase){
+        if(phase==0){
+            pointerCaptured=ribbonActive();
+            if(pointerCaptured){pressX=py;pressY=479-px;}
         }
+        if(!pointerCaptured)return false;
+        if(phase==1){
+            int x=py,y=479-px;
+            if(pressY<360 || y<360)gesture=100;
+            else if(Math.abs(x-pressX)>38)gesture=x>pressX?101:102;
+            else {
+                int slot=-1,distance=90;
+                short[][] rows=a.controls[1];
+                for(int i=0;i<6;i++){
+                    int d=Math.abs(rows[65+i][2]-x)+Math.abs(rows[65+i][3]-y)/2;
+                    if(rows[65+i][10]==1 && d<distance){distance=d;slot=i;}
+                }
+                gesture=slot<0?100:slot;
+            }
+            pointerCaptured=false;
+        }
+        return true;
     }
-
+    private static void dismiss(){
+        f old=selected;selected=null;gesture=-1;
+        a.a(false,2,0);
+        if(old!=null && old.D==15)old.i(0);
+    }
+    private static int toyAt(int slot){return (a.aF+slot+8)%4;}
+    private static void hitAreas(){
+        // Native hit boxes are rebuilt by H(1); no synthetic boxes are
+        // inserted into the shared list, which otherwise survive closing.
+    }
+    private static void processGesture(){
+        int action=gesture;gesture=-1;
+        if(action<0 || !ribbonActive())return;
+        if(action==100){dismiss();return;}
+        if(action==101 || action==102){
+            a.aF=(a.aF+(action==101?7:1))%8;
+            a.B();a.gf();a.H(1);
+            return;
+        }
+        if(action<6)control(65601+action);
+    }
 
     private GF3DogToys() {}
 
@@ -78,17 +102,21 @@ final class GF3DogToys {
     }
 
     private static void menu(f pet) {
-        a.a(true,1,2);
+        if(selected==pet && ribbonActive()){dismiss();return;}
+        if(selected!=null)dismiss();
+        a.clearTool(-1);
         selected = pet;
-        a.aF = 0;
-        a.aG = 4;
+        a.a(true,1,2);
+        a.aF = -2;
+        a.aG = 8;
         a.aH = 2;
-        for (int i=0;i<4;i++) {
-            int[] row = h.a[4].rows[64+i];
+        for (int i=0;i<8;i++) {
+            int item=i%4;
+            int[] row = h.a[4].rows[64+item];
             a.k[i] = row[8] <= a.f() ? row[3] : 20;
-            a.l[i] = row[8] > a.f() ? 136 : row[4] + (STOCK[i] == 0 ? 1 : 0);
+            a.l[i] = row[8] > a.f() ? 136 : row[4] + (STOCK[item] == 0 ? 1 : 0);
             a.m[i] = row[6];
-            a.n[i] = 64+i;
+            a.n[i] = 64+item;
         }
         a.B();
         a.gf();a.H(1);
@@ -107,21 +135,11 @@ final class GF3DogToys {
     }
 
     static void control(int event) {
-        // The native wheel places its center confirmation rectangle above
-        // the item under the arrow. It wins hit testing against that item.
-        if(selected!=null && a.aH==2 && a.k!=null && event==65607){
-            int nearest=0, distance=Integer.MAX_VALUE;
-            for(int i=0;i<4;i++){
-                int dx=Math.abs(a.controls[1][65+i][2]-g.K/2);
-                if(dx<distance){nearest=i;distance=dx;}
-            }
-            event=65601+nearest;
-        }
-        if (selected != null && a.aH == 2 && a.k != null && event >= 65601 && event <= 65604) {
-            int toy = event-65601;
-            f pet = selected;
-            selected = null;
-            a.a(false,2,0);
+        if(ribbonActive() && event==65607)event=65603;
+        if(ribbonActive() && event>=65601 && event<=65606){
+            int toy=toyAt(event-65601);
+            f pet=selected;
+            dismiss();
             if (!playable(pet,toy) || STOCK[toy] <= 0 || h.a[4].rows[64+toy][8] > a.f()) {
                 a.sound(56);
                 if(pet.a!=null)pet.i(0);
@@ -133,6 +151,7 @@ final class GF3DogToys {
             pet.D = 13;
             return;
         }
+        if(ribbonActive())dismiss();
         a.gf3PreviousControl(event);
         if (selected != null && (a.k == null || a.aH != 2)) {
             selected.i(0);
@@ -142,6 +161,10 @@ final class GF3DogToys {
 
     static int tick(f pet) {
         if (!GF3Dogs.dog(pet)) return pet.q;
+        if(selected==pet){
+            if(a.screen()!=17 || a.F!=0 || !ribbonActive())dismiss();
+            else processGesture();
+        }
         GF3PetNames.farmTick(pet);
         int pending = GF3Dogs.pending(pet);
         if(a.F==0 && pet.a(512) && pet.a!=null)sound(pet,pending);
@@ -209,7 +232,7 @@ final class GF3DogToys {
     static byte[] read(String name) throws IOException {
         byte[] linked = GF3KitchenQueue.read(name);
         for(int i=0;i<4;i++) STOCK[i]=0;
-        selected = null;
+        selected = null;gesture=-1;pointerCaptured=false;
         sounding=null;lastStep=lastClip=lastFrame=-1;eatingHeard=false;
         nextBonus = 0;
         GF3PetNames.reset();

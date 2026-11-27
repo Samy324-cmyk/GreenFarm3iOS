@@ -121,7 +121,7 @@ final class LessonProbe {
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Dog's toy wheel did not open");
             int prev=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
             int oldQty=(Integer)method(toys,"quantity",int.class,int.class).invoke(null,0);
-            control(65601);
+            control(65603);
             Thread.sleep(250);
             int animation=(Integer)method(type("k"),"a",int.class).invoke(field(actor,dog,"a",type("k")));
             if(animation!=17)throw new AssertionError("Ball animation did not begin: "+animation);

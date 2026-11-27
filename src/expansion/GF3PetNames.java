@@ -106,10 +106,16 @@ final class GF3PetNames {
         }
     }
 
-    static boolean naming(f pet){return pending==pet || editing>=0;}
+    private static boolean adoption(){
+        if(a.bD==null || a.cb==null)return false;
+        for(int i=0;i<a.bD.length;i++)if((a.bD[i]==9297 || a.bD[i]==9299) && a.cb[i]==2)return true;
+        return false;
+    }
+    static boolean naming(f pet){return pending==pet || editing>=0 || pet!=null && adoption() && names[breed(pet.y)]==null;}
     static void farmTick(f pet) {
-        if(pet==null || (pending==null && !swapped) || (pending!=null && pet!=pending))return;
-        if(a.a()!=17 || a.transition!=-1 || !pet.a(512) || pet.a(4096))return;
+        if(pet==null || a.F!=0 || editing>=0 || a.a()!=17 || a.transition!=-1 || !pet.a(512) || pet.a(4096))return;
+        if(pending==null && adoption() && names[breed(pet.y)]==null)pending=pet;
+        if((pending==null && !swapped) || (pending!=null && pet!=pending))return;
         if(swapped){
             swapped=false;
             a.a(GF3HouseData.TEXT[18],GF3HouseData.TEXT[19],7);
@@ -143,6 +149,9 @@ final class GF3PetNames {
                 return;
             }
             names[editing]=input;
+        }else if(!collar && names[editing]==null){
+            // Explicit cancel accepts the suggested name; don't reopen forever.
+            names[editing]=GF3HouseData.TEXT[8+editing];
         }
         a.c(true);
         accepted=true;

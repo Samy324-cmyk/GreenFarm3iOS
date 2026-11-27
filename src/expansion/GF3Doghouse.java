@@ -1,3 +1,7 @@
+import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
+import java.io.IOException;
+
 /** Android's state 48 adapted to the native MIDP GUI and pet records. */
 final class GF3Doghouse {
     private static final int SCREEN=48, GUI=28, BASE=150;
@@ -12,6 +16,20 @@ final class GF3Doghouse {
     private static boolean cacheActive;
     private static int activeGui=-1;
     private static int assetUsers;
+    private static final int[] fixedFrames={12,13,62,206,246,247,248,251};
+    private static final Image[] fixedArt=new Image[fixedFrames.length];
+    static boolean drawFixed(int gui,short[] row){
+        if(gui!=GUI || row[0]!=205 || row[5]!=153 || row[10]!=1)return false;
+        int i=0;while(i<fixedFrames.length && fixedFrames[i]!=row[6])i++;
+        if(i==fixedFrames.length)return false;
+        try{
+            if(fixedArt[i]==null)fixedArt[i]=Image.createImage("/gf3-house-"+fixedFrames[i]+".png");
+            Image img=fixedArt[i];Graphics gr=g.graphics;
+            if(gr==null)return false;
+            gr.drawImage(img,480-row[3]-img.getWidth(),row[2],Graphics.TOP|Graphics.LEFT);
+            return true;
+        }catch(IOException missing){return false;}
+    }
 
     private GF3Doghouse() {}
 

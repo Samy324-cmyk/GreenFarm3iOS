@@ -152,6 +152,14 @@ final class GF3MarketFront {
     // Do not write offer-specific frame, animation or cache indices into the
     // native controls. Those very same objects are reused by all six tabs.
     static void drawControl(int gui,short[] control,int x,int y,int index) {
+        if(GF3Doghouse.drawFixed(gui,control))return;
+        if(gui==1 && index>=65 && index<=70 && GF3DogToys.ribbonActive() && g.graphics!=null){
+            Graphics gr=g.graphics;
+            int cx=gr.getClipX(),cy=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
+            try{gr.setClip(0,0,480,800);a.gf3DrawControl(gui,control,x,y,index);}
+            finally{gr.setClip(cx,cy,cw,ch);}
+            return;
+        }
         if(gui==GUI && tab==5 && a.a()==7 && index>=28 && index<112 &&
                 a.controls!=null && a.controls[GUI]!=null) {
             int local=(index-28)/14,part=(index-28)%14,i=local+a.ct;
