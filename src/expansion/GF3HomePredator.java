@@ -375,6 +375,7 @@ final class GF3HomePredator {
         if(target==null) pressed=false;
         if(event==2 && a.F==0 && pressed) return true;
         boolean handled=a.gf3OwnFarm(event);
+        if(event==3 && a.F==0)GF3MarketFront.drawPetRibbon();
         // The dialogue renders with its own clip. A camera jump made while
         // opening it can leave the circular tile cache only partially drawn.
         // Event 1 resumes the farm and restores its full viewport.
@@ -465,16 +466,17 @@ final class GF3HomePredator {
                 effect=GF3Neighbor.startFight(dog,fox);
                 step=FIGHT;
             }
-        } else if(step==FIGHT && effect.a()) {
+        } else if(step==FIGHT && (effect==null || effect.a())) {
             effect=null;
             dog.i(0);
             GF3FarmAudio.original(76);
             pay();
-            GF3Neighbor.hold(fox,12,3);
             step=RETREAT;
-        } else if(step==RETREAT && fox.a.a()) {
+        }
+        if(step==RETREAT) {
             fox.r=fox.A=fox.s=fox.B=0;
-            fox.l(8);
+            if(fox.a(8))fox.l(8);
+            k.f();redrawFrames=3;
             if(chapter) {message(958);step=REWARD;}
             else {reset();appeared=0;GF3ThiefClock.clearEncounter();}
         } else if(step==REWARD) {

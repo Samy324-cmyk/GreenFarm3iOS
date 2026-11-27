@@ -151,15 +151,42 @@ final class GF3MarketFront {
     }
     // Do not write offer-specific frame, animation or cache indices into the
     // native controls. Those very same objects are reused by all six tabs.
+    private static void petFrame(Graphics gr,int sheet,int frame,int x,int y,int maxSize){
+        e[] bank=sheet>=1000?a.worldAssets:a.assets;
+        int index=sheet>=1000?sheet-1000:sheet;
+        if(bank==null || index<0 || index>=bank.length || bank[index]==null)return;
+        e art=bank[index];
+        if(frame<0 || frame>=art.frames())return;
+        int w=art.d(frame),h=art.e(frame);
+        if(w<=0 || h<=0)return;
+        int scale=Math.min(100,100*maxSize/Math.max(w,h));
+        art.paintScaled(gr,frame,x-(art.f(frame)+w/2)*scale/100,y-(art.g(frame)+h/2)*scale/100,scale);
+    }
+    static void drawPetRibbon(){
+        if(!GF3DogToys.ribbonActive() || g.graphics==null)return;
+        Graphics gr=g.graphics;
+        int cx=gr.getClipX(),cy=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
+        try{
+            gr.setClip(0,0,480,800);
+            // Frame 116 is the original curved blue action background.
+            petFrame(gr,20,116,400,437,416);
+            for(int slot=0;slot<4;slot++){
+                int toy=GF3DogToys.visibleToy(slot);
+                int[] row=h.tables[4].rows[64+toy];
+                int x=GF3DogToys.slotX(slot),y=GF3DogToys.slotY(slot);
+                int qty=GF3DogToys.quantity(toy);
+                if(row[8]>a.f())petFrame(gr,20,136,x,y,50);
+                else petFrame(gr,row[3],row[4]+(qty==0?1:0),x,y,62);
+            }
+            int toy=GF3DogToys.dragToy();
+            if(toy>=0 && toy<4){
+                int[] row=h.tables[4].rows[64+toy];
+                petFrame(gr,row[3],row[4],GF3DogToys.dragX(),GF3DogToys.dragY(),62);
+            }
+        }finally{gr.setClip(cx,cy,cw,ch);}
+    }
     static void drawControl(int gui,short[] control,int x,int y,int index) {
         if(GF3Doghouse.drawFixed(gui,control))return;
-        if(gui==1 && index>=65 && index<=70 && GF3DogToys.ribbonActive() && g.graphics!=null){
-            Graphics gr=g.graphics;
-            int cx=gr.getClipX(),cy=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
-            try{gr.setClip(0,0,480,800);a.gf3DrawControl(gui,control,x,y,index);}
-            finally{gr.setClip(cx,cy,cw,ch);}
-            return;
-        }
         if(gui==GUI && tab==5 && a.a()==7 && index>=28 && index<112 &&
                 a.controls!=null && a.controls[GUI]!=null) {
             int local=(index-28)/14,part=(index-28)%14,i=local+a.ct;

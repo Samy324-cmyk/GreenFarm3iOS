@@ -15,20 +15,24 @@ final class GF3Dogs {
         return dog(x) && x.a(32);
     }
 
+    static void normalize(f x){
+        if(!dog(x))return;
+        if(x.a(16)){x.l(16);x.H();if(x.D==2)x.i(0);}
+    }
     static boolean touch(f x) {
+        normalize(x);
         if (puppy(x) && x.a(4) && x.f == 0) x.f = 1;
         return x.gf3AnimalTouch();
     }
 
     static void care(f x) {
-        if (puppy(x) && x.a(4)) {
+        if (dog(x) && x.a(4)) {
             // The stock livestock handler increments its milestone counter when
             // feeding. Puppies use this interaction to mature after eating.
             int goal = x.c, count = x.d;
             x.c = Integer.MAX_VALUE;
-            x.gf3NativeCare();
-            x.c = goal;
-            x.d = count;
+            try{x.gf3NativeCare();}finally{x.c=goal;x.d=count;}
+            normalize(x);
         } else {
             x.gf3NativeCare();
         }
@@ -109,6 +113,7 @@ final class GF3Dogs {
             int currentLevel = 0;
             while (currentLevel < LEVEL_XP.length && exp >= LEVEL_XP[currentLevel]) currentLevel++;
             setStats(x,exp,happy,currentLevel);
+            normalize(x);
             rewardLevel(x,oldLevel,currentLevel);
         }
         x.i(next);
@@ -125,7 +130,11 @@ final class GF3Dogs {
     static void productionDue(f x, int flag) {
         if (dog(x)) {
             x.r();
-            x.i(2);
+            if(x.a(16))x.l(16);
+            x.H();
+            // The feeding timer has elapsed, not a product timer.
+            x.j(4);
+            x.i(0);
         } else {
             x.j(flag);
         }

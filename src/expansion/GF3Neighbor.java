@@ -104,14 +104,14 @@ final class GF3Neighbor {
             if (dog.r != fox.r || dog.s != fox.s) return handled;
             fight = startFight(dog,fox);
             step = FIGHTING;
-        } else if (step == FIGHTING && fight.a()) {
+        } else if (step == FIGHTING && (fight==null || fight.a())) {
             fight = null;
             dog.i(0);
             a.b(99990, 1, 24);
             a.b(2999, 1, 43);
-            hold(fox, 12, 3);
             step = RETREAT;
-        } else if (step == RETREAT && fox.a.a()) {
+        }
+        if (step == RETREAT) {
             // Android retreat ends at the (0,0) hidden position.
             fox.r = fox.A = 0;
             fox.s = fox.B = 0;

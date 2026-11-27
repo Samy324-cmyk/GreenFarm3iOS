@@ -121,7 +121,7 @@ final class LessonProbe {
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Dog's toy wheel did not open");
             Method pointer=method(toys,"pointer",boolean.class,int.class,int.class,int.class);
             int offset=integer(game,"aF");
-            pointer.invoke(null,60,400,0);pointer.invoke(null,60,520,2);pointer.invoke(null,60,520,1);
+            pointer.invoke(null,63,349,0);pointer.invoke(null,63,469,2);pointer.invoke(null,63,469,1);
             Thread.sleep(350);
             if(integer(game,"aF")==offset)throw new AssertionError("Pet ribbon did not scroll");
             pointer.invoke(null,300,400,0);pointer.invoke(null,300,400,1);
@@ -131,7 +131,11 @@ final class LessonProbe {
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Pet ribbon did not reopen");
             int prev=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
             int oldQty=(Integer)method(toys,"quantity",int.class,int.class).invoke(null,0);
-            control(65603);
+            int offsetNow=integer(game,"aF"),ballSlot=(4-offsetNow)%4;
+            int sx=(Integer)method(toys,"slotX",int.class,int.class).invoke(null,ballSlot);
+            int sy=(Integer)method(toys,"slotY",int.class,int.class).invoke(null,ballSlot);
+            int dx=(Integer)field(actor,dog,"u",int.class),dy=(Integer)field(actor,dog,"v",int.class)-20;
+            pointer.invoke(null,479-sy,sx,0);pointer.invoke(null,479-dy,dx,2);pointer.invoke(null,479-dy,dx,1);
             Thread.sleep(250);
             int animation=(Integer)method(type("k"),"a",int.class).invoke(field(actor,dog,"a",type("k")));
             if(animation!=17)throw new AssertionError("Ball animation did not begin: "+animation);

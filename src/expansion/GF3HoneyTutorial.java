@@ -20,7 +20,7 @@ final class GF3HoneyTutorial {
     static int phase() {return stage;}
 
     private static void pointer(int panel,int index) {
-        if(a.controls==null || a.controls[panel]==null || index>=a.controls[panel].length)return;
+        if(a.controls==null || panel<0 || panel>=a.controls.length || a.controls[panel]==null || index<0 || index>=a.controls[panel].length || a.controls[panel][index]==null)return;
         short[] marker=a.controls[panel][index];short visible=marker[10];
         try{marker[10]=1;a.a(panel,marker,0,0,index);}finally{marker[10]=visible;}
     }
@@ -65,6 +65,7 @@ final class GF3HoneyTutorial {
         speaking=true;
         redraw=true;
         // The original pack includes Android's beekeeper portrait in slot 136.
+        if(a.assets==null || a.assets.length<=136){speaking=false;return false;}
         if(a.assets[136]==null) {
             g.open("/7"); e portrait=new e();portrait.a(g.readEntry(136),0);g.l();
             a.assets[136]=portrait;

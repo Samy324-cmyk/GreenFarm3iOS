@@ -42,7 +42,7 @@ def patch_dogs(f_class, javac='javac'):
         stub=folder/'f.java'
         stub.write_text("""class f {int q,J,f,c,d,r,s; long e; boolean a(int flag){return false;}
         static f a(int t,int l,int[] p){return null;} void a(int x,int y,int t,int d,boolean collect,int n){}
-        void i(int s){} void j(int flags){} void r(){} boolean gf3AnimalTouch(){return false;}
+        void i(int s){} void j(int flags){} void l(int flags){} void H(){} void r(){} boolean gf3AnimalTouch(){return false;}
         void gf3Mature(){} void gf3NativeCare(){} } class a {static int F;static int b(int i,int n,int action){return 0;}}
         class GF3FarmAudio {static void original(int cue){}}""",encoding='ascii')
         subprocess.run([javac,'--release','8','-g:none','-d',str(folder),str(stub),str(source)],check=True)

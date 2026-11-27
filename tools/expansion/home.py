@@ -124,7 +124,7 @@ def build_home_helpers(apk):
           class GF3FarmAudio {static void original(int cue){}}
           class GF3Hive {static boolean isHive(f x){return false;}}
           class GF3Doghouse {static f resident(f exclude){return null;} static int floor(){return 0;}}
-          class GF3DogToys {static int tick(f x){return 0;}}
+          class GF3DogToys {static int tick(f x){return 0;}} class GF3MarketFront {static void drawPetRibbon(){}}
           class GF3VisitPredators {static void write(String n,byte[] b)throws java.io.IOException{}
             static byte[] read(String n)throws java.io.IOException{return null;}}
           class GF3Dogs {static boolean dog(f x){return false;} static int happiness(f d){return 0;} static int level(f d){return 0;}

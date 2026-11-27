@@ -11,7 +11,15 @@ final class GF3DogToys {
     private static volatile int gesture=-1;
     private static volatile boolean pointerCaptured;
     private static int pressX,pressY;
-    static boolean ribbonActive(){return selected!=null && a.aH==2 && a.k!=null;}
+    private static volatile int dragging=-1,dragX,dragY,armed=-1;
+    private static final int[] SLOT_X={257,349,451,543},SLOT_Y={434,416,416,434};
+    static int slotX(int i){return SLOT_X[i];}
+    static int slotY(int i){return SLOT_Y[i];}
+    static int dragToy(){return dragging;}
+    static int dragX(){return dragX;}
+    static int dragY(){return dragY;}
+    static int visibleToy(int i){return (a.aF+i+4)%4;}
+    static boolean ribbonActive(){return selected!=null && a.screen()==17 && a.F==0;}
     static void wheelSound(int cue){if(selected==null)a.sound(cue);}
     private static f sounding;
     private static int lastStep=-1,lastClip=-1,lastFrame=-1;
@@ -29,51 +37,57 @@ final class GF3DogToys {
     // Touch coordinates have already been rotated into the logical canvas.
     // Consume the entire gesture while the pet ribbon is open: the crop
     // handler must never receive a stray release from a pet selection.
+    private static int slotAt(int x,int y){
+        int best=-1,dist=52;
+        for(int i=0;i<4;i++){
+            int d=Math.abs(x-SLOT_X[i])+Math.abs(y-SLOT_Y[i]);
+            if(d<dist){dist=d;best=i;}
+        }
+        return best;
+    }
+    private static boolean onDog(int x,int y){
+        f pet=selected;
+        return pet!=null && Math.abs(x-pet.u)<65 && y>=pet.v-100 && y<=pet.v+35;
+    }
     static boolean pointer(int px,int py,int phase){
+        int x=py,y=479-px;
         if(phase==0){
             pointerCaptured=ribbonActive();
-            if(pointerCaptured){pressX=py;pressY=479-px;}
+            if(pointerCaptured){
+                pressX=x;pressY=y;dragX=x;dragY=y;
+                int slot=slotAt(x,y);
+                dragging=slot<0?-1:visibleToy(slot);
+            }
         }
         if(!pointerCaptured)return false;
+        dragX=x;dragY=y;
         if(phase==1){
-            int x=py,y=479-px;
-            if(pressY<360 || y<360)gesture=100;
-            else if(Math.abs(x-pressX)>38)gesture=x>pressX?101:102;
-            else {
-                int slot=-1,distance=90;
-                short[][] rows=a.controls[1];
-                for(int i=0;i<6;i++){
-                    int d=Math.abs(rows[65+i][2]-x)+Math.abs(rows[65+i][3]-y)/2;
-                    if(rows[65+i][10]==1 && d<distance){distance=d;slot=i;}
-                }
-                gesture=slot<0?100:slot;
-            }
+            int item=dragging;
+            dragging=-1;
+            if(item>=0 && onDog(x,y))gesture=item;
+            else if(item>=0 && Math.abs(x-pressX)<20 && Math.abs(y-pressY)<20)armed=item;
+            else if(armed>=0 && onDog(x,y))gesture=armed;
+            else if(pressY>=365 && y>=365 && Math.abs(x-pressX)>38)gesture=x>pressX?101:102;
+            else if(y<365 || x<190 || x>610)gesture=100;
             pointerCaptured=false;
         }
         return true;
     }
     private static void dismiss(){
-        f old=selected;selected=null;gesture=-1;
-        a.a(false,2,0);
-        if(old!=null && old.D==15)old.i(0);
-    }
-    private static int toyAt(int slot){return (a.aF+slot+8)%4;}
-    private static void hitAreas(){
-        // Native hit boxes are rebuilt by H(1); no synthetic boxes are
-        // inserted into the shared list, which otherwise survive closing.
+        f old=selected;selected=null;gesture=-1;armed=dragging=-1;
+        if(old!=null && old.a!=null && old.D==15)old.i(0);
     }
     private static void processGesture(){
         int action=gesture;gesture=-1;
         if(action<0 || !ribbonActive())return;
         if(action==100){dismiss();return;}
         if(action==101 || action==102){
-            a.aF=(a.aF+8+(action==101?7:1))%8;
-            a.B();a.gf();a.H(1);
+            a.aF=(a.aF+(action==101?3:1))%4;
+            armed=-1;
             return;
         }
-        if(action<6)control(65601+action);
+        if(action<4)play(action);
     }
-
     private GF3DogToys() {}
 
     static void buy(int button) {
@@ -104,73 +118,56 @@ final class GF3DogToys {
     private static void menu(f pet) {
         if(selected==pet && ribbonActive()){dismiss();return;}
         if(selected!=null)dismiss();
+        // Close the native crop/tool menu; the pet ribbon owns no crop state.
         a.clearTool(-1);
-        selected = pet;
-        a.a(true,1,2);
-        a.aF = -2;
-        a.aG = 8;
-        a.aH = 2;
-        for (int i=0;i<8;i++) {
-            int item=i%4;
-            int[] row = h.a[4].rows[64+item];
-            a.k[i] = row[8] <= a.f() ? row[3] : 20;
-            a.l[i] = row[8] > a.f() ? 136 : row[4] + (STOCK[item] == 0 ? 1 : 0);
-            a.m[i] = row[6];
-            a.n[i] = 64+item;
-        }
-        a.B();
-        a.gf();a.H(1);
-        hitAreas();
-        pet.D = 15;
+        a.a(false,(f)null);
+        selected=pet;
+        a.aF=0;
+        armed=dragging=-1;
+        pet.i(0);
     }
-
     static boolean touch(f pet) {
-        if (GF3Dogs.dog(pet) && playable(pet,0) && a.F == 0 &&
-                (pet.D == 0 || pet.D == 1 || pet.D == 15) &&
-                !pet.a(4) && !pet.a(16) && !pet.a(256)) {
-            menu(pet);
-            return true;
+        if(GF3Dogs.dog(pet) && a.F==0){
+            GF3Dogs.normalize(pet);
+            if(playable(pet,0) && (pet.D==0 || pet.D==1 || pet.D==2 || pet.D==15) &&
+                    !pet.a(4) && !pet.a(256)){
+                menu(pet);return true;
+            }
         }
         return pet.gf3PreviousPetTouch();
     }
-
+    private static void play(int toy){
+        f pet=selected;
+        if(!playable(pet,toy) || STOCK[toy]<=0 || h.a[4].rows[64+toy][8]>a.f()){
+            a.sound(56);armed=-1;return;
+        }
+        dismiss();
+        pet.a.b(17+toy,2);
+        GF3Dogs.beginToy(pet,toy);
+        STOCK[toy]--;
+        pet.D=13;
+    }
     static void control(int event) {
-        if(ribbonActive() && event==65607)event=65603;
         if(ribbonActive() && event>=65601 && event<=65606){
-            int toy=toyAt(event-65601);
-            f pet=selected;
-            dismiss();
-            if (!playable(pet,toy) || STOCK[toy] <= 0 || h.a[4].rows[64+toy][8] > a.f()) {
-                a.sound(56);
-                if(pet.a!=null)pet.i(0);
-                return;
-            }
-            pet.a.b(17+toy,2);
-            GF3Dogs.beginToy(pet,toy);
-            STOCK[toy]--;
-            pet.D = 13;
-            return;
+            play(visibleToy((event-65601)%4));return;
         }
         if(ribbonActive())dismiss();
         a.gf3PreviousControl(event);
-        if (selected != null && (a.k == null || a.aH != 2)) {
-            selected.i(0);
-            selected = null;
-        }
     }
 
     static int tick(f pet) {
         if (!GF3Dogs.dog(pet)) return pet.q;
+        GF3Dogs.normalize(pet);
         if(selected==pet){
-            if(a.screen()!=17 || a.F!=0 || !ribbonActive())dismiss();
-            else processGesture();
+            if(!ribbonActive())dismiss();
+            else {processGesture();if(selected==pet)return 55;}
         }
         GF3PetNames.farmTick(pet);
         int pending = GF3Dogs.pending(pet);
         if(a.F==0 && pet.a(512) && pet.a!=null)sound(pet,pending);
         if (pending == 0) {
             if (pet.D == 15) {
-                if (selected == pet && a.k != null) {hitAreas();return 55;}
+                if (selected == pet) return 55;
                 pet.i(0);
             }
             return pet.q;
@@ -232,7 +229,7 @@ final class GF3DogToys {
     static byte[] read(String name) throws IOException {
         byte[] linked = GF3KitchenQueue.read(name);
         for(int i=0;i<4;i++) STOCK[i]=0;
-        selected = null;gesture=-1;pointerCaptured=false;
+        selected = null;gesture=-1;pointerCaptured=false;armed=dragging=-1;
         sounding=null;lastStep=lastClip=lastFrame=-1;eatingHeard=false;
         nextBonus = 0;
         GF3PetNames.reset();

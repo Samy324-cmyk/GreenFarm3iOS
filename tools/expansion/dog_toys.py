@@ -54,17 +54,17 @@ def patch_toys(a_class,f_class,save_class,javac='javac'):
           static short[][][] controls;static e[] assets,world;static int[][] hits;
           static int screen(){return 0;}static void clearTool(int id){} static void sound(int id){} static void gf3PreviousBuy(int b){} static boolean c(int n){return false;}
           static boolean f(int n){return false;} static int f(){return 0;}
-          static void a(boolean b,int mode,int slot){} static void B(){} static void gf(){} static void H(int panel){} static void gf3PreviousControl(int e){}
+          static void a(boolean b,int mode,int slot){} static void a(boolean b,f pet){} static void B(){} static void gf(){} static void H(int panel){} static void gf3PreviousControl(int e){}
           static int b(int id,int q,int ac){return 0;} }
           class k {e sprite(){return null;}void b(int an,int reps){} int aId(){return 0;}int frameNumber(){return 0;}boolean a(){return false;}}
           class GF3FarmAudio {static void original(int cue){}}
-          class f {int q,J,r,s,D; k a; boolean a(int fl){return false;} void i(int n){}
+          class f {int q,J,r,s,D,u,v; k a; boolean a(int fl){return false;} void i(int n){}
           boolean gf3PreviousPetTouch(){return false;} static f a(int t,int l,int[] p){return null;}
           void a(int x,int y,int t,int delay,boolean collect,int n){}}
           class h {static h[] a;int[][] rows;}
           class g {static int K;} class e {int f(int n){return 0;}int g(int n){return 0;}
               int d(int n){return 0;}int e(int n){return 0;}int a(int clip){return 0;}int animations(){return 0;}int frames(){return 0;}}
-          class GF3Dogs { static boolean dog(f x){return false;} static void beginToy(f x,int n){}
+          class GF3Dogs { static boolean dog(f x){return false;} static void normalize(f x){} static void beginToy(f x,int n){}
           static int pending(f x){return 0;} static void cancelToy(f x){} static void finishToy(f x,int xp,int mood){}}
           class GF3DogTutorial {static void played(){}static void bought(int toy){}}
           class GF3PetNames {static boolean unavailable(int row){return false;}
