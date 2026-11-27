@@ -96,7 +96,7 @@ final class LessonProbe {
             if(number("d")!=wallet+50)throw new AssertionError("Doghouse reward "+(number("d")-wallet));
             System.out.println("LESSON_HOUSE_OK house=1014 bonus=50");
         }else if(command.equals("ball")){
-            control(1835064);dialog(1036);waitFor(1036,17);market(4);waitFor(1036,7);
+            control(1835064);dialog(1036);waitFor(1036,7);
             int[] row=(int[])field(game,null,"M",int[].class),price=(int[])field(game,null,"Q",int[].class);
             if(row[0]!=64 || price[0]!=0)throw new AssertionError("Expected free ball");
             tap(81,128);waitFor(1037,7);

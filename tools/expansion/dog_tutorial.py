@@ -37,7 +37,7 @@ def patch_dog_tutorial(classes,apk):
             static int a(){return 0;}static boolean h(int id){return false;}static void c(){}static int b(int id,int n,int action){return 0;}
             static void a(String s,int p,int c){} static void a(f x,int a,int b){}
             static void a(String s,int gui,int row,int x,int y){}static void visible(int gui,int row,boolean show){}
-            static void r(int tab,int index){}static void card(int pos,boolean show,boolean cat){}
+            static void d(int tab,int group,boolean push){}static void r(int tab,int index){}static void card(int pos,boolean show,boolean cat){}
             static void gf(){}static void H(int group){}static void J(int slide){}
         } class f {int r,s,q,E,u,v;k a;void a(int x,int y,int time){}boolean a(int flag){return false;}boolean h(){return false;}}
         class g {static int ab,ac,ad;}class k{int flags;int clip(){return 0;}int frame(){return 0;}}

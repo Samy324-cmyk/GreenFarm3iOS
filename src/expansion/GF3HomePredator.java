@@ -48,6 +48,7 @@ final class GF3HomePredator {
         int[] chain=GF3HomeData.quests;
         for(int i=0;i<chain.length;i++){
             if(a.f()<GF3HomeData.levels[i] || a.h(chain[i]) || active(chain[i]))continue;
+            if(chain[i]>=9302 && chain[i]<=9304 && (!a.h(9299) || active(9299) || active(9301)))continue;
             boolean ready=true;
             for(int dependency:GF3HomeData.prerequisites[i])if(!a.h(dependency) || active(dependency))ready=false;
             if(ready)return 297+i;
@@ -75,7 +76,11 @@ final class GF3HomePredator {
         // A queued native journal entry is status 1. Guided APK chapters
         // begin on the farm, without requiring the player to open the diary.
         for(int i=0;i<a.k;i++)if(guided(a.bD[i])){
-            if(a.cb[i]==1){a.cb[i]=2;announce(a.bD[i]);}
+            if(a.cb[i]==1){
+                int id=a.bD[i];
+                if(id>=9302 && id<=9304 && (!a.h(9299) || active(9299) || active(9301)))continue;
+                a.cb[i]=2;announce(id);
+            }
             return;
         }
         int next=due();

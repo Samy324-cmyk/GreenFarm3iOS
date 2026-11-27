@@ -74,3 +74,7 @@ La prueba de carga compara 332,000 píxeles del logotipo, el fondo y el pie «©
 Los recorridos de mascotas y apicultura cubren la adopción, el adiestramiento, el zorro de Harold, las colmenas y la venta de caramelo de miel. [Pruebas de las siete misiones](tests/neighbor/README.md)
 
 En el mostrador, el emulador entrega un pedido y comprueba que un cliente descartado regresa en 30 minutos o por cuatro billetes. En el estanque, compra la Parcela tranquila, toca las ondas con las tres cañas y comprueba la entrega de premios y el tiempo de espera de la caña gratuita al reabrir la partida.
+
+### Secuencias guiadas originales
+
+Las filas 297–303 del catálogo Android 4.4.4 definen las misiones 9297, 9299, 9301 y 9302–9305. La primera adopción/defensa (9297) y la caseta/juguete (9299) son capítulos distintos. En `classes.dex`, `cGame.ea()` inicia las fases 1026 y 1060 al activar las misiones 9299 y 9304; `cGame.Yq()` dirige las fases 1026–1038 y confirma el objetivo 2992/44 al terminar el juego con el perro. `cGame.fH()` abre el mercado tras el diálogo 1035. `cGame.hk()` comprueba el nivel 15, la finalización de la misión 9299 y la ausencia de un encuentro vecinal activo antes de introducir la apicultura. El port mantiene estas condiciones de arranque en la granja, sin alterar objetivos ni recompensas del catálogo. Las pruebas de sprites comparan todos los cuadros de las ocho hojas de mascota; las pruebas de interacción deben confirmar la ejecución real en los emuladores.

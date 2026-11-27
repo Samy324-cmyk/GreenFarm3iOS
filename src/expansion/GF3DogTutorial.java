@@ -64,6 +64,11 @@ final class GF3DogTutorial {
         if(phase==1030)say(970,1031);
         else if(phase==1031)focus(GF3Doghouse.placed(null));
         else if(phase==1035)say(971,1036);
+        else if(phase==1036){
+            // APK cGame.fH closes dialogue 1035 by opening the resource
+            // market's pet-toy shelf. Wait for the normal MIDP transition.
+            a.d(4,3,true);
+        }
         else if(phase==1037)go(1038);
         else if(phase==1038)focus(GF3Doghouse.resident(null));
         return handled;

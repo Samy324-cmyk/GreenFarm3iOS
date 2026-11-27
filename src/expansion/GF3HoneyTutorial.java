@@ -11,8 +11,8 @@ final class GF3HoneyTutorial {
     private static int redrawFrames;
 
     private static boolean active() {
-        if(a.bD==null || a.cb==null || !a.h(9302) || !a.h(9303))return false;
-        for(int i=0;i<a.bD.length;i++)if(a.bD[i]==9302 || a.bD[i]==9303 || a.bD[i]==9297 || a.bD[i]==9299)return false;
+        if(a.bD==null || a.cb==null || !a.h(9299) || !a.h(9302) || !a.h(9303))return false;
+        for(int i=0;i<a.bD.length;i++)if(a.bD[i]==9302 || a.bD[i]==9303 || a.bD[i]==9297 || a.bD[i]==9299 || a.bD[i]==9301)return false;
         for(int i=0;i<a.bD.length;i++) if(a.bD[i]==9304 && a.cb[i]==2) return true;
         return false;
     }
