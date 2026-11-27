@@ -363,7 +363,7 @@ final class GF3MarketFront {
                 int x=gr.getClipX(),y=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
                 try{
                     gr.setClip(0,0,480,800);
-                    short[] label=a.controls[GUI][127];label[15]=1;
+                    short[] label=a.controls[GUI][127];label[15]=1;label[16]=-1;label[13]=label[14]=0;label[9]=1;
                     a.a(timer,GUI,127,0,0);
                     gr.setClip(0,0,480,800);
                     try{

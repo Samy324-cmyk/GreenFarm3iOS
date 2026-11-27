@@ -92,8 +92,9 @@ final class GF3Wheel {
         if(a.e()<PRICE){a.c(56);return;}
         int angle=random.nextInt(360),pick=sector(angle),sum=0;
         for(int i=0;i<pick;i++)sum+=ANGLES[i];
-        // In portrait coordinates the landscape top pointer lies at 180 degrees.
-        int target=(270-(sum+ANGLES[pick]/2)+360)%360;
+        // The top of the landscape wheel is the right-hand side of
+        // the portrait canvas; fillArc subtracts 90 degrees.
+        int target=(90-(sum+ANGLES[pick]/2)+360)%360;
         startRotation=rotation;endRotation=rotation+360*4+(target-rotation+360)%360;
         // Apply debit and prize in the same farm save. Closing the game
         // cannot collect a second prize or lose an already paid spin.

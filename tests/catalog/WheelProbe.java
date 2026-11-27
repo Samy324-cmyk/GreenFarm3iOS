@@ -41,6 +41,8 @@ final class WheelProbe {
         int prize=(Integer)MarketProbe.field(wheel,null,"result",int.class);
         if(prize<0 || prize>=5 || (Boolean)MarketProbe.field(wheel,null,"spinning",boolean.class))
             throw new AssertionError("Wheel animation did not complete");
+        int rotation=(Integer)MarketProbe.field(wheel,null,"rotation",int.class);
+        if((Integer)sector.invoke(null,90-rotation)!=prize)throw new AssertionError("Pointer and prize disagree");
         int[] cash=(int[])MarketProbe.field(wheel,null,"BILLS",int[].class),gold=(int[])MarketProbe.field(wheel,null,"COINS",int[].class);
         for(int value:cash)if(value>0 && value<3)throw new AssertionError("Minimum wheel cash prize");
         if((Integer)wallet.invoke(null)!=bills-3+cash[prize] || (Integer)money.invoke(null)!=coins+gold[prize])
