@@ -35,29 +35,61 @@ final class GF3HomePredator {
         return false;
     }
 
+    private static boolean special(int id){
+        for(int q:GF3HomeData.quests)if(q==id)return true;
+        return false;
+    }
     private static int due() {
-        if(a.F!=0 || (a.C!=-1 && a.C!=10) || a.f()<10) return -1;
+        if(a.F!=0 || (a.C!=-1 && a.C!=10) || a.bD==null || a.cb==null)return -1;
+        // Do not run two guided expansion chapters simultaneously.
+        for(int i=0;i<a.bD.length;i++)
+            if(special(a.bD[i]) && a.cb[i]<3)return -1;
         int[] chain=GF3HomeData.quests;
-        for(int i=0;i<chain.length;i++) {
-            if(i==3 && (a.f()<15 || active(chain[2]))) return -1;
-            if(i==2 && !a.h(9002)) continue;
-            if(!a.h(chain[i])) return active(chain[i])?-1:297+i;
+        for(int i=0;i<chain.length;i++){
+            if(a.f()<GF3HomeData.levels[i] || a.h(chain[i]) || active(chain[i]))continue;
+            boolean ready=true;
+            for(int dependency:GF3HomeData.prerequisites[i])if(!a.h(dependency))ready=false;
+            if(ready)return 297+i;
         }
         return -1;
     }
-
-    // Android installs the pet/hive chapters at their level threshold. The
-    // touch edition keeps four shared journal slots. Preserve existing quests
-    // and give the new chapter the first slot that the native scheduler frees.
+    static int ordinarySlots(){
+        // Leave a fourth slot free shortly before either APK unlock.
+        if((a.f()>=9 && a.f()<15 && !a.h(9299)) ||
+           (a.f()>=14 && !a.h(9304)))return Math.max(1,a.k-1);
+        return a.k;
+    }
     static boolean schedule() {
         int next=due();
-        if(next>=0) for(int i=0;i<a.k;i++) if(!a.O(i)) {
+        if(next>=0)for(int i=0;i<a.k;i++)if(!a.O(i)){
             a.f(next,i,true);
             a.gf3Schedule();
             a.fE=i;
             return true;
         }
         return a.gf3Schedule();
+    }
+    private static void automatic(){
+        if(a.C!=-1 || a.af!=-1 || a.F!=0 || a.bD==null || a.cb==null)return;
+        // A queued native journal entry is status 1. Guided APK chapters
+        // begin on the farm, without requiring the player to open the diary.
+        for(int i=0;i<a.k;i++)if(special(a.bD[i]) && a.cb[i]<3){
+            if(a.cb[i]==1)a.cb[i]=2;
+            return;
+        }
+        int next=due();
+        if(next<0)return;
+        int target=-1;
+        for(int i=0;i<a.k;i++)if(!a.O(i)){target=i;break;}
+        // Old saves may already fill all four entries. Only an untouched,
+        // not-yet-accepted ordinary offer can safely be returned to the
+        // normal scheduler; active objectives and unclaimed rewards stay.
+        if(target<0)for(int i=a.k-1;i>=0;i--)
+            if(a.cb[i]==1 && a.bD[i]>=9000 && !special(a.bD[i])){target=i;break;}
+        if(target<0)return;
+        a.f(next,target,true);
+        a.cb[target]=2;
+        a.fE=target;
     }
 
     private static void message(int text) {
@@ -332,6 +364,7 @@ final class GF3HomePredator {
             redrawMap=false;
         }
         if(event!=2 || a.F!=0 || a.a()!=17 || a.c==null) return handled;
+        automatic();
         boolean chapter=slot()>=0;
         if(!chapter && !GF3ThiefClock.ready()) {
             if(step!=0 || resume!=0) {reset();resume=0;appeared=0;}

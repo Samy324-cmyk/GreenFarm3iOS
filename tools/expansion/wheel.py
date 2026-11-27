@@ -45,8 +45,12 @@ def patch_wheel(classes, apk, api):
         caption=bytearray(native[119]);struct.pack_into('<hh',caption,3,40,388)
         struct.pack_into('<H',caption,8,145)
         controls.extend([card,caption])
-    # The bitmap font is identical to the gold shop; reserve room for
-    # "monedas" on the green purchase label, without narrowing its box.
+    # Price uses a short numeric label beside the original coin icon.
+    for i in range(6):
+        price=controls[7+3*i]
+        x=(226,395,563)[i%3];y=221+160*(i//3)
+        struct.pack_into('<hh',price,3,x+34,y+4)
+        struct.pack_into('<H',price,8,99)
     panels.append(shop[:1]+b''.join(controls))
     buildings=table(entries(apk.read(prefix+'13'))[3])[1]
     if buildings[29][1]!=1019 or buildings[29][24]!=185:raise ValueError('Unexpected wheel building')

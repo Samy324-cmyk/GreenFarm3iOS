@@ -154,11 +154,12 @@ def cash_shop_images(apk):
         hero=resize_parts(rgba_frame(source[38 if cash else 37],4 if cash else 3),118,122)
         blit(canvas,800,480,hero,47,138)
         selector=bytearray(155*138*4)
-        blit(selector,155,138,stretched(rgba_frame(source[20],166),155,138),0,0)
+        blit(selector,155,138,resize_parts(card,155,138),0,0)
         other=rgba_frame(source[37 if cash else 38],3 if cash else 4)
         left=min(q[0] for q in other);top=min(q[1] for q in other)
         right=max(q[0]+q[2] for q in other);bottom=max(q[1]+q[3] for q in other)
-        blit(selector,155,138,other,77-(left+right)//2,62-(top+bottom)//2)
+        blit(selector,155,138,other,77-(left+right)//2,51-(top+bottom)//2)
+        blit(selector,155,138,green,8,101)
         # Selector is a small native-style tab, not an extra package card.
         blit(canvas,800,480,[(0,0,155,138,selector)],35,285)
         for i,(x,y,ax,ay,bx,by) in enumerate(RESOURCE_CARDS):
@@ -168,6 +169,8 @@ def cash_shop_images(apk):
             # Currency icon at the same position as the native amount icon.
             icon=resize_parts(rgba_frame(source[41],1 if cash else 0),23,23)
             blit(canvas,800,480,icon,x+10,y+4)
+            # Price icon belongs to the payment resource, not the product.
+            if cash:blit(canvas,800,480,resize_parts(rgba_frame(source[41],0),20,20),bx+10,by+6)
         blit(canvas,800,480,rgba_frame(source[33],0),0,0)
         blit(canvas,800,480,rgba_frame(source[20],122),715,10)
         images['gf3-cash-shop.png' if cash else 'gf3-coin-shop.png']=portrait(800,480,canvas)

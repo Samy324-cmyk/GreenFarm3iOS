@@ -235,7 +235,14 @@ final class GF3Wheel {
             int x=gr.getClipX(),y=gr.getClipY(),w=gr.getClipWidth(),h=gr.getClipHeight();
             try{
                 gr.setClip(0,0,480,800);
-                gr.drawImage(cashSelector,479-423,35,Graphics.TOP|Graphics.LEFT);
+                gr.drawImage(cashSelector,480-423,35,Graphics.TOP|Graphics.LEFT);
+                // Reuse the actual coin-shop price caption without altering it.
+                short[] label=a.controls[8][119];
+                short ox=label[2],oy=label[3],ow=label[5],vis=label[15];
+                try {
+                    label[2]=43;label[3]=388;label[5]=139;label[15]=1;
+                    a.a("Billetes",8,119,0,0);
+                }finally{label[2]=ox;label[3]=oy;label[5]=ow;label[15]=vis;}
             }finally{gr.setClip(x,y,w,h);}
         }catch(IOException missing){}
     }
@@ -271,7 +278,7 @@ final class GF3Wheel {
                 for(int i=0;i<6;i++){
                     int r=5+3*i;
                     gr.setClip(0,0,480,800);a.a(Integer.toString(cashTab?CASH_AMOUNTS[i]:GOLD_AMOUNTS[i]),CASH_GUI,r+1,0,0);
-                    gr.setClip(0,0,480,800);a.a(CASH_COSTS[i]+" monedas",CASH_GUI,r+2,0,0);
+                    gr.setClip(0,0,480,800);a.a(Integer.toString(CASH_COSTS[i]),CASH_GUI,r+2,0,0);
                 }
             }finally{gr.setClip(x,y,cw,ch);}
         }

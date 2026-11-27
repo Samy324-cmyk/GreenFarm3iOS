@@ -25,12 +25,17 @@ def android_data(apk):
     if any(animals[i][1]!=2000+i for i in breed_rows):
         raise ValueError('Unknown Android pet breed indices')
     values=','.join('{'+','.join(str(animals[i][j]) for j in (45,46,49,50,51,52,53,54))+'}' for i in breed_rows)
-    quests=','.join(str(r[1]) for r in table(tables[6])[1][297:304])
+    quest_rows=table(tables[6])[1]
+    special=quest_rows[297:304]
+    quests=','.join(str(r[1]) for r in special)
+    levels=','.join(str(r[12]) for r in special)
+    prerequisites=','.join('{'+','.join(str(quest_rows[i][1]) for i in r[13:16] if i>=0)+'}' for r in special)
     lines=''.join('case '+str(i)+':return '+json.dumps(text[i],ensure_ascii=True)+';'
                   for i in (955,956,957,958,959,964,965,975,979,12320,12321,12327,12331))
     return ('final class GF3HomeData {static final int HOME_X=%d,HOME_Y=%d;'%home
             +'static final int[][] rates={'+values+'};'
-            +'static final int[] quests={'+quests+'};'
+            +'static final int[] quests={'+quests+'}, levels={'+levels+'};'
+            +'static final int[][] prerequisites={'+prerequisites+'};'
             +'static int[] dog(int id){return rates[id==2075?5:id-2068];}'
             +'static String line(int id){switch(id){'+lines+'default:throw new IllegalArgumentException();}}}')
 
@@ -53,11 +58,15 @@ def patch_home(game_data, actor_data, layout, apk):
     expose(game,game.methods,{('a','(II)Lf;'),('f','(IIZ)V'),('O','(I)Z'),
                               ('r','(II)V'),('d','(IIZ)V'),('ad','(I)V'),('t','(Z)V'),('J','(I)V'),
                               ('a','(Lf;[I)Z'),('av','(I)V'),('u','(I)V'),('a','(IIZ)V')})
-    expose(game,game.fields,{('fE','I'),('k','C'),('C','I'),('M','[I'),('Q','[I'),('R','[I'),
+    expose(game,game.fields,{('fE','I'),('k','C'),('C','I'),('af','I'),('M','[I'),('Q','[I'),('R','[I'),
                              ('a','Lf;'),('l','Z'),('b','[[I'),('dp','I'),('dr','I'),('a','[[[S')})
     # The seven expansion chapters use the Android priority and prerequisites,
     # independently of the stock scheduler's scan through the first 297 rows.
-    patch_code(game,'u','()Z',[(49,bytes.fromhex('b2033f'),bytes.fromhex('110129'))])
+    # Preserve a journal slot for a tutorial that will shortly unlock.
+    # The native scheduler's outer bound is a.k (four journal entries).
+    field=game.intern(b'\x09'+u2(game.cls('a'))+u2(game.intern(b'\x0c'+u2(game.utf('k'))+u2(game.utf('C')))))
+    patch_code(game,'u','()Z',[(31,b'\xb2'+u2(field),b'\xb8'+u2(game.ref('GF3HomePredator','ordinarySlots','()I'))),
+                                (49,bytes.fromhex('b2033f'),bytes.fromhex('110129'))])
     entry(game,'u','()Z','gf3Schedule','schedule','()Z',b'','GF3HomePredator')
     entry(game,'D','(I)Z','gf3OwnFarm','farm','(I)Z',b'\x1a','GF3HomePredator')
     patch_code(game,'o','(I)Z',[(139,b'\xb8'+u2(game.ref('a','ad','(I)V')),
@@ -79,7 +88,7 @@ def build_home_helpers(apk):
         folder=Path(temp)
         stub=folder/'a.java'
         stub.write_text('''class a {
-            static int F,C,fE,B,dp,dr; static boolean redrawObjects; static char k;
+            static int F,C,fE,B,dp,dr,af; static boolean redrawObjects; static char k;
             static int[] bD,cb,M,Q,R; static int[][] scroll; static f c,placing; static e[] art;
             static short[][][] controls; static void showControl(int panel,int index,boolean visible){}
             static int f(){return 0;} static boolean h(int id){return false;} static boolean i(int row){return false;}
