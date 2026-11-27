@@ -119,6 +119,16 @@ final class LessonProbe {
                 dogTap();Thread.sleep(950);
             }
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Dog's toy wheel did not open");
+            Method pointer=method(toys,"pointer",boolean.class,int.class,int.class,int.class);
+            int offset=integer(game,"aF");
+            pointer.invoke(null,60,400,0);pointer.invoke(null,60,520,2);pointer.invoke(null,60,520,1);
+            Thread.sleep(350);
+            if(integer(game,"aF")==offset)throw new AssertionError("Pet ribbon did not scroll");
+            pointer.invoke(null,300,400,0);pointer.invoke(null,300,400,1);
+            Thread.sleep(350);
+            if(field(toys,null,"selected",actor)!=null)throw new AssertionError("Outside touch did not dismiss pet ribbon");
+            dogTap();Thread.sleep(500);
+            if(field(toys,null,"selected",actor)==null)throw new AssertionError("Pet ribbon did not reopen");
             int prev=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
             int oldQty=(Integer)method(toys,"quantity",int.class,int.class).invoke(null,0);
             control(65603);

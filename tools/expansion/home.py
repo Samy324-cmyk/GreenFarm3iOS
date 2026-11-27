@@ -58,8 +58,13 @@ def patch_home(game_data, actor_data, layout, apk):
     expose(game,game.methods,{('a','(II)Lf;'),('f','(IIZ)V'),('O','(I)Z'),
                               ('r','(II)V'),('d','(IIZ)V'),('ad','(I)V'),('t','(Z)V'),('J','(I)V'),
                               ('a','(Lf;[I)Z'),('av','(I)V'),('u','(I)V'),('a','(IIZ)V')})
-    expose(game,game.fields,{('fE','I'),('k','C'),('C','I'),('af','I'),('M','[I'),('Q','[I'),('R','[I'),
+    expose(game,game.fields,{('fE','I'),('k','C'),('C','I'),('af','I'),('bH','[I'),('M','[I'),('Q','[I'),('R','[I'),
                              ('a','Lf;'),('l','Z'),('b','[[I'),('dp','I'),('dr','I'),('a','[[[S')})
+    # HUD sheet 10 keeps MIDP frames 10..13 for the old lock animation.
+    # Android portraits 10/11 are relocated to 14/15 by hud_art.SHOP_FRAMES.
+    category=game.intern(b'\x09'+u2(game.cls('a'))+u2(game.intern(b'\x0c'+u2(game.utf('bH'))+u2(game.utf('[I')))))
+    patch_code(game,'d','(Z)V',[(204,b'\xb2'+u2(category)+bytes.fromhex('15042e0464'),
+                    b'\x15\x04\xb8'+u2(game.ref('GF3HomePredator','journalIcon','(I)I'))+b'\x00\x00\x00')])
     # The seven expansion chapters use the Android priority and prerequisites,
     # independently of the stock scheduler's scan through the first 297 rows.
     # Preserve a journal slot for a tutorial that will shortly unlock.
@@ -89,7 +94,7 @@ def build_home_helpers(apk):
         stub=folder/'a.java'
         stub.write_text('''class a {
             static int F,C,fE,B,dp,dr,af; static boolean redrawObjects; static char k;
-            static int[] bD,cb,M,Q,R; static int[][] scroll; static f c,placing; static e[] art;
+            static int[] bD,cb,bH,M,Q,R; static int[][] scroll; static f c,placing; static e[] art;
             static short[][][] controls; static void showControl(int panel,int index,boolean visible){}
             static int f(){return 0;} static boolean h(int id){return false;} static boolean i(int row){return false;}
             static void f(int q,int slot,boolean intro){} static boolean O(int s){return false;}

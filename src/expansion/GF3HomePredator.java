@@ -35,6 +35,12 @@ final class GF3HomePredator {
         return false;
     }
 
+    static int journalIcon(int slot){
+        int category=a.bH[slot];
+        if(category==11 && a.bD[slot]>=9297 && a.bD[slot]<=9301)return 14;
+        if(category==12 && a.bD[slot]>=9302 && a.bD[slot]<=9305)return 15;
+        return category-1;
+    }
     private static boolean guided(int id){return id==9297 || id==9299 || id>=9302 && id<=9304;}
     private static boolean special(int id){
         for(int q:GF3HomeData.quests)if(q==id)return true;

@@ -67,7 +67,7 @@ final class GF3DogToys {
         if(action<0 || !ribbonActive())return;
         if(action==100){dismiss();return;}
         if(action==101 || action==102){
-            a.aF=(a.aF+(action==101?7:1))%8;
+            a.aF=(a.aF+8+(action==101?7:1))%8;
             a.B();a.gf();a.H(1);
             return;
         }
