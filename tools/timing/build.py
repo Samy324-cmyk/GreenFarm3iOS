@@ -158,7 +158,7 @@ def build(source, output, api, javac="javac"):
                         "static void a(javax.microedition.lcdui.Graphics g,int x,int y,int layer){}}",
                         encoding="ascii")
         subprocess.run([javac, "--release", "8", "-g:none", "-classpath", str(api.resolve()), "-d", str(temp), str(stub), *map(str, sorted(HERE.glob("GF3*.java")))], check=True)
-        helpers = {p.name: convert_helper(p.read_bytes()) for p in temp.glob("GF3*.class")}
+        helpers = {p.name: convert_helper(p.read_bytes()) for p in temp.glob("GF3*.class") if p.stem != "GF3Wheel"}
         if source.resolve() == output.resolve():
             raise ValueError("choose a separate output JAR")
         output.parent.mkdir(parents=True, exist_ok=True)
