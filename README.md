@@ -39,7 +39,7 @@ Importa `GreenFarm3-MX.jar` en la biblioteca de Manic EMU. El JAR declara la pan
 
 El plano de la mansión se abre al aceptar el encargo de Walt en el diario y tocar el edificio. Al tocar una habitación en el plano se abre su presupuesto. La prueba de regresión visita las seis pestañas del mercado y el granero antes de volver a la granja y abrir ese plano. Compara las ilustraciones visibles en cada paso.
 
-La última pestaña del mercado ofrece dos o tres tarjetas semanales con descuentos variables y, algunas semanas, un intercambio de monedas por billetes. La selección se guarda localmente y cambia el sábado según el calendario del equipo. No usa servicios externos ni dinero real.
+La última pestaña del mercado ofrece dos o tres tarjetas diarias, renovadas a medianoche local con contador. Los paquetes de billetes usan el atlas 38 del panel 8 de Android. El signo + de billetes abre la tienda de recursos offline; sus seis precios en monedas son una adaptación local, no una cotización del antiguo servicio de compras. No usa dinero real.
 
 La rueda de la suerte (edificio 1019) usa el panel 45, el marco y los cinco sectores del APK 4.4.4. El giro local cuesta 3 billetes del juego; los premios offline de monedas y billetes sustituyen el servicio de anuncios. Se guardan el pago y el premio en una sola escritura de la partida.
 

@@ -10,29 +10,39 @@ final class GF3MarketFront {
     private static final int BACKGROUND_SHEET=171;
     private static int tab=-1, first=-1, shelf=-1;
     private static boolean installing;
-    private static Image billPreview;
+    private static Image billPreview,offerClock;
+    private static String timer;
+    private static long timerSecond=-1;
     // A local RMS record makes the lottery stable across shop visits and restarts.
     // The date key is based on the local civil day, not elapsed UTC hours (DST safe).
-    private static final String OFFER_SAVE="GF3-WEEKLY-2";
+    private static final String OFFER_SAVE="GF3-DAILY-1";
     private static int offerWeek=-1, offerCount, offerRedeemed;
     private static final int[] offerIds=new int[3], offerDiscount=new int[3], offerCoins=new int[3], offerBills=new int[3];
     private static boolean offersLoaded;
 
-    static int week(int year,int month,int day) {
+    static int dayKey(int year,int month,int day) {
         int y=year-(month<=2?1:0);
         int era=y/400, yoe=y-era*400;
         int doy=(153*(month+(month>2?-3:9))+2)/5+day-1;
         int days=era*146097+yoe*365+yoe/4-yoe/100+doy-719468;
-        return (days-2)/7; // 1970-01-03 was a Saturday.
+        return days; // Local civil date, not an elapsed 24-hour interval.
     }
 
-    private static int currentWeek() {
+    private static int currentDay() {
         try {
             Calendar c=Calendar.getInstance();
-            return week(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DATE));
+            return dayKey(c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DATE));
         }catch(Exception unsupported) {
-            return (int)((System.currentTimeMillis()/86400000L-2)/7);
+            return (int)((System.currentTimeMillis()/86400000L));
         }
+    }
+
+    static int secondsToReset(int h,int m,int s){return 86400-h*3600-m*60-s;}
+    private static String two(int n){return n<10?"0"+n:Integer.toString(n);}
+    static String countdown(){
+        Calendar c=Calendar.getInstance();
+        int seconds=secondsToReset(c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND));
+        return "Renovación: "+two(seconds/3600)+":"+two(seconds/60%60)+":"+two(seconds%60);
     }
 
     private static int getInt(byte[] b,int pos) {
@@ -74,7 +84,7 @@ final class GF3MarketFront {
     }
     private static void ensureOffers() {
         loadOffers();
-        int now=currentWeek();
+        int now=currentDay();
         // A device clock rollback must not repeatedly mint a new lottery.
         if(offerWeek>=now && offerCount>=2)return;
         int[] previous=new int[3];
@@ -104,7 +114,7 @@ final class GF3MarketFront {
         for(int i=0;i<offerCount;i++){
             if(i==cashSlot || n==0){
                 offerIds[i]=-1;offerDiscount[i]=0;offerBills[i]=3+rng.nextInt(8);
-                offerCoins[i]=offerBills[i]*(150+25*rng.nextInt(5));
+                offerCoins[i]=offerBills[i]*(90+10*rng.nextInt(4));
             }else{
                 int pick=rng.nextInt(n);offerIds[i]=candidates[pick];candidates[pick]=candidates[--n];
                 offerDiscount[i]=15+5*rng.nextInt(8);offerCoins[i]=offerBills[i]=0;
@@ -148,7 +158,7 @@ final class GF3MarketFront {
             if(i>=0 && i<offerCount) {
                 if(offerIds[i]<0 && (part==8 || part==10 || part==13))return;
                 if(part==2 && offerIds[i]<0) {
-                    // The Android bill stack is sheet 20/frame 114, decoded
+                    // The Android resource-shop pack is sheet 38/frame 0, decoded
                     // into a standalone rotated PNG. Draw even if the native
                     // placeholder preview is hidden. Never read its cache.
                     short[] card=a.controls[GUI][28+14*local];
@@ -241,6 +251,7 @@ final class GF3MarketFront {
         }
         show(PET_BUTTON,true,true);show(PET_ACTIVE,tab==4,false);show(PET_ICON,true,false);
         rows[125][15]=(short)(tab==5 && offerCount==0?1:0);
+        rows[127][15]=(short)(tab==5?1:0);
         show(126,false,false);
         a.gf();a.H(GUI);
     }
@@ -340,14 +351,23 @@ final class GF3MarketFront {
                 nav();
             }
         }
-        if(phase==3 && tab==5 && offerCount==0)a.a(GF3MarketRows.empty,GUI,125,0,0);
+        if(phase==3 && tab==5){
+            if(offerCount==0)a.a(GF3MarketRows.empty,GUI,125,0,0);
+            long second=System.currentTimeMillis()/1000L;
+            if(second!=timerSecond || timer==null){timer=countdown();timerSecond=second;}
+            try {
+                if(offerClock==null)offerClock=Image.createImage("/gf3-offer-clock.png");
+                if(g.graphics!=null)g.graphics.drawImage(offerClock,479-413,407,Graphics.HCENTER|Graphics.VCENTER);
+            }catch(IOException ignored){}
+            a.a(timer,GUI,127,0,0);
+        }
         if(phase==3 && tab==0 && first==9 && GF3HiveLimits.capacity()>0){
             short[][] rows=a.controls[GUI];
             // Android panel 2/36 draws the tally over the third crop family.
             int offset=rows[56][2]-rows[28][2];
             a.a(Integer.toString(GF3HiveLimits.owned())+"/"+GF3HiveLimits.capacity(),GUI,27,offset,20);
         }
-        if(phase==2 && tab==5 && currentWeek()>offerWeek){try {offers();nav();}catch(Exception invalid){offerCount=0;}}
+        if(phase==2 && tab==5 && currentDay()>offerWeek){try {offers();nav();}catch(Exception invalid){offerCount=0;}}
         if(phase==5) {
             tab=first=shelf=-1;
             if(a.assets.length>BACKGROUND_SHEET) a.assets[BACKGROUND_SHEET]=null;

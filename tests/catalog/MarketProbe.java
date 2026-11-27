@@ -38,11 +38,15 @@ final class MarketProbe {
     }
     private static void checkWeekly(ClassLoader loader,Class<?> game) throws Exception {
         Class<?> offers=Class.forName("GF3MarketFront",true,loader);
-        Method week=method(offers,"week",int.class,int.class,int.class,int.class);
-        int friday=(Integer)week.invoke(null,2026,11,27);
-        if((Integer)week.invoke(null,2026,11,28)!=friday+1 ||
-           (Integer)week.invoke(null,2026,12,4)!=friday+1)
-            throw new AssertionError("Saturday rollover");
+        Method day=method(offers,"dayKey",int.class,int.class,int.class,int.class);
+        int friday=(Integer)day.invoke(null,2026,11,27);
+        if((Integer)day.invoke(null,2026,11,28)!=friday+1 ||
+           (Integer)day.invoke(null,2026,12,4)!=friday+7 ||
+           (Integer)day.invoke(null,2027,1,1)!=(Integer)day.invoke(null,2026,12,31)+1)
+            throw new AssertionError("Daily rollover");
+        Method seconds=method(offers,"secondsToReset",int.class,int.class,int.class,int.class);
+        if((Integer)seconds.invoke(null,23,59,59)!=1 ||
+           (Integer)seconds.invoke(null,0,0,0)!=86400)throw new AssertionError("Daily countdown");
         Method open=method(offers,"open",void.class,int.class);
         Field count=variable(offers,"offerCount",int.class),stamp=variable(offers,"offerWeek",int.class);
         Field loaded=variable(offers,"offersLoaded",boolean.class);
@@ -81,7 +85,7 @@ final class MarketProbe {
                     throw new AssertionError("Offers to tab "+tab);
             }
         }
-        System.out.println("WEEKLY_OK Saturday, 2/3 cards, currency art and RMS");
+        System.out.println("WEEKLY_OK daily rollover, 2/3 cards, currency art and RMS");
     }
 
     private static void checkWithinFrame(ClassLoader loader) throws Exception {

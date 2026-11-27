@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 
 from tools.media import read_groups,write_groups
-from .wheel_art import shop_bill
+from .wheel_art import shop_bill, offer_clock
 from tools.mexican_spanish import adapt
 from tools.timing.classfile import ClassFile,convert_helper,pack_code,u2
 from tools.world import entries,labels,pack,table
@@ -100,7 +100,8 @@ def patch_marketfront(classes,apk,locale):
     sign=bytearray(mobile[203]);del sign[10]
     if caption[0]!=204 or sign[0]!=205 or sign[8:10]!=bytes([7,0]):
         raise ValueError('Unexpected empty-offers panel')
-    old.extend([caption,sign])
+    timer=bytearray(mobile[201]);del timer[-1]
+    old.extend([caption,sign,timer])
     panels[2]=panels[2][:1]+b''.join(old)
     def arr(values):return '{'+','.join(arr(v) if isinstance(v,(list,tuple)) else str(v) for v in values)+'}'
     nav=mobile[10:28]
@@ -147,4 +148,4 @@ def patch_marketfront(classes,apk,locale):
             helper.pool[helper.utf(key)]=helper.pool[helper.utf(actual)]
         return {**limits,'a.class':game.bytes(),'6':pack(panels),'EN':write_groups(groups),
                 'GF3MarketFront.class':convert_helper(helper.bytes()),
-                'GF3MarketRows.class':convert_helper((folder/'GF3MarketRows.class').read_bytes()),'gf3-bills.png':shop_bill(apk)}
+                'GF3MarketRows.class':convert_helper((folder/'GF3MarketRows.class').read_bytes()),'gf3-bills.png':shop_bill(apk),'gf3-offer-clock.png':offer_clock(apk)}

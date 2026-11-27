@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 from .hives import patch_code
 from .neighbor import expose
 from .visit_predators import _controls
-from .wheel_art import wheel_images
+from .wheel_art import wheel_images, cash_shop_images
 from tools.timing.classfile import ClassFile, code_parts, instruction_offsets, pack_code, convert_helper, u2
 from tools.world import entries, labels, pack, table
 
@@ -29,15 +29,30 @@ def patch_wheel(classes, apk, api):
             del row[10]
         rows[i]=bytes(row)
     panels.append(android[:1]+b''.join(rows))
+    # Panel 8 is the actual resource store. Keep its six cash-package
+    # purchase targets and text anchors; the static art is decoded separately.
+    shop=entries(apk.read(prefix+'10'))[8]
+    mobile=_controls(shop,True)
+    selected=[0,1,322,4,7]
+    for i in range(6):selected.extend([62+17*i,59+17*i,64+17*i])
+    controls=[]
+    for index in selected:
+        control=bytearray(mobile[index])
+        if control[0]==204:del control[-1]
+        else:
+            if control[10]!=0:raise ValueError('Unexpected cash shop sprite')
+            del control[10]
+        controls.append(bytes(control))
+    panels.append(shop[:1]+b''.join(controls))
     buildings=table(entries(apk.read(prefix+'13'))[3])[1]
     if buildings[29][1]!=1019 or buildings[29][24]!=185:raise ValueError('Unexpected wheel building')
     game=ClassFile(classes['a.class'])
-    patch_code(game,'fC','()V',[(i,b'\x10\x1e',b'\x10\x1f') for i in (0,8,16,60)])
-    patch_code(game,'<init>','(Ljava/lang/Object;Ljava/lang/Object;)V',[(83,b'\x10\x32',b'\x10\x33')])
+    patch_code(game,'fC','()V',[(i,b'\x10\x1e',b'\x10\x20') for i in (0,8,16,60)])
+    patch_code(game,'<init>','(Ljava/lang/Object;Ljava/lang/Object;)V',[(83,b'\x10\x32',b'\x10\x34')])
     patch_code(game,'gf3UiSpritePool','()[Le;',[(0,b'\x11\x00\xad',b'\x11\x00\xb1')])
-    expose(game,game.methods,{('a','(I)V'),('a','()I'),('t','()V'),('f','(I)Z'),('g','(I)V'),('h','(I)V'),('e','()I'),('c','(Z)V'),
+    expose(game,game.methods,{('a','(I)V'),('a','()I'),('t','()V'),('f','(I)Z'),('g','(I)V'),('h','(I)V'),('e','()I'),('d','()I'),('c','(Z)V'),
                             ('b','(IZ)V'),('E','(I)V'),('F','(I)V'),('H','(I)V'),('gf','()V'),('a','(Ljava/lang/String;IIII)V')})
-    expose(game,game.fields,{('a','[I'),('a','[[[S'),('a','[[Ljava/lang/String;'),('a','[Le;'),('a','[Ll;'),('f','[B')})
+    expose(game,game.fields,{('a','[I'),('a','[[[S'),('a','[[Ljava/lang/String;'),('a','[Le;'),('a','[Ll;'),('f','[B'),('bR','I'),('C','I')})
     # The ordinary farm tap dispatcher already resolves the building row.
     previous=b'\xb8'+u2(game.ref('GF3Doghouse','openBuilding','(I)Z'))
     replacement=b'\xb8'+u2(game.ref('GF3Wheel','openBuilding','(I)Z'))
@@ -71,7 +86,7 @@ def patch_wheel(classes, apk, api):
         stub.write_text('''class a {static int[] states;static short[][][] controls;
             static String[][] captions;static e[] assets;static l[] images;static byte[] flags;
             static void a(int n){}static void c(int n){}static void c(boolean b){}static void g(int n){}static void h(int n){}
-            static boolean f(int n){return false;}static int e(){return 0;}
+            static boolean f(int n){return false;}static int e(){return 0;}static int d(){return 0;}static int bR,C;
             static void b(int i,boolean load){}static void E(int i){}static void F(int i){}static void H(int i){}static void gf(){}static void t(){}
             static void a(String s,int gui,int i,int x,int y){}
             static boolean gf3WheelPreviousScreen(int p,int i){return false;}static void gf3WheelPreviousHit(int i){}}
@@ -88,4 +103,4 @@ def patch_wheel(classes, apk, api):
             helper.pool[helper.utf(alias)]=helper.pool[helper.utf(actual)]
         result={'GF3Wheel.class':convert_helper(helper.bytes()),
                 'GF3WheelText.class':convert_helper((folder/'GF3WheelText.class').read_bytes())}
-    return {**result,**wheel_images(apk),'a.class':game.bytes(),'6':pack(panels)}
+    return {**result,**wheel_images(apk),**cash_shop_images(apk),'a.class':game.bytes(),'6':pack(panels)}

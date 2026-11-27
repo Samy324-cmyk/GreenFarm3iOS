@@ -52,6 +52,9 @@ final class GF3FarmAudio {
         // The legacy dialog-opening slot was removed during the APK-only
         // audio conversion. Use the Android panel-opening recording.
         if(cue==58)cue=60;
+        // The native care/feeding animation calls slot 36, which was blank.
+        // Android source 35 is preserved at slot 137 in the expanded bank.
+        if(cue==36)cue=137;
         if(cue<0 || cue>=lastCue.length)return;
         long now=System.currentTimeMillis();
         if(now-lastCue[cue]<100L)return;

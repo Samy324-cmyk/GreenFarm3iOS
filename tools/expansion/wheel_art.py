@@ -95,7 +95,25 @@ def single(parts,scale=1):
 
 def shop_bill(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
-    return single(rgba_frame(source[20],114),2)
+    return single(rgba_frame(source[38],0))
+
+def offer_clock(apk):
+    source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
+    return single(rgba_frame(source[48],14))
+
+def cash_shop_images(apk):
+    source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
+    canvas=bytearray(bytes((245,227,188,255))*(800*480))
+    for sheet,frame,x,y in [(22,2,0,-17),(22,0,2,97),(20,12,359,50),(20,120,312,39),(20,13,568,50),(20,121,534,36)]:
+        blit(canvas,800,480,rgba_frame(source[sheet],frame),x,y)
+    for i,(x,y,ax,ay,bx,by) in enumerate([(213,110,293,179,218,204),(395,110,473,181,400,204),(577,110,660,178,582,204),
+                                        (214,273,292,342,219,367),(397,273,478,341,402,367),(577,273,658,340,582,367)]):
+        blit(canvas,800,480,rgba_frame(source[20],166),x,y)
+        blit(canvas,800,480,rgba_frame(source[38],i),ax,ay)
+        blit(canvas,800,480,rgba_frame(source[20],198),bx,by)
+    blit(canvas,800,480,rgba_frame(source[33],0),0,0)
+    blit(canvas,800,480,rgba_frame(source[20],122),715,10)
+    return {'gf3-cash-shop.png':portrait(800,480,canvas)}
 
 def wheel_images(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]

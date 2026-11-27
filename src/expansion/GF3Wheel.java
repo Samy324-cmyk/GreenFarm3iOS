@@ -13,14 +13,17 @@ final class GF3Wheel {
     private static final int[] COLORS={0xffb23c,0xd8f158,0x58bdeb,0xf86456,0xb35bc1};
     // First two amounts are the Android qK defaults. The remaining rewards
     // are offline currency substitutions for unavailable online prize draws.
-    private static final int[] COINS={100,0,500,0,1000};
-    private static final int[] BILLS={0,1,0,3,0};
+    private static final int[] COINS={500,0,1500,0,3500};
+    private static final int[] BILLS={0,2,0,8,0};
     private static final String[] EMPTY=new String[13];
     private static final Random random=new Random();
     private static l[] previousImages,images;
     private static byte[] previousFlags,flags;
     private static boolean loaded,cache,spinning;
-    private static Image background,rim,coin,bill;
+    private static Image background,rim,coin,bill,cashShop;
+    private static final int CASH_SCREEN=51,CASH_GUI=31;
+    private static final int[] CASH_AMOUNTS={10,25,50,100,250,500};
+    private static final int[] CASH_COSTS={1500,3500,6500,12000,28000,50000};
     private static long started;
     private static int rotation,startRotation,endRotation,result=-1;
 
@@ -142,8 +145,68 @@ final class GF3Wheel {
             }
         }finally{screen.setClip(clipX,clipY,clipW,clipH);}
     }
+    private static void cashControl(int row,boolean visible,boolean hit){
+        short[] c=a.controls[CASH_GUI][row];
+        if(c[0]==204)c[15]=(short)(visible?1:0);
+        else{c[10]=(short)(visible?1:0);c[18]=(short)(hit?1:0);}
+    }
+    static boolean buyCash(int pack){
+        if(pack<0 || pack>=CASH_AMOUNTS.length || a.d()<CASH_COSTS[pack] ||
+           a.e()>a.bR-CASH_AMOUNTS[pack])return false;
+        a.g(-CASH_COSTS[pack]);a.h(CASH_AMOUNTS[pack]);a.c(true);
+        return true;
+    }
+    private static void cashFill(){
+        cashControl(2,true,true);
+        for(int i=0;i<6;i++){
+            int r=5+3*i;
+            cashControl(r,true,true);cashControl(r+1,true,false);cashControl(r+2,true,false);
+        }
+        a.gf();a.H(CASH_GUI);
+    }
+    private static boolean cashScreen(int phase){
+        if(phase==0){
+            a.b(CASH_GUI,true);
+            try {cashShop=Image.createImage("/gf3-cash-shop.png");}
+            catch(IOException missing){throw new IllegalStateException("Resource shop artwork "+missing);}
+        }
+        if(phase==1){enterCache();a.E(CASH_GUI);cashFill();}
+        if(phase==2){int key=g.i();if(key==19 || key==11)a.t();}
+        if(phase==3 && cashShop!=null && g.graphics!=null){
+            Graphics gr=g.graphics;
+            int x=gr.getClipX(),y=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
+            try{
+                gr.setClip(0,0,480,800);
+                gr.drawImage(cashShop,0,0,Graphics.TOP|Graphics.LEFT);
+                a.a("RECURSOS",CASH_GUI,1,0,0);
+                gr.setClip(0,0,480,800);a.a(Integer.toString(a.d()),CASH_GUI,3,0,0);
+                gr.setClip(0,0,480,800);a.a(Integer.toString(a.e()),CASH_GUI,4,0,0);
+                for(int i=0;i<6;i++){
+                    int r=5+3*i;
+                    gr.setClip(0,0,480,800);a.a(Integer.toString(CASH_AMOUNTS[i]),CASH_GUI,r+1,0,0);
+                    gr.setClip(0,0,480,800);a.a(CASH_COSTS[i]+" monedas",CASH_GUI,r+2,0,0);
+                }
+            }finally{gr.setClip(x,y,cw,ch);}
+        }
+        if(phase==4)leaveCache();
+        if(phase==5){leaveCache();cashShop=null;}
+        return false;
+    }
+
     static boolean dispatch(int phase,int index){
         int[] states=a.states;
+        if(states!=null && index>=0 && index<states.length){
+            if(states[index]==CASH_SCREEN)return cashScreen(phase);
+            if(states[index]==17 && (phase==1 || phase==2)){
+                boolean handled=a.gf3WheelPreviousScreen(phase,index);
+                // The old IAP gate hides the bills '+' when offline.
+                if(a.C==-1 && a.controls!=null && a.controls[1]!=null){
+                    short[] plus=a.controls[1][14];
+                    if(plus[10]!=1 || plus[18]!=1){plus[10]=1;plus[18]=1;a.gf();a.H(1);}
+                }
+                return handled;
+            }
+        }
         if(states==null || index<0 || index>=states.length || states[index]!=SCREEN)
             return a.gf3WheelPreviousScreen(phase,index);
         if(phase==0){result=-1;rotation=0;load();}
@@ -163,6 +226,13 @@ final class GF3Wheel {
         return false;
     }
     static void hit(int event){
+        if(event==65550 && a.a()==17 && a.C==-1){a.c(60);a.a(CASH_SCREEN);return;}
+        if((event>>>16)==CASH_GUI && a.a()==CASH_SCREEN){
+            int row=event&65535;
+            if(row==2){a.c(57);a.t();}
+            else if(row>=5 && (row-5)%3==0 && (row-5)/3<6){a.c(buyCash((row-5)/3)?49:56);}
+            return;
+        }
         if((event>>>16)!=GUI){a.gf3WheelPreviousHit(event);return;}
         int row=event&65535;
         if(row==4 && !spinning){a.c(57);a.t();}
