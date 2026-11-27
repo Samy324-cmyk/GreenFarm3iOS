@@ -224,15 +224,21 @@ final class HomeProbe {
                 }
                 wallet=(Integer)call(game,"d",int.class).invoke(null);
             }
-            // Free one test journal slot, then let the actual scheduling pass
-            // choose the expansion quest at level ten.
-            ((int[])get(game,null,"bD",int[].class))[0]=-1;
-            ((int[])get(game,null,"bE",int[].class))[0]=-1;
-            call(game,"u",boolean.class).invoke(null);
-            if(((int[])get(game,null,"bD",int[].class))[0]!=9297)
-                throw new AssertionError("The level-ten scheduler did not offer 9297");
+            // No manual status assignment. Let the live farm automatically
+            // accept the level-ten quest even if it was queued as status 1.
+            int[] journal=(int[])get(game,null,"bD",int[].class);
             int[] status=(int[])get(game,null,"cb",int[].class);
-            status[0]=2;
+            int slot=-1;
+            for(int i=0;i<journal.length;i++)if(journal[i]==9297)slot=i;
+            if(slot<0){
+                journal[0]=-1;
+                ((int[])get(game,null,"bE",int[].class))[0]=-1;
+            }
+            call(home,"automatic",void.class).invoke(null);
+            for(int i=0;i<journal.length;i++)if(journal[i]==9297)slot=i;
+            if(slot<0 || status[slot]!=2)
+                throw new AssertionError("Level-ten farm failed to activate 9297 automatically");
+            System.out.println("HOME_AUTO_9297 slot="+slot);
             if(action.equals("empty")) return;
             dog=call(home,"ownedDog",actor).invoke(null);
             if(action.equals("adopt")) {

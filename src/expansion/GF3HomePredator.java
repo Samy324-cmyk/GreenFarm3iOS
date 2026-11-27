@@ -74,7 +74,7 @@ final class GF3HomePredator {
         // A queued native journal entry is status 1. Guided APK chapters
         // begin on the farm, without requiring the player to open the diary.
         for(int i=0;i<a.k;i++)if(special(a.bD[i]) && a.cb[i]<3){
-            if(a.cb[i]==1)a.cb[i]=2;
+            if(a.cb[i]==1){a.cb[i]=2;announce(a.bD[i]);}
             return;
         }
         int next=due();
@@ -90,6 +90,16 @@ final class GF3HomePredator {
         a.f(next,target,true);
         a.cb[target]=2;
         a.fE=target;
+        announce(a.bD[target]);
+    }
+    private static void announce(int id){
+        // Use the original LATAM introduction for the two construction
+        // chapters. The later honey tutorial has its own scripted dialogue.
+        if(id==9302 || id==9303){
+            int title=id==9302?2400:2405,body=id==9302?2402:2407;
+            a.a(GF3HomeData.line(title),GF3HomeData.line(body),15,0);
+            redrawMap=true;
+        }
     }
 
     private static void message(int text) {

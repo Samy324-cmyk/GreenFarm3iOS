@@ -61,15 +61,14 @@ final class BeeJournalProbe {
         }
         if(slot<0)throw new AssertionError("Scheduler did not offer "+id+" "+Arrays.toString(ints("bD")));
         if(ints("cb")[slot]==1) {
-            method(game,"I",void.class,int.class).invoke(null,65575+slot);
-            long deadline=System.currentTimeMillis()+16000;
-            while(number("a")!=26 && System.currentTimeMillis()<deadline){
-                if(number("a")==19){Thread.sleep(800);tap(145,450);}
-                else Thread.sleep(100);
-            }
-            screen(26);
-            if(ints("cb")[slot]!=2)throw new AssertionError("Journal did not accept "+id);
-            control(5,57);screen(17);
+            Class<?> scheduler=Class.forName("GF3HomePredator",true,game.getClassLoader());
+            screen(17);
+            method(scheduler,"automatic",void.class).invoke(null);
+            if(ints("cb")[slot]!=2)throw new AssertionError("Farm did not auto-accept "+id);
+        }
+        if(id==9302 || id==9303){
+            Thread.sleep(500);
+            if(number("a")==19){tap(145,450);screen(17);}
         }
         System.out.println("BEE accepted "+id+" "+((String[])field(game,null,"i",String[].class))[slot]);
     }

@@ -31,7 +31,7 @@ def android_data(apk):
     levels=','.join(str(r[12]) for r in special)
     prerequisites=','.join('{'+','.join(str(quest_rows[i][1]) for i in r[13:16] if i>=0)+'}' for r in special)
     lines=''.join('case '+str(i)+':return '+json.dumps(text[i],ensure_ascii=True)+';'
-                  for i in (955,956,957,958,959,964,965,975,979,12320,12321,12327,12331))
+                  for i in (955,956,957,958,959,964,965,975,979,12320,12321,12327,12331,2400,2402,2405,2407))
     return ('final class GF3HomeData {static final int HOME_X=%d,HOME_Y=%d;'%home
             +'static final int[][] rates={'+values+'};'
             +'static final int[] quests={'+quests+'}, levels={'+levels+'};'
