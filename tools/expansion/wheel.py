@@ -29,36 +29,24 @@ def patch_wheel(classes, apk, api):
             del row[10]
         rows[i]=bytes(row)
     panels.append(android[:1]+b''.join(rows))
-    # Panel 8 is the actual resource store. Keep its six cash-package
-    # purchase targets and text anchors; the static art is decoded separately.
-    shop=entries(apk.read(prefix+'10'))[8]
-    mobile=_controls(shop,True)
-    selected=[0,1,322,4,7]
-    for i in range(6):selected.extend([62+17*i,59+17*i,64+17*i])
-    controls=[]
-    for index in selected:
-        control=bytearray(mobile[index])
-        if control[0]==204:del control[-1]
-        else:
-            if control[10]!=0:raise ValueError('Unexpected cash shop sprite')
-            del control[10]
-        controls.append(bytes(control))
+    # Clone the exact native coin shop text/controls instead of converting
+    # the Android IAP layout. Header and package text therefore use the same
+    # bitmap font, alignment, dimensions and spacing as the vanilla shop.
     import struct
-    # Use the native card bounds for the two touchable side selectors,
-    # and native caption style for their labels.
+    shop=panels[8]
+    native=_controls(shop,False)
+    selected=[0,1,203,4,7]
+    for i in range(6):selected.extend([118+6*i,116+6*i,119+6*i])
+    controls=[bytearray(native[i]) for i in selected]
+    assert [row[0] for row in controls[:5]]==[205,204,205,204,204]
+    assert all([row[0] for row in controls[i:i+3]]==[205,204,204] for i in range(5,23,3))
     for tab in range(2):
-        card=bytearray(controls[5]);struct.pack_into('<hh',card,3,32,112+164*tab);card[9]=166
-        caption=bytearray(controls[7]);struct.pack_into('<hh',caption,3,37,225+164*tab)
-        struct.pack_into('<H',caption,8,154)
+        card=bytearray(native[114]);struct.pack_into('<hh',card,3,35,285)
+        caption=bytearray(native[119]);struct.pack_into('<hh',caption,3,40,388)
+        struct.pack_into('<H',caption,8,145)
         controls.extend([card,caption])
-    # Amount and price anchors match the original buttons, reserving icon space.
-    for i in range(6):
-        label=bytearray(controls[6+3*i]);x=213+182*(i%3);y=110+163*(i//3)
-        struct.pack_into('<hh',label,3,x+4,y+5);struct.pack_into('<H',label,8,156)
-        controls[6+3*i]=label
-        price=bytearray(controls[7+3*i])
-        struct.pack_into('<hh',price,3,x+39,y+107);struct.pack_into('<H',price,8,109)
-        controls[7+3*i]=price
+    # The bitmap font is identical to the gold shop; reserve room for
+    # "monedas" on the green purchase label, without narrowing its box.
     panels.append(shop[:1]+b''.join(controls))
     buildings=table(entries(apk.read(prefix+'13'))[3])[1]
     if buildings[29][1]!=1019 or buildings[29][24]!=185:raise ValueError('Unexpected wheel building')

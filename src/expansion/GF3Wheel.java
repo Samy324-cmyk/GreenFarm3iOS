@@ -176,17 +176,17 @@ final class GF3Wheel {
         if(screen==34){
             if(x>=35 && x<190 && y>=285 && y<423)return 25;
             for(int i=0;i<6;i++){
-                int bx=227+169*(i%3),by=221+160*(i/3);
+                int bx=226+(i%3==0?0:i%3==1?169:337),by=221+160*(i/3);
                 if(x>=bx && x<bx+139 && y>=by && y<by+32)return 5+3*i;
             }
             return -1;
         }
         if(screen!=CASH_SCREEN)return -1;
         if(x>=710 && y<90)return 2;
-        if(x>=30 && x<200 && y>=110 && y<270)return 23;
+        if(x>=35 && x<190 && y>=285 && y<423)return 23;
         for(int i=0;i<6;i++){
-            int bx=218+182*(i%3),by=204+163*(i/3);
-            if(x>=bx && x<bx+154 && y>=by && y<by+47)return 5+3*i;
+            int bx=226+(i%3==0?0:i%3==1?169:337),by=221+160*(i/3);
+            if(x>=bx && x<bx+139 && y>=by && y<by+32)return 5+3*i;
         }
         return -1;
     }
@@ -242,7 +242,8 @@ final class GF3Wheel {
     private static void cashFill(){
         cashControl(1,true,false);cashControl(2,true,true);
         cashControl(3,true,false);cashControl(4,true,false);
-        for(int i=23;i<27;i++)cashControl(i,true,i==23 || i==25);
+        cashControl(23,true,true);cashControl(24,true,false);
+        cashControl(25,false,false);cashControl(26,false,false);
         for(int i=0;i<6;i++){
             int r=5+3*i;
             cashControl(r,true,true);cashControl(r+1,true,false);cashControl(r+2,true,false);
@@ -264,14 +265,13 @@ final class GF3Wheel {
                 gr.setClip(0,0,480,800);
                 gr.drawImage(cashShop,0,0,Graphics.TOP|Graphics.LEFT);
                 a.a("¡Más!",CASH_GUI,1,0,0);
-                gr.setClip(0,0,480,800);a.a(cashTab?"Monedas":"Monedas *",CASH_GUI,24,0,0);
-                gr.setClip(0,0,480,800);a.a(cashTab?"Billetes *":"Billetes",CASH_GUI,26,0,0);
+                gr.setClip(0,0,480,800);a.a("Monedas",CASH_GUI,24,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.d()),CASH_GUI,3,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.e()),CASH_GUI,4,0,0);
                 for(int i=0;i<6;i++){
                     int r=5+3*i;
                     gr.setClip(0,0,480,800);a.a(Integer.toString(cashTab?CASH_AMOUNTS[i]:GOLD_AMOUNTS[i]),CASH_GUI,r+1,0,0);
-                    gr.setClip(0,0,480,800);a.a(Integer.toString(cashTab?CASH_COSTS[i]:GOLD_COSTS[i]),CASH_GUI,r+2,0,0);
+                    gr.setClip(0,0,480,800);a.a(CASH_COSTS[i]+" monedas",CASH_GUI,r+2,0,0);
                 }
             }finally{gr.setClip(x,y,cw,ch);}
         }

@@ -55,7 +55,7 @@ final class WheelProbe {
         waitScreen(screen,17);
         Method action=MarketProbe.method(wheel,"resourceAction",int.class,int.class,int.class,int.class);
         for(int i=0;i<6;i++){
-            if((Integer)action.invoke(null,51,250+182*(i%3),225+163*(i/3))!=5+3*i)
+            if((Integer)action.invoke(null,51,280+169*(i%3),235+160*(i/3))!=5+3*i)
                 throw new AssertionError("Cash button "+i);
         }
         MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,65547);
@@ -71,7 +71,7 @@ final class WheelProbe {
         waitScreen(screen,51);
         MarketProbe.method(game,"g",void.class,int.class).invoke(null,5000);
         int beforeGold=(Integer)money.invoke(null),beforeCash=(Integer)wallet.invoke(null);
-        MobilePlatform.pointerPressed(479-225,250);Thread.sleep(80);MobilePlatform.pointerReleased(479-225,250);
+        MobilePlatform.pointerPressed(479-235,280);Thread.sleep(80);MobilePlatform.pointerReleased(479-235,280);
         Thread.sleep(500);
         if((Integer)money.invoke(null)!=beforeGold-1500 || (Integer)wallet.invoke(null)!=beforeCash+10)
             throw new AssertionError("Cash touch purchase did not debit and credit");

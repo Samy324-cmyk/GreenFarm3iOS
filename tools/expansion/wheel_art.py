@@ -120,53 +120,58 @@ def stretched(parts,width,height):
         result.append((x,y,ww,hh,pixels))
     return result
 
+# Exact positions of the six cards, images and purchase buttons in native
+# MIDP panel 8 (rows 114..149), not the larger Android IAP layout.
+RESOURCE_CARDS=((213,113,289,175,226,221),(381,113,464,175,395,221),
+                (550,113,627,175,563,221),(214,273,288,335,226,381),
+                (383,273,466,335,395,381),(550,273,629,335,563,381))
+
+def resize_parts(parts,width,height):
+    left=min(q[0] for q in parts);top=min(q[1] for q in parts)
+    right=max(q[0]+q[2] for q in parts);bottom=max(q[1]+q[3] for q in parts)
+    w,h=right-left,bottom-top
+    data=bytearray(w*h*4);blit(data,w,h,parts,-left,-top)
+    dst=bytes().join(data[((y*h//height)*w+x*w//width)*4:((y*h//height)*w+x*w//width)*4+4]
+                     for y in range(height) for x in range(width))
+    return [(0,0,width,height,dst)]
+
 def cash_shop_images(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
     images={}
     card=stretched(rgba_frame(source[20],166),164,150)
-    green=stretched(rgba_frame(source[20],198),154,47)
-    # A single-pixel center fills the rectangle, not just its corners.
-    assert sum(w*h for x,y,w,h,_ in card)>=164*149
-    assert sum(w*h for x,y,w,h,_ in green)>=154*46
+    # Frame 167 is the native 139x32 purchase button; frame 198 is
+    # the taller Android-only button used by the previous reconstruction.
+    green=stretched(rgba_frame(source[20],167),139,32)
     for cash in (True,False):
         canvas=bytearray(bytes((245,227,188,255))*(800*480))
-        for sheet,frame,x,y in [(22,2,0,-17),(22,0,2,97),(20,12,359,50),(20,120,312,39),(20,13,568,50),(20,121,534,36)]:
+        for sheet,frame,x,y in [(22,2,0,0),(22,0,5,114),(20,12,334,50),(20,120,287,39),(20,13,555,50),(20,121,521,36)]:
             parts=rgba_frame(source[sheet],frame)
             if sheet==20 and frame in (12,13):
-                parts=stretched(parts,169 if frame==12 else 126,42)
+                parts=stretched(parts,176 if frame==12 else 138,42)
             blit(canvas,800,480,parts,x,y)
-        # Side selector uses the original card and green button resources.
-        for tab in range(2):
-            x,y=32,112+164*tab
-            blit(canvas,800,480,card,x,y)
-            icon=rgba_frame(source[37 if tab==0 else 38],3 if tab==0 else 4)
-            left=min(q[0] for q in icon);top=min(q[1] for q in icon)
-            right=max(q[0]+q[2] for q in icon);bottom=max(q[1]+q[3] for q in icon)
-            blit(canvas,800,480,icon,x+82-(right+left)//2,y+64-(bottom+top)//2)
-            blit(canvas,800,480,green,x+5,y+103)
-        for i,(x,y,ax,ay,bx,by) in enumerate([(213,110,293,179,218,204),(395,110,473,181,400,204),(577,110,660,178,582,204),
-                                            (214,273,292,342,219,367),(397,273,478,341,402,367),(577,273,658,340,582,367)]):
+        # The large resource illustration is the only decoration in the upper
+        # left, just like the native basket of coins. The other tab goes below.
+        hero=resize_parts(rgba_frame(source[38 if cash else 37],4 if cash else 3),118,122)
+        blit(canvas,800,480,hero,47,138)
+        selector=bytearray(155*138*4)
+        blit(selector,155,138,stretched(rgba_frame(source[20],166),155,138),0,0)
+        other=rgba_frame(source[37 if cash else 38],3 if cash else 4)
+        left=min(q[0] for q in other);top=min(q[1] for q in other)
+        right=max(q[0]+q[2] for q in other);bottom=max(q[1]+q[3] for q in other)
+        blit(selector,155,138,other,77-(left+right)//2,62-(top+bottom)//2)
+        # Selector is a small native-style tab, not an extra package card.
+        blit(canvas,800,480,[(0,0,155,138,selector)],35,285)
+        for i,(x,y,ax,ay,bx,by) in enumerate(RESOURCE_CARDS):
             blit(canvas,800,480,card,x,y)
             blit(canvas,800,480,rgba_frame(source[38 if cash else 37],i),ax,ay)
             blit(canvas,800,480,green,bx,by)
-            # Original currency art makes the price unit clear without text clipping.
-            icon=rgba_frame(source[41],0 if cash else 1)
-            # Reduce the original prize icon to fit the 47px native button.
-            small=[]
-            for ox,oy,iw,ih,rgba in icon:
-                sw,sh=max(1,iw*2//3),max(1,ih*2//3)
-                small.append((ox*2//3,oy*2//3,sw,sh,bytes().join(rgba[((yy*ih//sh)*iw+xx*iw//sw)*4:((yy*ih//sh)*iw+xx*iw//sw)*4+4] for yy in range(sh) for xx in range(sw))))
-            blit(canvas,800,480,small,bx+10,by+10)
+            # Currency icon at the same position as the native amount icon.
+            icon=resize_parts(rgba_frame(source[41],1 if cash else 0),23,23)
+            blit(canvas,800,480,icon,x+10,y+4)
         blit(canvas,800,480,rgba_frame(source[33],0),0,0)
         blit(canvas,800,480,rgba_frame(source[20],122),715,10)
         images['gf3-cash-shop.png' if cash else 'gf3-coin-shop.png']=portrait(800,480,canvas)
-    selector=bytearray(155*138*4)
-    blit(selector,155,138,stretched(rgba_frame(source[20],166),155,138),0,0)
-    icon=rgba_frame(source[38],4)
-    left=min(q[0] for q in icon);top=min(q[1] for q in icon)
-    right=max(q[0]+q[2] for q in icon);bottom=max(q[1]+q[3] for q in icon)
-    blit(selector,155,138,icon,77-(left+right)//2,69-(top+bottom)//2)
-    images['gf3-cash-selector.png']=portrait(155,138,selector)
+        if not cash:images['gf3-cash-selector.png']=portrait(155,138,selector)
     return images
 
 def wheel_images(apk):
