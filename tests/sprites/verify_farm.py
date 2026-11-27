@@ -128,8 +128,11 @@ def verify(args):
             for length,first in shape[5]:
                 if length:
                     ids.update((shape[4][first][0],shape[4][first+length-1][0]))
-            if len(shape[3])<=6:
+            if len(shape[3])<=6 or 175<=slot<=182:
                 ids.update(range(len(shape[3])))
+            if 175<=slot<=182:
+                converted=geometry(blob)[0]
+                if converted[4:]!=shape[4:]:raise AssertionError(f'Pet animation sequence differs at {slot}')
             checks=[]
             for frame in sorted(ids):
                 for variant in {0,len(src[2][0])-1}:

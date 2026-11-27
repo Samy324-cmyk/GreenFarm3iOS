@@ -39,8 +39,8 @@ def patch_honey_tutorial(classes,apk):
     with TemporaryDirectory() as tmp:
         root=Path(tmp)
         stub=root/'a.java'
-        stub.write_text('''class a {static int F,dW;static int[] bD,cb;static String[][] captions;static boolean redrawActors;
-          static f c,selected; static e[] assets; static int a(){return 0;}
+        stub.write_text('''class a {static int F,dW,transition;static int[] bD,cb;static String[][] captions;static boolean redrawActors;
+          static f c,selected; static e[] assets; static int a(){return 0;}static boolean h(int id){return false;}
           static short[][][] controls; static void a(int gui,short[] item,int x,int y,int idx){}
           static boolean gf3HoneyInventory(int phase){return false;}
           static boolean gf3HoneyFarm(int e){return false;}static void a(f target,int x,int y){}
@@ -64,7 +64,7 @@ def patch_honey_tutorial(classes,apk):
                         str(data),str(stub),str(source)],check=True)
         cf=ClassFile((root/'GF3HoneyTutorial.class').read_bytes())
         for alias,real in {'assets':'a','tables':'a','rows':'a','captions':'a','controls':'a','selected':'d',
-                           'open':'c','readEntry':'a','stock':'a','objective':'a','redrawActors':'l'}.items():
+                           'open':'c','readEntry':'a','stock':'a','objective':'a','redrawActors':'l','transition':'af'}.items():
             cf.pool[cf.utf(alias)]=cf.pool[cf.utf(real)]
         result['GF3HoneyTutorial.class']=convert_helper(cf.bytes())
         result['GF3HoneyWords.class']=convert_helper((root/'GF3HoneyWords.class').read_bytes())

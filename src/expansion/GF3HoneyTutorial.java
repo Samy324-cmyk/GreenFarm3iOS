@@ -11,6 +11,8 @@ final class GF3HoneyTutorial {
     private static int redrawFrames;
 
     private static boolean active() {
+        if(a.bD==null || a.cb==null || !a.h(9302) || !a.h(9303))return false;
+        for(int i=0;i<a.bD.length;i++)if(a.bD[i]==9302 || a.bD[i]==9303 || a.bD[i]==9297 || a.bD[i]==9299)return false;
         for(int i=0;i<a.bD.length;i++) if(a.bD[i]==9304 && a.cb[i]==2) return true;
         return false;
     }
@@ -18,8 +20,9 @@ final class GF3HoneyTutorial {
     static int phase() {return stage;}
 
     private static void pointer(int panel,int index) {
-        short[] marker=a.controls[panel][index];
-        marker[10]=1;a.a(panel,marker,0,0,index);marker[10]=0;
+        if(a.controls==null || a.controls[panel]==null || index>=a.controls[panel].length)return;
+        short[] marker=a.controls[panel][index];short visible=marker[10];
+        try{marker[10]=1;a.a(panel,marker,0,0,index);}finally{marker[10]=visible;}
     }
 
     static void drawPress() {
@@ -108,7 +111,7 @@ final class GF3HoneyTutorial {
         }
         boolean handled=a.gf3HoneyFarm(event);
         if(event==1 && redraw && a.F==0 && a.a()==17) {k.f();redrawFrames=3;redraw=false;}
-        if(event!=2 || a.F!=0 || a.a()!=17 || a.c==null) return handled;
+        if(event!=2 || a.F!=0 || a.a()!=17 || a.transition!=-1 || a.c==null) return handled;
         if(!active()) {
             if(stage!=0) {go(0);hive=null;harvested=false;jarMade=false;growing=false;smoked=false;}
             return handled;
@@ -182,7 +185,7 @@ final class GF3HoneyTutorial {
     }
 
     static byte[] read(String name) throws IOException {
-        byte[] data=GF3HomePredator.read(name);go(0);hive=null;harvested=false;jarMade=false;growing=false;smoked=false;
+        byte[] data=GF3HomePredator.read(name);go(0);redraw=false;redrawFrames=0;hive=null;harvested=false;jarMade=false;growing=false;smoked=false;
         if(data==null || data.length<7) return data;
         int n=data.length-7;
         if(data[n+3]!='B'|| data[n+4]!='E'||data[n+5]!='E'||data[n+6]!=1) return data;

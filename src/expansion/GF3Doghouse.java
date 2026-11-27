@@ -120,6 +120,7 @@ final class GF3Doghouse {
 
     private static int breed(){
         if(pet==null) return -1;
+        if(pet.y==69)return 1;if(pet.y==71)return 2;
         for(int i=0;i<4;i++) if(pet.y==BREEDS[i]) return i;
         return -1;
     }
@@ -192,7 +193,7 @@ final class GF3Doghouse {
             for(int i=72;i<=74;i++)show(i,true);
             captions[74]=Integer.toString(GF3Dogs.nextBills(level));
         }
-        if(b<0 || level==0) return;
+        if(b<0 || level==0 || pet.a(32)) return;
         boolean due=System.currentTimeMillis()>=GF3DogToys.nextBonus;
         for(int i=75;i<=78;i++) show(i,true);
         rows[70][6]=79;
@@ -291,7 +292,7 @@ final class GF3Doghouse {
         if((control>>>16)!=GUI){a.gf3PreviousHit(control);return;}
         int id=control&65535;
         if(id==56){if(GF3DogTutorial.closeHouse()){a.c(57);a.t();}return;}
-        if(id==71 && pet!=null && breed()>=0 && GF3Dogs.level(pet)>0 &&
+        if(id==71 && pet!=null && !pet.a(32) && breed()>=0 && GF3Dogs.level(pet)>0 && GF3Dogs.level(pet)<=10 &&
                 System.currentTimeMillis()>=GF3DogToys.nextBonus){
             a.c(61);
             a.g(GF3HouseData.BONUS[breed()][GF3Dogs.level(pet)-1]);

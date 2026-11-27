@@ -35,6 +35,7 @@ final class GF3HomePredator {
         return false;
     }
 
+    private static boolean guided(int id){return id==9297 || id==9299 || id>=9302 && id<=9304;}
     private static boolean special(int id){
         for(int q:GF3HomeData.quests)if(q==id)return true;
         return false;
@@ -43,12 +44,12 @@ final class GF3HomePredator {
         if(a.F!=0 || (a.C!=-1 && a.C!=10) || a.bD==null || a.cb==null)return -1;
         // Do not run two guided expansion chapters simultaneously.
         for(int i=0;i<a.bD.length;i++)
-            if(special(a.bD[i]) && a.cb[i]<3)return -1;
+            if(guided(a.bD[i]))return -1;
         int[] chain=GF3HomeData.quests;
         for(int i=0;i<chain.length;i++){
             if(a.f()<GF3HomeData.levels[i] || a.h(chain[i]) || active(chain[i]))continue;
             boolean ready=true;
-            for(int dependency:GF3HomeData.prerequisites[i])if(!a.h(dependency))ready=false;
+            for(int dependency:GF3HomeData.prerequisites[i])if(!a.h(dependency) || active(dependency))ready=false;
             if(ready)return 297+i;
         }
         return -1;
@@ -73,7 +74,7 @@ final class GF3HomePredator {
         if(a.C!=-1 || a.af!=-1 || a.F!=0 || a.bD==null || a.cb==null)return;
         // A queued native journal entry is status 1. Guided APK chapters
         // begin on the farm, without requiring the player to open the diary.
-        for(int i=0;i<a.k;i++)if(special(a.bD[i]) && a.cb[i]<3){
+        for(int i=0;i<a.k;i++)if(guided(a.bD[i])){
             if(a.cb[i]==1){a.cb[i]=2;announce(a.bD[i]);}
             return;
         }
@@ -88,9 +89,7 @@ final class GF3HomePredator {
             if(a.cb[i]==1 && a.bD[i]>=9000 && !special(a.bD[i])){target=i;break;}
         if(target<0)return;
         a.f(next,target,true);
-        a.cb[target]=2;
-        a.fE=target;
-        announce(a.bD[target]);
+        if(guided(a.bD[target])){a.cb[target]=2;a.fE=target;announce(a.bD[target]);}
     }
     private static void announce(int id){
         // Use the original LATAM introduction for the two construction
@@ -429,7 +428,7 @@ final class GF3HomePredator {
             step=NEED_DOG;
         } else if(step==NEED_DOG) {
             dog=ownedDog();
-            if(dog!=null && dog==a.placing) return handled;
+            if(dog!=null && (dog==a.placing || GF3PetNames.naming(dog))) return handled;
             if(dog!=null && dog.a(32)) {
                 focus(dog);
                 message(964);

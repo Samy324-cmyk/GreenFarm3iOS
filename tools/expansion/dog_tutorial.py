@@ -34,7 +34,7 @@ def patch_dog_tutorial(classes,apk):
             static char count;static int ct,cu,F,B,transition;static f c;static e[] art;
             static boolean gf3DogLessonsFarm(int event){return false;}
             static boolean gf3DogLessonsShop(int event){return false;}
-            static int a(){return 0;}static void c(){}static int b(int id,int n,int action){return 0;}
+            static int a(){return 0;}static boolean h(int id){return false;}static void c(){}static int b(int id,int n,int action){return 0;}
             static void a(String s,int p,int c){} static void a(f x,int a,int b){}
             static void a(String s,int gui,int row,int x,int y){}static void visible(int gui,int row,boolean show){}
             static void r(int tab,int index){}static void card(int pos,boolean show,boolean cat){}

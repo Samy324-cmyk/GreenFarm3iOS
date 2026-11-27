@@ -10,8 +10,9 @@ final class GF3DogTutorial {
     private GF3DogTutorial() {}
 
     private static boolean active() {
-        if(a.bD!=null)for(int i=0;i<a.bD.length;i++)
-            if(a.bD[i]==9299 && a.cb[i]==2)return true;
+        if(a.bD==null || a.cb==null || !a.h(9297))return false;
+        for(int i=0;i<a.bD.length;i++)if(a.bD[i]==9297)return false;
+        for(int i=0;i<a.bD.length;i++)if(a.bD[i]==9299 && a.cb[i]==2)return true;
         return false;
     }
 
@@ -36,9 +37,9 @@ final class GF3DogTutorial {
     static boolean farm(int event) {
         // Android's av(1038) explicitly dispatches the pointed dog. The MIDP
         // farm can choose the crop or farmer behind it in a crowded tile.
-        if(event==2 && phase==1038 && a.F==0 && a.a()==17 && a.k==null && g.ab!=0) {
+        if(event==2 && active() && phase==1038 && a.F==0 && a.a()==17 && a.k==null && g.ab!=0) {
             f dog=GF3Doghouse.resident(null);
-            if(dog!=null && dog.a!=null && dog.E>=0 && a.art[dog.E]!=null) {
+            if(dog!=null && dog.a!=null && a.art!=null && dog.E>=0 && dog.E<a.art.length && a.art[dog.E]!=null) {
                 a.art[dog.E].a(bounds,dog.a.clip(),dog.a.frame(),0,0,dog.a.flags);
                 int x=g.ac-dog.u,y=g.ad-dog.v;
                 boolean hit=x>=bounds[0]*a.B/100 && x<=bounds[2]*a.B/100 &&
@@ -53,7 +54,13 @@ final class GF3DogTutorial {
         boolean handled=a.gf3DogLessonsFarm(event);
         if(event!=2 || a.F!=0 || a.a()!=17 || a.transition!=-1 || a.c==null)return handled;
         if(!active()){if(phase!=0)go(0);return handled;}
-        if(phase==0)go(1026);
+        if(phase==0)go(GF3Doghouse.placed(null)==null?1026:1031);
+        if(phase==1039){
+            // The animation has finished. Dispatch the journal event only on
+            // the farm tick, never while the actor list is being updated.
+            GF3HomePredator.trained();go(0);a.b(2992,1,44);return handled;
+        }
+        if(phase==1029 && GF3Doghouse.placed(null)!=null)go(1030);
         if(phase==1030)say(970,1031);
         else if(phase==1031)focus(GF3Doghouse.placed(null));
         else if(phase==1035)say(971,1036);
@@ -65,14 +72,16 @@ final class GF3DogTutorial {
     private static void shelf(int tab,int row) {
         if(shelfReady && a.cu==tab)return;
         a.r(tab,-1);
-        int size=tab==3?3:5;
-        int[] slots=new int[size];
-        for(int item=0;item<size;item++){
+        int size=0;
+        int[] slots=new int[tab==3?3:5];
+        int count=Math.min(a.count,a.M.length);
+        for(int item=0;item<slots.length;item++){
             int slot=0;
-            while(slot<a.M.length && a.M[slot]!=row+item)slot++;
-            if(slot==a.M.length)throw new IllegalStateException();
-            slots[item]=slot;
+            while(slot<count && a.M[slot]!=row+item)slot++;
+            if(slot==count){if(item==0)return;continue;}
+            slots[size++]=slot;
         }
+        if(size==0)return;
         int[][] columns={a.L,a.M,a.N,a.O,a.P,a.Q,a.R,a.S,a.T,a.U,a.V,a.W};
         for(int col=0;col<columns.length;col++){
             int[] values=new int[size];
@@ -138,13 +147,7 @@ final class GF3DogTutorial {
             go(1037);
         }
     }
-    static void played() {
-        if(phase==1038){
-            GF3HomePredator.trained();
-            go(0);
-            a.b(2992,1,44);
-        }
-    }
+    static void played() {if(phase==1038 && active())phase=1039;}
 
     static void reset() {
         phase=0;focused=false;shelfReady=false;pressedDog=false;
@@ -165,7 +168,7 @@ final class GF3DogTutorial {
         byte[] data=GF3PetNames.unpack(source);
         int n=data.length-5;
         if(n<0 || data[n+1]!='D' || data[n+2]!='G' || data[n+3]!='T')return data;
-        if(data[n+4]!=1 || (data[n]&255)>12)throw new IOException();
+        if(data[n+4]!=1 || (data[n]&255)>13)throw new IOException();
         go(1026+data[n]);
         byte[] original=new byte[n];
         System.arraycopy(data,0,original,0,n);

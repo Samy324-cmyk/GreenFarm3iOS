@@ -106,9 +106,10 @@ final class GF3PetNames {
         }
     }
 
+    static boolean naming(f pet){return pending==pet || editing>=0;}
     static void farmTick(f pet) {
         if(pet==null || (pending==null && !swapped) || (pending!=null && pet!=pending))return;
-        if(a.a()!=17 || a.transition!=-1)return;
+        if(a.a()!=17 || a.transition!=-1 || !pet.a(512) || pet.a(4096))return;
         if(swapped){
             swapped=false;
             a.a(GF3HouseData.TEXT[18],GF3HouseData.TEXT[19],7);

@@ -89,6 +89,7 @@ final class GF3Dogs {
         x.e ^= (long)(toy+1) << 32;
     }
 
+    static void cancelToy(f x){setStats(x,xp(x),happiness(x),level(x));}
     static void finishToy(f x, int expAdded, int moodAdded) {
         int oldLevel=level(x);
         int total = Math.min(50000, xp(x) + expAdded);

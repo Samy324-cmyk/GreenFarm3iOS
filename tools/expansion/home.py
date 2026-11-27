@@ -115,7 +115,7 @@ def build_home_helpers(apk):
           class k {int flags; boolean a(){return false;} static void f(){} int animation(){return 0;} int frame(){return 0;}}
           class g {static int ab,ac,ad,K; static int c(int lo,int hi){return lo;}
             static String a(String source,String token,String value){return null;}} class e {void a(int[] bounds,int anim,int frame,int x,int y,int flags){}}
-          class GF3PetNames {static String name(f pet){return null;}}
+          class GF3PetNames {static String name(f pet){return null;}static boolean naming(f pet){return false;}}
           class GF3FarmAudio {static void original(int cue){}}
           class GF3Hive {static boolean isHive(f x){return false;}}
           class GF3Doghouse {static f resident(f exclude){return null;} static int floor(){return 0;}}

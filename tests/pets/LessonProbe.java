@@ -120,7 +120,14 @@ final class LessonProbe {
             }
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Dog's toy wheel did not open");
             int prev=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
-            control(65601);waitFor(0,26);
+            int oldQty=(Integer)method(toys,"quantity",int.class,int.class).invoke(null,0);
+            control(65601);
+            Thread.sleep(250);
+            int animation=(Integer)method(type("k"),"a",int.class).invoke(field(actor,dog,"a",type("k")));
+            if(animation!=17)throw new AssertionError("Ball animation did not begin: "+animation);
+            if((Integer)method(toys,"quantity",int.class,int.class).invoke(null,0)!=oldQty-1)
+                throw new AssertionError("Toy consumption");
+            waitFor(0,26);
             int xp=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
             long day=(Long)field(type("GF3ThiefClock"),null,"day",long.class);
             if(xp!=prev+3 || day<=0)throw new AssertionError("Play reward "+prev+" -> "+xp+" day="+day);

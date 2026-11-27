@@ -13,10 +13,17 @@ final class GF3DogToys {
     private static boolean eatingHeard;
     static long nextBonus;
 
-    static int quantity(int toy) { return STOCK[toy]; }
+    static int quantity(int toy) { return toy>=0 && toy<STOCK.length?STOCK[toy]:0; }
+    private static boolean playable(f pet,int toy){
+        if(pet==null || pet.a==null || pet.a(32) || !pet.a(512) || pet.a(4096) || toy<0 || toy>=4)return false;
+        e sheet=pet.a.sprite();
+        int clip=17+toy;
+        return sheet!=null && clip<sheet.animations() && sheet.a(clip)>0;
+    }
 
     /** The world toy frames have no embedded touchscreen rectangles. */
     private static void hitAreas() {
+        if(a.controls==null || a.controls[1]==null || a.hits==null)return;
         short[][] rows=a.controls[1];
         for(int item=0;item<4;item++){
             short[] row=rows[65+item];
@@ -26,8 +33,11 @@ final class GF3DogToys {
                 if(free==-1 && a.hits[i][4]==-1 && a.hits[i][5]==-1)free=i;
             }
             if(free<0)continue;
-            e sheet=row[5]>=1000?a.world[row[5]-1000]:a.assets[row[5]];
-            if(sheet==null)continue;
+            e[] bank=row[5]>=1000?a.world:a.assets;
+            int index=row[5]>=1000?row[5]-1000:row[5];
+            if(bank==null || index<0 || index>=bank.length)continue;
+            e sheet=bank[index];
+            if(sheet==null || row[6]<0 || row[6]>=sheet.frames())continue;
             int scale=Math.max(50,100-Math.abs(g.K/2-row[2]));
             int frame=row[6];
             int[] box=a.hits[free];
@@ -81,12 +91,13 @@ final class GF3DogToys {
             a.n[i] = 64+i;
         }
         a.B();
+        a.gf();a.H(1);
         hitAreas();
         pet.D = 15;
     }
 
     static boolean touch(f pet) {
-        if (GF3Dogs.dog(pet) && !pet.a(32) && a.F == 0 &&
+        if (GF3Dogs.dog(pet) && playable(pet,0) && a.F == 0 &&
                 (pet.D == 0 || pet.D == 1 || pet.D == 15) &&
                 !pet.a(4) && !pet.a(16) && !pet.a(256)) {
             menu(pet);
@@ -111,16 +122,15 @@ final class GF3DogToys {
             f pet = selected;
             selected = null;
             a.a(false,2,0);
-            if (STOCK[toy] <= 0 || h.a[4].rows[64+toy][8] > a.f()) {
+            if (!playable(pet,toy) || STOCK[toy] <= 0 || h.a[4].rows[64+toy][8] > a.f()) {
                 a.sound(56);
-                pet.i(0);
+                if(pet.a!=null)pet.i(0);
                 return;
             }
-            STOCK[toy]--;
-            GF3Dogs.beginToy(pet,toy);
-            pet.D = 13;
             pet.a.b(17+toy,2);
-            a.b(4118,1,44);
+            GF3Dogs.beginToy(pet,toy);
+            STOCK[toy]--;
+            pet.D = 13;
             return;
         }
         a.gf3PreviousControl(event);
@@ -143,6 +153,12 @@ final class GF3DogToys {
             return pet.q;
         }
         int toy = pending-1;
+        if(!playable(pet,toy)){
+            if(toy>=0 && toy<4)STOCK[toy]++;
+            GF3Dogs.cancelToy(pet);
+            if(pet.a!=null)pet.i(0);
+            return 55;
+        }
         if (pet.D != 13 || pet.a.aId() != 17+toy) {
             pet.D = 13;
             pet.a.b(17+toy,2);
@@ -151,8 +167,8 @@ final class GF3DogToys {
             GF3Dogs.finishToy(pet,XP[toy][breed],MOOD[toy]);
             int playerXP = FARM_XP[toy][breed];
             if (playerXP > 0) f.a(47,2,new int[] {0,0,14}).a(pet.r,pet.s,37,1000,false,playerXP);
-            GF3DogTutorial.played();
             pet.i(0);
+            GF3DogTutorial.played();
         }
         // Skip the stock livestock timetable during the toy interaction.
         return 55;
