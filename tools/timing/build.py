@@ -117,7 +117,11 @@ def patch(data, entry):
         mark('yes');emit(b'\x04\xac')
         mark('no');emit(b'\x03\xac')
         for offset,label in branches:struct.pack_into('>h',code,offset+1,labels[label]-offset)
-        cf.methods.append((8,cf.utf('gf3SaveReady'),cf.utf('()Z'),[(cf.utf('Code'),pack_code(u2(2)+u2(1),bytes(code),u2(0),[]))]))
+        # At 'no' the early exits have an uninitialized local, so the
+        # merged frame has no live locals. All branch stacks are empty.
+        frames=u2(3)+b''.join(u2(labels[label])+u2(len(locals_))+locals_+u2(0)
+                             for label,locals_ in [('loop',b'\x01'),('yes',b'\x01'),('no',b'')])
+        cf.methods.append((8,cf.utf('gf3SaveReady'),cf.utf('()Z'),[(cf.utf('Code'),pack_code(u2(2)+u2(1),bytes(code),u2(0),[(cf.utf('StackMap'),frames)]))]))
         for i,(flags,n,d,attrs) in enumerate(cf.methods):
             if (cf.string(n),cf.string(d))==('c','(Z)V'):
                 cf.methods[i]=(flags|0x20,n,d,attrs)

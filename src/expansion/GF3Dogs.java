@@ -17,7 +17,7 @@ final class GF3Dogs {
 
     static void bubble(f x,int frame){
         x.H();
-        f prompt=f.a(33,0,new int[]{x.r,x.s,150,10,frame,-63,-117});
+        f prompt=f.a(33,0,new int[]{x.r,x.s,150,10,frame,-63,-117,0,1});
         x.gf3Link(prompt);
     }
     static void clearMood(f x){

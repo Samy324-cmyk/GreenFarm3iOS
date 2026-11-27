@@ -118,6 +118,7 @@ final class GF3HomePredator {
     }
 
     private static void reset() {
+        if((step==WALK || step==FIGHT) && dog!=null)GF3Neighbor.finishFight(dog);
         step=0;
         fox=null;
         dog=null;
@@ -189,6 +190,9 @@ final class GF3HomePredator {
             return 55;
         }
         if((a.F==0 && (step==WALK || step==FIGHT) && actor==dog) || GF3Neighbor.combatActor(actor))return 55;
+        // Recover a dog saved by an earlier build with a detached combat
+        // state. States 8/9 are owned by the encounter, not livestock AI.
+        if(a.F==0 && GF3Dogs.dog(actor) && (actor.D==8 || actor.D==9))GF3Neighbor.finishFight(actor);
         if(actor.gf3ScaredAt!=0 || (danger() && threatened(actor))) {
             if(danger()) {
                 if(actor.gf3ScaredAt==0){
