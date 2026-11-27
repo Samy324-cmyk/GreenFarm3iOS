@@ -24,7 +24,7 @@ final class WheelProbe {
         if(!(Boolean)MarketProbe.method(wheel,"openBuilding",boolean.class,int.class).invoke(null,29))
             throw new AssertionError("Native building 1019 is not connected");
         waitScreen(screen,50);
-        for(String resource:new String[]{"/gf3-wheel-bg.png","/gf3-wheel-rim.png","/gf3-wheel-coin.png","/gf3-wheel-bill.png","/gf3-bills.png"}){
+        for(String resource:new String[]{"/gf3-wheel-bg.png","/gf3-wheel-rim.png","/gf3-wheel-coin.png","/gf3-wheel-bill.png","/gf3-bills.png","/gf3-cash-shop.png","/gf3-coin-shop.png"}){
             java.io.InputStream in=wheel.getResourceAsStream(resource);
             if(in==null || in.read()!=137 || in.read()!=80)throw new AssertionError("Missing original PNG "+resource);
             in.close();
@@ -42,6 +42,7 @@ final class WheelProbe {
         if(prize<0 || prize>=5 || (Boolean)MarketProbe.field(wheel,null,"spinning",boolean.class))
             throw new AssertionError("Wheel animation did not complete");
         int[] cash=(int[])MarketProbe.field(wheel,null,"BILLS",int[].class),gold=(int[])MarketProbe.field(wheel,null,"COINS",int[].class);
+        for(int value:cash)if(value>0 && value<3)throw new AssertionError("Minimum wheel cash prize");
         if((Integer)wallet.invoke(null)!=bills-3+cash[prize] || (Integer)money.invoke(null)!=coins+gold[prize])
             throw new AssertionError("Wheel payout incorrect");
         for(int[] r:(int[][])MarketProbe.field(game,null,"i",int[][].class))
@@ -49,6 +50,14 @@ final class WheelProbe {
                 int x=479-r[1]-r[3]/2,y=r[0]+r[2]/2;
                 MobilePlatform.pointerPressed(x,y);Thread.sleep(100);MobilePlatform.pointerReleased(x,y);break;
             }
+        waitScreen(screen,17);
+        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,65550);
+        waitScreen(screen,51);
+        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|23);
+        if((Boolean)MarketProbe.field(wheel,null,"cashTab",boolean.class))throw new AssertionError("Gold selector");
+        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|25);
+        if(!(Boolean)MarketProbe.field(wheel,null,"cashTab",boolean.class))throw new AssertionError("Cash selector");
+        MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,(31<<16)|2);
         waitScreen(screen,17);
         System.out.println("WHEEL_OK paid=3 prize="+prize);
     }

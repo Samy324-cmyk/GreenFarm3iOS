@@ -47,6 +47,8 @@ final class MarketProbe {
         Method seconds=method(offers,"secondsToReset",int.class,int.class,int.class,int.class);
         if((Integer)seconds.invoke(null,23,59,59)!=1 ||
            (Integer)seconds.invoke(null,0,0,0)!=86400)throw new AssertionError("Daily countdown");
+        String timer=(String)method(offers,"countdown",String.class).invoke(null);
+        if(!timer.matches("Próxima rotación en: [0-9]{2}h [0-9]{2}m [0-9]{2}s"))throw new AssertionError("Countdown text: "+timer);
         Method open=method(offers,"open",void.class,int.class);
         Field count=variable(offers,"offerCount",int.class),stamp=variable(offers,"offerWeek",int.class);
         Field loaded=variable(offers,"offersLoaded",boolean.class);

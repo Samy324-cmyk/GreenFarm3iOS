@@ -43,6 +43,22 @@ def patch_wheel(classes, apk, api):
             if control[10]!=0:raise ValueError('Unexpected cash shop sprite')
             del control[10]
         controls.append(bytes(control))
+    import struct
+    # Use the native card bounds for the two touchable side selectors,
+    # and native caption style for their labels.
+    for tab in range(2):
+        card=bytearray(controls[5]);struct.pack_into('<hh',card,3,32,112+164*tab);card[9]=166
+        caption=bytearray(controls[7]);struct.pack_into('<hh',caption,3,37,225+164*tab)
+        struct.pack_into('<H',caption,8,154)
+        controls.extend([card,caption])
+    # Amount and price anchors match the original buttons, reserving icon space.
+    for i in range(6):
+        label=bytearray(controls[6+3*i]);x=213+182*(i%3);y=110+163*(i//3)
+        struct.pack_into('<hh',label,3,x+4,y+5);struct.pack_into('<H',label,8,156)
+        controls[6+3*i]=label
+        price=bytearray(controls[7+3*i])
+        struct.pack_into('<hh',price,3,x+39,y+107);struct.pack_into('<H',price,8,109)
+        controls[7+3*i]=price
     panels.append(shop[:1]+b''.join(controls))
     buildings=table(entries(apk.read(prefix+'13'))[3])[1]
     if buildings[29][1]!=1019 or buildings[29][24]!=185:raise ValueError('Unexpected wheel building')

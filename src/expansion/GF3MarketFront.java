@@ -42,7 +42,7 @@ final class GF3MarketFront {
     static String countdown(){
         Calendar c=Calendar.getInstance();
         int seconds=secondsToReset(c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND));
-        return "Renovación: "+two(seconds/3600)+":"+two(seconds/60%60)+":"+two(seconds%60);
+        return "Próxima rotación en: "+two(seconds/3600)+"h "+two(seconds/60%60)+"m "+two(seconds%60)+"s";
     }
 
     private static int getInt(byte[] b,int pos) {
@@ -252,6 +252,7 @@ final class GF3MarketFront {
         show(PET_BUTTON,true,true);show(PET_ACTIVE,tab==4,false);show(PET_ICON,true,false);
         rows[125][15]=(short)(tab==5 && offerCount==0?1:0);
         rows[127][15]=(short)(tab==5?1:0);
+        rows[127][2]=210;rows[127][3]=427;rows[127][5]=510;rows[127][6]=31;
         show(126,false,false);
         a.gf();a.H(GUI);
     }
@@ -355,11 +356,22 @@ final class GF3MarketFront {
             if(offerCount==0)a.a(GF3MarketRows.empty,GUI,125,0,0);
             long second=System.currentTimeMillis()/1000L;
             if(second!=timerSecond || timer==null){timer=countdown();timerSecond=second;}
-            try {
-                if(offerClock==null)offerClock=Image.createImage("/gf3-offer-clock.png");
-                if(g.graphics!=null)g.graphics.drawImage(offerClock,479-413,407,Graphics.HCENTER|Graphics.VCENTER);
-            }catch(IOException ignored){}
-            a.a(timer,GUI,127,0,0);
+            // Native market drawing leaves a card clip active. Reset it only
+            // for this footer and restore it before any subsequent overlay.
+            Graphics gr=g.graphics;
+            if(gr!=null){
+                int x=gr.getClipX(),y=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
+                try{
+                    gr.setClip(0,0,480,800);
+                    short[] label=a.controls[GUI][127];label[15]=1;
+                    a.a(timer,GUI,127,0,0);
+                    gr.setClip(0,0,480,800);
+                    try{
+                        if(offerClock==null)offerClock=Image.createImage("/gf3-offer-clock.png");
+                        gr.drawImage(offerClock,479-440,185,Graphics.HCENTER|Graphics.VCENTER);
+                    }catch(IOException ignored){}
+                }finally{gr.setClip(x,y,cw,ch);}
+            }
         }
         if(phase==3 && tab==0 && first==9 && GF3HiveLimits.capacity()>0){
             short[][] rows=a.controls[GUI];

@@ -14,16 +14,19 @@ final class GF3Wheel {
     // First two amounts are the Android qK defaults. The remaining rewards
     // are offline currency substitutions for unavailable online prize draws.
     private static final int[] COINS={500,0,1500,0,3500};
-    private static final int[] BILLS={0,2,0,8,0};
+    private static final int[] BILLS={0,3,0,8,0};
     private static final String[] EMPTY=new String[13];
     private static final Random random=new Random();
     private static l[] previousImages,images;
     private static byte[] previousFlags,flags;
     private static boolean loaded,cache,spinning;
-    private static Image background,rim,coin,bill,cashShop;
+    private static Image background,rim,coin,bill,cashShop,coinShop;
+    private static boolean cashTab=true;
     private static final int CASH_SCREEN=51,CASH_GUI=31;
     private static final int[] CASH_AMOUNTS={10,25,50,100,250,500};
     private static final int[] CASH_COSTS={1500,3500,6500,12000,28000,50000};
+    private static final int[] GOLD_AMOUNTS={2000,9999,19999,100000,200000,500000};
+    private static final int[] GOLD_COSTS={200,500,1000,2000,5000,10000};
     private static long started;
     private static int rotation,startRotation,endRotation,result=-1;
 
@@ -89,7 +92,8 @@ final class GF3Wheel {
         if(a.e()<PRICE){a.c(56);return;}
         int angle=random.nextInt(360),pick=sector(angle),sum=0;
         for(int i=0;i<pick;i++)sum+=ANGLES[i];
-        int target=(90-(sum+ANGLES[pick]/2)+360)%360;
+        // In portrait coordinates the landscape top pointer lies at 180 degrees.
+        int target=(270-(sum+ANGLES[pick]/2)+360)%360;
         startRotation=rotation;endRotation=rotation+360*4+(target-rotation+360)%360;
         // Apply debit and prize in the same farm save. Closing the game
         // cannot collect a second prize or lose an already paid spin.
@@ -126,14 +130,14 @@ final class GF3Wheel {
             angle=rotation;
             for(int i=0;i<ANGLES.length;i++){
                 double r=(angle+ANGLES[i]/2-90)*3.141592653589793/180.0;
-                int ix=px+(int)(91*Math.cos(r)),iy=py-(int)(91*Math.sin(r));
-                screen.drawImage(COINS[i]>0?coin:bill,ix,iy,Graphics.HCENTER|Graphics.VCENTER);
+                int ix=px+(int)(78*Math.cos(r)),iy=py-(int)(78*Math.sin(r));
+                screen.drawImage(COINS[i]>0?coin:bill,ix+13,iy,Graphics.HCENTER|Graphics.VCENTER);
                 short[] amount=a.controls[GUI][9];
-                short ox=amount[2],oy=amount[3],ow=amount[5],visible=amount[15];
+                short ox=amount[2],oy=amount[3],ow=amount[5],oh=amount[6],visible=amount[15];
                 try{
-                    amount[2]=(short)(iy-22);amount[3]=(short)(479-ix+24);amount[5]=84;amount[15]=1;
+                    amount[2]=(short)(iy-42);amount[3]=(short)(479-ix+4);amount[5]=84;amount[6]=32;amount[15]=1;
                     a.a(Integer.toString(COINS[i]>0?COINS[i]:BILLS[i]),GUI,9,0,0);
-                }finally{amount[2]=ox;amount[3]=oy;amount[5]=ow;amount[15]=visible;}
+                }finally{amount[2]=ox;amount[3]=oy;amount[5]=ow;amount[6]=oh;amount[15]=visible;}
                 screen.setClip(0,0,480,800);
                 angle+=ANGLES[i];
             }
@@ -156,8 +160,15 @@ final class GF3Wheel {
         a.g(-CASH_COSTS[pack]);a.h(CASH_AMOUNTS[pack]);a.c(true);
         return true;
     }
+    static boolean buyGold(int pack){
+        if(pack<0 || pack>=GOLD_AMOUNTS.length || a.e()<GOLD_COSTS[pack] || a.d()>Integer.MAX_VALUE-GOLD_AMOUNTS[pack])return false;
+        if(!a.f(GOLD_COSTS[pack]))return false;
+        a.g(GOLD_AMOUNTS[pack]);a.c(true);return true;
+    }
     private static void cashFill(){
-        cashControl(2,true,true);
+        cashControl(1,true,false);cashControl(2,true,true);
+        cashControl(3,true,false);cashControl(4,true,false);
+        for(int i=23;i<27;i++)cashControl(i,true,i==23 || i==25);
         for(int i=0;i<6;i++){
             int r=5+3*i;
             cashControl(r,true,true);cashControl(r+1,true,false);cashControl(r+2,true,false);
@@ -167,7 +178,7 @@ final class GF3Wheel {
     private static boolean cashScreen(int phase){
         if(phase==0){
             a.b(CASH_GUI,true);
-            try {cashShop=Image.createImage("/gf3-cash-shop.png");}
+            try {cashShop=Image.createImage("/gf3-cash-shop.png");coinShop=Image.createImage("/gf3-coin-shop.png");}
             catch(IOException missing){throw new IllegalStateException("Resource shop artwork "+missing);}
         }
         if(phase==1){enterCache();a.E(CASH_GUI);cashFill();}
@@ -177,19 +188,21 @@ final class GF3Wheel {
             int x=gr.getClipX(),y=gr.getClipY(),cw=gr.getClipWidth(),ch=gr.getClipHeight();
             try{
                 gr.setClip(0,0,480,800);
-                gr.drawImage(cashShop,0,0,Graphics.TOP|Graphics.LEFT);
-                a.a("RECURSOS",CASH_GUI,1,0,0);
+                gr.drawImage(cashTab?cashShop:coinShop,0,0,Graphics.TOP|Graphics.LEFT);
+                a.a("¡Más!",CASH_GUI,1,0,0);
+                gr.setClip(0,0,480,800);a.a(cashTab?"Monedas":"Monedas *",CASH_GUI,24,0,0);
+                gr.setClip(0,0,480,800);a.a(cashTab?"Billetes *":"Billetes",CASH_GUI,26,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.d()),CASH_GUI,3,0,0);
                 gr.setClip(0,0,480,800);a.a(Integer.toString(a.e()),CASH_GUI,4,0,0);
                 for(int i=0;i<6;i++){
                     int r=5+3*i;
-                    gr.setClip(0,0,480,800);a.a(Integer.toString(CASH_AMOUNTS[i]),CASH_GUI,r+1,0,0);
-                    gr.setClip(0,0,480,800);a.a(CASH_COSTS[i]+" monedas",CASH_GUI,r+2,0,0);
+                    gr.setClip(0,0,480,800);a.a(Integer.toString(cashTab?CASH_AMOUNTS[i]:GOLD_AMOUNTS[i]),CASH_GUI,r+1,0,0);
+                    gr.setClip(0,0,480,800);a.a(Integer.toString(cashTab?CASH_COSTS[i]:GOLD_COSTS[i]),CASH_GUI,r+2,0,0);
                 }
             }finally{gr.setClip(x,y,cw,ch);}
         }
         if(phase==4)leaveCache();
-        if(phase==5){leaveCache();cashShop=null;}
+        if(phase==5){leaveCache();cashShop=coinShop=null;}
         return false;
     }
 
@@ -226,11 +239,12 @@ final class GF3Wheel {
         return false;
     }
     static void hit(int event){
-        if(event==65550 && a.a()==17 && a.C==-1){a.c(60);a.a(CASH_SCREEN);return;}
+        if((event==65550 || event==65547) && a.a()==17 && a.C==-1){cashTab=event==65550;a.c(60);a.a(CASH_SCREEN);return;}
         if((event>>>16)==CASH_GUI && a.a()==CASH_SCREEN){
             int row=event&65535;
             if(row==2){a.c(57);a.t();}
-            else if(row>=5 && (row-5)%3==0 && (row-5)/3<6){a.c(buyCash((row-5)/3)?49:56);}
+            else if(row==23 || row==25){cashTab=row==25;a.c(61);}
+            else if(row>=5 && (row-5)%3==0 && (row-5)/3<6){a.c((cashTab?buyCash((row-5)/3):buyGold((row-5)/3))?49:56);}
             return;
         }
         if((event>>>16)!=GUI){a.gf3WheelPreviousHit(event);return;}

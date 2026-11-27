@@ -100,7 +100,8 @@ def patch_marketfront(classes,apk,locale):
     sign=bytearray(mobile[203]);del sign[10]
     if caption[0]!=204 or sign[0]!=205 or sign[8:10]!=bytes([7,0]):
         raise ValueError('Unexpected empty-offers panel')
-    timer=bytearray(mobile[201]);del timer[-1]
+    # Use the same visible native text type/style as a stock market caption.
+    timer=bytearray(old[115]);timer[1:3]=mobile[201][1:3]
     old.extend([caption,sign,timer])
     panels[2]=panels[2][:1]+b''.join(old)
     def arr(values):return '{'+','.join(arr(v) if isinstance(v,(list,tuple)) else str(v) for v in values)+'}'
@@ -138,7 +139,7 @@ def patch_marketfront(classes,apk,locale):
            class e {void a(byte[] b,int offset){} int d(int frame){return 0;}int e(int frame){return 0;}int f(int frame){return 0;}int g(int frame){return 0;} int frames(){return 0;} int palette(){return 0;} void setPalette(int n){} void paintScaled(javax.microedition.lcdui.Graphics g,int f,int x,int y,int z){} } class g {static javax.microedition.lcdui.Graphics graphics;static void openAsset(String n){} static byte[] readChunk(int i){return null;}static byte[] readOffer(String name){return null;}static void writeOffer(String name,byte[] b){}static void l(){}}''',encoding='ascii')
         graphics=folder/'javax/microedition/lcdui/Graphics.java'
         graphics.parent.mkdir(parents=True)
-        graphics.write_text('package javax.microedition.lcdui; public class Graphics {public static final int HCENTER=1, VCENTER=2; public void drawImage(Image i,int x,int y,int anchor){}}',encoding='ascii')
+        graphics.write_text('package javax.microedition.lcdui; public class Graphics {public static final int HCENTER=1, VCENTER=2; public void drawImage(Image i,int x,int y,int anchor){} public int getClipX(){return 0;}public int getClipY(){return 0;}public int getClipWidth(){return 0;}public int getClipHeight(){return 0;}public void setClip(int x,int y,int w,int h){}}',encoding='ascii')
         image=graphics.with_name('Image.java')
         image.write_text('package javax.microedition.lcdui; public class Image {public static Image createImage(String s)throws java.io.IOException{return null;}}',encoding='ascii')
         subprocess.run(['javac','--release','8','-Xlint:-options','-g:none','-d',str(folder),str(data),

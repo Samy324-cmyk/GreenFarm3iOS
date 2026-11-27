@@ -101,26 +101,76 @@ def offer_clock(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
     return single(rgba_frame(source[48],14))
 
+def stretched(parts,width,height):
+    """Expand the original 1px fill strips to the next module origin.
+    The Android ASprite renderer does this at runtime for frame 166,198,12,13,167.
+    """
+    result=[]
+    for x,y,w,h,pixels in parts:
+        ww,hh=w,h
+        if w==1:
+            stops=[xx for xx,yy,aw,ah,_ in parts if xx>x and yy<y+h and yy+ah>y]
+            ww=(min(stops) if stops else width)-x
+        if h==1:
+            stops=[yy for xx,yy,aw,ah,_ in parts if yy>y and xx<x+max(ww,1) and xx+aw>x]
+            hh=(min(stops) if stops else height)-y
+        if ww<=0 or hh<=0:raise ValueError('Invalid original fill bounds')
+        if (ww,hh)!=(w,h):
+            pixels=bytes().join(pixels[(min(yy,h-1)*w+min(xx,w-1))*4:(min(yy,h-1)*w+min(xx,w-1))*4+4] for yy in range(hh) for xx in range(ww))
+        result.append((x,y,ww,hh,pixels))
+    return result
+
 def cash_shop_images(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
-    canvas=bytearray(bytes((245,227,188,255))*(800*480))
-    for sheet,frame,x,y in [(22,2,0,-17),(22,0,2,97),(20,12,359,50),(20,120,312,39),(20,13,568,50),(20,121,534,36)]:
-        blit(canvas,800,480,rgba_frame(source[sheet],frame),x,y)
-    for i,(x,y,ax,ay,bx,by) in enumerate([(213,110,293,179,218,204),(395,110,473,181,400,204),(577,110,660,178,582,204),
-                                        (214,273,292,342,219,367),(397,273,478,341,402,367),(577,273,658,340,582,367)]):
-        blit(canvas,800,480,rgba_frame(source[20],166),x,y)
-        blit(canvas,800,480,rgba_frame(source[38],i),ax,ay)
-        blit(canvas,800,480,rgba_frame(source[20],198),bx,by)
-    blit(canvas,800,480,rgba_frame(source[33],0),0,0)
-    blit(canvas,800,480,rgba_frame(source[20],122),715,10)
-    return {'gf3-cash-shop.png':portrait(800,480,canvas)}
+    images={}
+    card=stretched(rgba_frame(source[20],166),164,150)
+    green=stretched(rgba_frame(source[20],198),154,47)
+    # A single-pixel center fills the rectangle, not just its corners.
+    assert sum(w*h for x,y,w,h,_ in card)>=164*149
+    assert sum(w*h for x,y,w,h,_ in green)>=154*46
+    for cash in (True,False):
+        canvas=bytearray(bytes((245,227,188,255))*(800*480))
+        for sheet,frame,x,y in [(22,2,0,-17),(22,0,2,97),(20,12,359,50),(20,120,312,39),(20,13,568,50),(20,121,534,36)]:
+            parts=rgba_frame(source[sheet],frame)
+            if sheet==20 and frame in (12,13):
+                parts=stretched(parts,169 if frame==12 else 126,42)
+            blit(canvas,800,480,parts,x,y)
+        # Side selector uses the original card and green button resources.
+        for tab in range(2):
+            x,y=32,112+164*tab
+            blit(canvas,800,480,card,x,y)
+            icon=rgba_frame(source[37 if tab==0 else 38],3 if tab==0 else 4)
+            left=min(q[0] for q in icon);top=min(q[1] for q in icon)
+            right=max(q[0]+q[2] for q in icon);bottom=max(q[1]+q[3] for q in icon)
+            blit(canvas,800,480,icon,x+82-(right+left)//2,y+64-(bottom+top)//2)
+            blit(canvas,800,480,green,x+5,y+103)
+        for i,(x,y,ax,ay,bx,by) in enumerate([(213,110,293,179,218,204),(395,110,473,181,400,204),(577,110,660,178,582,204),
+                                            (214,273,292,342,219,367),(397,273,478,341,402,367),(577,273,658,340,582,367)]):
+            blit(canvas,800,480,card,x,y)
+            blit(canvas,800,480,rgba_frame(source[38 if cash else 37],i),ax,ay)
+            blit(canvas,800,480,green,bx,by)
+            # Original currency art makes the price unit clear without text clipping.
+            icon=rgba_frame(source[41],0 if cash else 1)
+            # Reduce the original prize icon to fit the 47px native button.
+            small=[]
+            for ox,oy,iw,ih,rgba in icon:
+                sw,sh=max(1,iw*2//3),max(1,ih*2//3)
+                small.append((ox*2//3,oy*2//3,sw,sh,bytes().join(rgba[((yy*ih//sh)*iw+xx*iw//sw)*4:((yy*ih//sh)*iw+xx*iw//sw)*4+4] for yy in range(sh) for xx in range(sw))))
+            blit(canvas,800,480,small,bx+10,by+10)
+        blit(canvas,800,480,rgba_frame(source[33],0),0,0)
+        blit(canvas,800,480,rgba_frame(source[20],122),715,10)
+        images['gf3-cash-shop.png' if cash else 'gf3-coin-shop.png']=portrait(800,480,canvas)
+    return images
 
 def wheel_images(apk):
     source=[b for group in shards(apk,'assets/800x480/11').values() for b in group]
     # APK panel 45: original background, decorative border, close control.
     canvas=bytearray(bytes((245,227,188,255))*(800*480))
-    for sheet,frame,x,y in [(22,2,8,2),(22,0,2,115),(33,0,-2,0),(20,122,716,9),(41,18,374,224)]:
+    for sheet,frame,x,y in [(22,2,8,2),(22,0,2,115),(33,0,-2,0),(20,122,716,9)]:
         blit(canvas,800,480,rgba_frame(source[sheet],frame),x,y)
+    # Original gold button halves, without the embedded advertisement icon.
+    blit(canvas,800,480,rgba_frame(source[41],18)[:2],374,224)
+    blit(canvas,800,480,rgba_frame(source[41],1),394,230)
     rim=rgba_frame(source[41],34)
     # Keep the original one-pixel origin; its center is at (157,182).
     data=bytearray(316*412*4);blit(data,316,412,rim)
