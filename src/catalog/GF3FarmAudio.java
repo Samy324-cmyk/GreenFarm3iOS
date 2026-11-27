@@ -1,6 +1,6 @@
 /** Play the 4.4.4 farm music and ambience alongside the native MIDP effects. */
 final class GF3FarmAudio {
-    private static final int MUSIC=1,AMBIENCE=2,FARM_LOOP=25,FIRST_EFFECT=3,LAST_EFFECT=7;
+    private static final int MUSIC=1,AMBIENCE=2,FARM_LOOP=25,FIRST_EFFECT=3,LAST_EFFECT=5,WILDLIFE=6,FEEDING=7;
     private static final int[] tracks=new int[9];
     private static long musicStarted,ambientRequested;
     private static int next,previous=-1,effectChannel=FIRST_EFFECT;
@@ -42,11 +42,21 @@ final class GF3FarmAudio {
         } else effect(cue);
     }
 
+    private static void farmEffect(int channel,int cue) {
+        if(!a.R || !a.S || a.W)return;
+        long now=System.currentTimeMillis();
+        if(now<reservedUntil[channel] || k.playing(channel))return;
+        loadSlot(cue);
+        if(!k.loaded(cue))return;
+        reservedUntil[channel]=now+180L;
+        k.a(channel,cue,1,a.at,2);
+    }
     static void wildlife(int cue) {
-        if(a.R && a.S && !a.W)effect(cue);
+        if(cue>=26 && cue<=29)farmEffect(WILDLIFE,cue);
+        else effect(cue);
     }
     static void feeding(int unused) {
-        if(a.R && a.S && !a.W)effect(137);
+        farmEffect(FEEDING,137);
     }
 
     static void effect(int cue) {
@@ -104,7 +114,7 @@ final class GF3FarmAudio {
         if(a.R) {
             a.gf3StopSound();
             if(k.loaded(0) || k.loaded(13) || k.loaded(FARM_LOOP)) {
-                for(int channel=MUSIC;channel<=LAST_EFFECT;channel++) k.a(channel,true);
+                for(int channel=MUSIC;channel<=FEEDING;channel++) k.a(channel,true);
             }
         }
         for(int i=0;i<reservedUntil.length;i++)reservedUntil[i]=0;

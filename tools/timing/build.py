@@ -54,8 +54,6 @@ def patch(data, entry):
             code=b"\x2a\x1b\x1c"+bytes([3+phase])+b"\xb8"+u2(cf.ref("GF3Viewport","pointer","(La;III)V"))+b"\xb1"
             pointers.append((flags,k,d,[(cf.utf("Code"),pack_code(u2(4)+u2(3),code,u2(0),[]))]))
             changed=True
-        if entry=="f.class" and (name,desc) in {('B','()V'),('a','(I)Lf;')}:
-            pass # verified wildlife call patched below without modifying its selection
         if entry == "g.class" and name == "paint" and desc == SIGNATURE:
             cf.methods[n] = flags, cf.utf("gf3OriginalPaint"), d, attrs
             recognized.add("paint")
@@ -69,9 +67,9 @@ def patch(data, entry):
                     ref=int.from_bytes(ins[pc+1:pc+3],'big')
                     if ref==cf.ref('a','c','(I)V'):
                         if (name,desc) in {('B','()V'),('a','(I)Lf;')} and pc in (7,40):
-                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','wildlife','(I)V'))
+                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','wildlife','(I)V'));changed=True
                         elif pc>=2 and ins[pc-2:pc]==b'\x10\x24':
-                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','feeding','(I)V'))
+                            code[pc+1:pc+3]=u2(cf.ref('GF3FarmAudio','feeding','(I)V'));changed=True
                 if ins[pc]==0xb8:
                     ref=int.from_bytes(ins[pc+1:pc+3],"big")
                     if ref in scene_refs and (entry!="f.class" or (name,desc)==("b","()V")):
@@ -100,24 +98,48 @@ def patch(data, entry):
         def field(name,desc):
             typ=cf.intern(b'\x0c'+u2(cf.utf(name))+u2(cf.utf(desc)))
             return u2(cf.intern(b'\x09'+u2(cf.cls('a'))+u2(typ)))
-        # Save only the owned farm, after the tutorial and on a stable screen.
-        # c(Z) also validates F=0 and d=-1 internally.
-        code=b'\xb2'+field('F','I')+b'\x9a\x00\x1a'+b'\xb2'+field('d','I')+b'\x02\xa0\x00\x13'+b'\xb2'+field('C','I')+b'\x02\xa0\x00\x0c'+b'\xb8'+u2(cf.ref('a','a','()I'))+b'\x10\x11\xa0\x00\x05\x04\xac\x03\xac'
-        cf.methods.append((8,cf.utf('gf3SaveReady'),cf.utf('()Z'),[(cf.utf('Code'),pack_code(u2(2)+u2(0),code,u2(0),[]))]))
-        # On app backgrounding the game thread is paused by g.h(). Save
-        # first, while the data and canvas still exist.
+        # Emit short branches against explicit labels rather than hand
+        # calculating bytecode offsets. Never serialize a neighbor or tutorial.
+        code=bytearray()
+        labels={}
+        branches=[]
+        def emit(data):code.extend(data)
+        def mark(label):labels[label]=len(code)
+        def branch(op,label):
+            branches.append((len(code),label));emit(bytes([op,0,0]))
+        emit(b'\xb2'+field('F','I'));branch(0x9a,'no')
+        for name in ('d','C'):
+            emit(b'\xb2'+field(name,'I')+b'\x02');branch(0xa0,'no')
+        emit(b'\xb2'+field('a','I')+b'\x3b')
+        mark('loop');emit(b'\x1a');branch(0x9b,'no')
+        emit(b'\xb2'+field('a','[I')+b'\x1a\x2e\x10\x11');branch(0x9f,'yes')
+        emit(b'\x84\x00\xff');branch(0xa7,'loop')
+        mark('yes');emit(b'\x04\xac')
+        mark('no');emit(b'\x03\xac')
+        for offset,label in branches:struct.pack_into('>h',code,offset+1,labels[label]-offset)
+        cf.methods.append((8,cf.utf('gf3SaveReady'),cf.utf('()Z'),[(cf.utf('Code'),pack_code(u2(2)+u2(1),bytes(code),u2(0),[]))]))
+        for i,(flags,n,d,attrs) in enumerate(cf.methods):
+            if (cf.string(n),cf.string(d))==('c','(Z)V'):
+                cf.methods[i]=(flags|0x20,n,d,attrs)
+        # Snapshot before pause; the explicit quit action also snapshots before
+        # the game's original confirmation / return-to-title sequence.
         for name,desc,alias,load,ret,flagsize in [('h','()V','gf3PauseLifecycle',b'\x2a',b'\xb1',1),('et','()V','gf3QuitNative',b'',b'\xb1',0)]:
             matches=[i for i,(_,n,d,_) in enumerate(cf.methods) if (cf.string(n),cf.string(d))==(name,desc)]
             if len(matches)!=1:raise ValueError('Missing lifecycle '+name)
             i=matches[0];flags,n,d,attrs=cf.methods[i]
             cf.methods[i]=(flags,cf.utf(alias),d,attrs)
-            # Pause wrapper calls synchronized save before the native pause.
-            # Quit wrapper uses the existing native save gate (even on pause screen).
-            call=(b'\xb8'+u2(cf.ref('GF3Presentation','saveNow','()V')) if load else b'\x04\xb8'+u2(cf.ref('a','c','(Z)V')))
+            call=b'\xb8'+u2(cf.ref('GF3Presentation','saveNow','()V'))
             call+=load+(b'\xb7' if load else b'\xb8')+u2(cf.ref('a',alias,desc))+ret
             cf.methods.append((flags,n,d,[(cf.utf('Code'),pack_code(u2(1)+u2(flagsize),call,u2(0),[]))]))
         if len(pointers)!=3: raise ValueError("Missing physical touch inputs")
         cf.methods.extend(pointers)
+    if entry=='GloftGF2M.class':
+        i,=[i for i,(_,n,d,_) in enumerate(cf.methods) if (cf.string(n),cf.string(d))==('destroyApp','(Z)V')]
+        flags,n,d,attrs=cf.methods[i]
+        cf.methods[i]=(2,cf.utf('gf3DestroyNative'),d,attrs)
+        call=b'\xb8'+u2(cf.ref('GF3Presentation','saveNow','()V'))+b'\x2a\x1b\xb7'+u2(cf.ref('GloftGF2M','gf3DestroyNative','(Z)V'))+b'\xb1'
+        cf.methods.append((flags,n,d,[(cf.utf('Code'),pack_code(u2(2)+u2(2),call,u2(0),[]))]))
+        changed=True
     if entry in ("f.class","a.class") and not recognized:
         raise ValueError("Missing native farm drawing entry point in "+entry)
     return cf.bytes() if changed else data

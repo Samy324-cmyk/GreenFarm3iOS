@@ -70,12 +70,12 @@ def main():
                     m.setAccessible(true);m.invoke(null,6,5);
                 }
             }
-            for(java.lang.reflect.Method m:gameClass.getDeclaredMethods()) {
-                if(m.getReturnType()==Void.TYPE && m.getName().equals("c") &&
-                   java.util.Arrays.equals(m.getParameterTypes(),new Class[]{boolean.class})) {
-                    m.setAccessible(true);m.invoke(null,true);
-                }
-            }
+            Class<?> presentation=Class.forName("GF3Presentation",true,Mobile.getPlatform().loader);
+            java.lang.reflect.Field last=presentation.getDeclaredField("lastSave");last.setAccessible(true);
+            long previous=last.getLong(null),deadline=System.currentTimeMillis()+24000L;
+            while(last.getLong(null)<=previous && System.currentTimeMillis()<deadline)Thread.sleep(100);
+            if(last.getLong(null)<=previous)throw new AssertionError("No 15-second autosave after stock change");
+            System.out.println("AUTOSAVE_OK");
             break;
         case "quit":''')
     test = root/'TouchBench.java'
@@ -93,7 +93,7 @@ def main():
         log = root/f'run{run}.log'
         with log.open('wb') as stream:
             subprocess.run(cmd,cwd=root,input=script.encode(),stdout=stream,
-                           stderr=subprocess.STDOUT,timeout=75,check=True)
+                           stderr=subprocess.STDOUT,timeout=105,check=True)
         got = {}
         for line in log.read_text(encoding='latin1').splitlines():
             if line.startswith('CATALOG '):

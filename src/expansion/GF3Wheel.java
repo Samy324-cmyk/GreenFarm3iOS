@@ -173,7 +173,14 @@ final class GF3Wheel {
     // All coordinates below use the game's 800x480 landscape design.
     // GF3Viewport has already converted physical touches to logical portrait.
     static int resourceAction(int screen,int x,int y) {
-        if(screen==34)return x>=35 && x<190 && y>=285 && y<423?25:-1;
+        if(screen==34){
+            if(x>=35 && x<190 && y>=285 && y<423)return 25;
+            for(int i=0;i<6;i++){
+                int bx=227+169*(i%3),by=221+160*(i/3);
+                if(x>=bx && x<bx+139 && y>=by && y<by+32)return 5+3*i;
+            }
+            return -1;
+        }
         if(screen!=CASH_SCREEN)return -1;
         if(x>=710 && y<90)return 2;
         if(x>=30 && x<200 && y>=110 && y<270)return 23;
@@ -202,8 +209,13 @@ final class GF3Wheel {
         pendingTouch=-1;
         if((event>>>16)!=screen)return;
         int action=event&65535;
-        if(screen==34 && action==25){
-            fromGold=true;cashTab=true;a.c(60);a.a(CASH_SCREEN);return;
+        if(screen==34){
+            if(action==25){fromGold=true;cashTab=true;a.c(60);a.a(CASH_SCREEN);return;}
+            if(action>=5 && (action-5)%3==0 && (action-5)/3<6){
+                a.c(buyGold((action-5)/3)?49:56);
+                a.captions[8][4]=Integer.toString(a.d());a.captions[8][7]=Integer.toString(a.e());
+            }
+            return;
         }
         if(screen==CASH_SCREEN){
             if(action==2){a.c(57);a.t();}
@@ -273,7 +285,7 @@ final class GF3Wheel {
         if(states!=null && index>=0 && index<states.length){
             if(states[index]==CASH_SCREEN)return cashScreen(phase);
             if(states[index]==34){
-                if(phase==2)resourceInput(34);
+                if(phase==2 && a.a()==34){resourceInput(34);if(a.a()!=34)return false;}
                 boolean handled=a.gf3WheelPreviousScreen(phase,index);
                 if(phase==3)drawCashSelector();
                 if(phase==5)cashSelector=null;

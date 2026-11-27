@@ -10,7 +10,8 @@ runs:
         echo "JAVA_HOME=$JAVA_HOME_21_X64" >> "$GITHUB_ENV"
         echo "$JAVA_HOME_21_X64/bin" >> "$GITHUB_PATH"
         if ! command -v ffmpeg > /dev/null || ! dpkg-query -W -f='${Status}' libsndfile1 | grep -q 'install ok installed'; then
-          sudo apt-get update -qq
+          # The requested packages are in Ubuntu, not the unrelated Microsoft repository.
+          sudo apt-get update -qq -o Dir::Etc::sourcelist=sources.list.d/ubuntu.sources -o Dir::Etc::sourceparts=-
           sudo apt-get install -y --no-install-recommends libsndfile1 ffmpeg
         fi
         jar=green_farm_3_480x800_192541.jar

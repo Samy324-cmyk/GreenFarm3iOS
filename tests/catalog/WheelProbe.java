@@ -60,6 +60,12 @@ final class WheelProbe {
         }
         MarketProbe.method(wheel,"hit",void.class,int.class).invoke(null,65547);
         waitScreen(screen,34);
+        MarketProbe.method(game,"h",void.class,int.class).invoke(null,200);
+        int goldBefore=(Integer)money.invoke(null),cashBefore=(Integer)wallet.invoke(null);
+        MobilePlatform.pointerPressed(479-235,280);Thread.sleep(80);MobilePlatform.pointerReleased(479-235,280);
+        Thread.sleep(500);
+        if((Integer)money.invoke(null)!=goldBefore+2000 || (Integer)wallet.invoke(null)!=cashBefore-200)
+            throw new AssertionError("Native gold purchase failed");
         // Native gold shop is still the real screen. Click its added side tab.
         MobilePlatform.pointerPressed(479-350,110);Thread.sleep(80);MobilePlatform.pointerReleased(479-350,110);
         waitScreen(screen,51);
