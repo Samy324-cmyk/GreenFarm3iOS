@@ -45,7 +45,7 @@ def patch_neighbor(game_data, actor_data, apk):
     with tempfile.TemporaryDirectory() as scratch:
         folder = Path(scratch)
         stubs = folder/'a.java'
-        stubs.write_text("""class a {static int F; static int[] bD,cb; static boolean[] j; static e[] b;
+        stubs.write_text("""class a {static int F,B; static int[] bD,cb; static boolean[] j; static e[] b;
           static f c; static int a(){return 0;} static void c(){} static void c(int sound){} static void aI(int n){}
           static boolean gf3Visit(int e){return false;} static void a(f x,int y,int z){}
           static void a(String s,int p,int q){} static int b(int x,int y,int z){return 0;}
@@ -56,7 +56,7 @@ def patch_neighbor(game_data, actor_data, apk):
           void a(int x,int y,int duration){} void l(int flag){}}
         class GF3FarmAudio {static void original(int cue){}}
         class n {int a(){return 0;} int a(int i){return 0;} int b(int i){return 0;}}
-        class e {} class k {k(e sheet,int u,int v){} void b(int animation,int repeats){} boolean a(){return false;}}""", encoding='ascii')
+        class g {static int N;} class e {} class k {k(e sheet,int u,int v){} void b(int animation,int repeats){} void a(int x,int y){}void d(int zoom){}void c(int ms){}boolean a(){return false;}}""", encoding='ascii')
         strings=folder/'GF3NeighborText.java'
         strings.write_text('final class GF3NeighborText {static String win(){return '+
                            json.dumps(localized, ensure_ascii=True)+';}}',encoding='ascii')

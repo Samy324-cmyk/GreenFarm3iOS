@@ -357,7 +357,11 @@ final class HomeProbe {
             System.out.println("HOME touch fox at "+(480-v+20)+","+u+" world="+
                 get(actor,fox,"r",int.class)+","+get(actor,fox,"s",int.class)+" flags="+get(actor,fox,"C",int.class));
             tap(480-v+20,u);
+            // Camera drag while the dog approaches must not reset the encounter.
+            Thread.sleep(150);MobilePlatform.pointerPressed(220,400);MobilePlatform.pointerDragged(220,525);MobilePlatform.pointerReleased(220,525);
             waitFor(9,19);
+            if((Integer)get(actor,fox,"r",int.class)!=0 || (Integer)get(actor,fox,"s",int.class)!=0)
+                throw new AssertionError("Fox remains in world after battle");
         } else if(action.equals("done")) {
             int xp=(Integer)call(dogs,"xp",int.class,actor).invoke(null,dog);
             int mood=(Integer)call(dogs,"happiness",int.class,actor).invoke(null,dog);

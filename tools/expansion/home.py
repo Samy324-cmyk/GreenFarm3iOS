@@ -113,7 +113,7 @@ def build_home_helpers(apk):
             static void c(){} static void aI(int n){} }
           class f {int J,r,s,A,B,D,E,u,v,q,w,x,y; static f[] heads; f next; long gf3ScaredAt,treeStart,birth,feedStart;
             k a; boolean a(int flag){return false;} void k(int flag){} boolean gf3OtherTreeTouch(){return false;}
-            void l(int flag){} void i(int state){} void L(){} boolean gf3OtherTouch(){return false;}
+            void l(int flag){} void j(int flag){} void H(){} void i(int state){} void L(){} boolean gf3OtherTouch(){return false;}
             static int a(int l,int t,int r,f[] out,int max){return 0;}
             static f a(int t,int l,int[] p){return null;} void a(int x,int y,int duration){}
             void a(int x,int y,int type,int delay,boolean collect,int n){} }
@@ -124,13 +124,13 @@ def build_home_helpers(apk):
           class GF3FarmAudio {static void original(int cue){}}
           class GF3Hive {static boolean isHive(f x){return false;}}
           class GF3Doghouse {static f resident(f exclude){return null;} static int floor(){return 0;}}
-          class GF3DogToys {static int tick(f x){return 0;}} class GF3MarketFront {static void drawPetRibbon(){}}
+          class GF3DogToys {static int tick(f x){return 0;}static void closeForFight(f x){}} class GF3MarketFront {static void drawPetRibbon(){}}
           class GF3VisitPredators {static void write(String n,byte[] b)throws java.io.IOException{}
             static byte[] read(String n)throws java.io.IOException{return null;}}
           class GF3Dogs {static boolean dog(f x){return false;} static int happiness(f d){return 0;} static int level(f d){return 0;}
-            static void finishToy(f d,int xp,int mood){}}
+            static void finishToy(f d,int xp,int mood){}static void bubble(f x,int frame){}static void clearMood(f x){}}
           class GF3Neighbor {static f animal(int row){return null;} static void hold(f f,int pose,int rep){}
-            static void approach(f pet,f target){} static k startFight(f dog,f fox){return null;}}''',
+            static void approach(f pet,f target){} static boolean advance(f pet,f target){return false;}static boolean advanceFight(f pet,k effect){return false;}static void finishFight(f pet){}static boolean combatActor(f x){return false;}static k startFight(f dog,f fox){return null;}}''',
             encoding='ascii')
         strings=folder/'GF3HomeData.java'
         strings.write_text(android_data(apk),encoding='ascii')

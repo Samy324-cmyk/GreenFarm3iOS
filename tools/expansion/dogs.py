@@ -8,6 +8,7 @@ from tools.timing.classfile import ClassFile, convert_helper, pack_code, u2
 
 def patch_dogs(f_class, javac='javac'):
     actor = ClassFile(f_class)
+    actor.fields.append((0,actor.utf('gf3PetPrompt'),actor.utf('I'),[]))
     def call(name,desc):
         return b'\xb8'+u2(actor.ref('GF3Dogs',name,desc))
 
@@ -40,11 +41,13 @@ def patch_dogs(f_class, javac='javac'):
     with tempfile.TemporaryDirectory() as temp:
         folder=Path(temp)
         stub=folder/'f.java'
-        stub.write_text("""class f {int q,J,f,c,d,r,s,D; long e; boolean a(int flag){return false;}
+        stub.write_text("""class f {int q,J,f,c,d,r,s,D,gf3PetPrompt; k a; long e; boolean a(int flag){return false;}
         static f a(int t,int l,int[] p){return null;} void a(int x,int y,int t,int d,boolean collect,int n){}
         void i(int s){} void j(int flags){} void l(int flags){} void H(){} void r(){} boolean gf3AnimalTouch(){return false;}
-        void gf3Mature(){} void gf3NativeCare(){} } class a {static int F;static int b(int i,int n,int action){return 0;}}
+        void gf3Link(f prompt){} void gf3Mature(){} void gf3NativeCare(){} } class k {int clip(){return 0;}void b(int i,int n){}} class a {static int F;static int b(int i,int n,int action){return 0;}}
         class GF3FarmAudio {static void original(int cue){}}""",encoding='ascii')
         subprocess.run([javac,'--release','8','-g:none','-d',str(folder),str(stub),str(source)],check=True)
-        helper = convert_helper((folder/'GF3Dogs.class').read_bytes())
+        helper=ClassFile((folder/'GF3Dogs.class').read_bytes())
+        helper.pool[helper.utf('clip')]=helper.pool[helper.utf('a')]
+        helper=convert_helper(helper.bytes())
     return {'f.class':actor.bytes(),'GF3Dogs.class':helper}

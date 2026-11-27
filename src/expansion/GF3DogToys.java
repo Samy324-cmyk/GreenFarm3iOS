@@ -12,13 +12,14 @@ final class GF3DogToys {
     private static volatile boolean pointerCaptured;
     private static int pressX,pressY;
     private static volatile int dragging=-1,dragX,dragY,armed=-1;
-    private static final int[] SLOT_X={257,349,451,543},SLOT_Y={434,416,416,434};
-    static int slotX(int i){return SLOT_X[i];}
+    private static final int[] SLOT_X={245,320,400,480,555},SLOT_Y={443,420,405,420,443};
+    private static volatile int scrollPixels;
+    static int slotX(int i){return SLOT_X[i]+scrollPixels;}
     static int slotY(int i){return SLOT_Y[i];}
     static int dragToy(){return dragging;}
     static int dragX(){return dragX;}
     static int dragY(){return dragY;}
-    static int visibleToy(int i){return (a.aF+i+4)%4;}
+    static int visibleToy(int i){return (a.aF+i+2)%4;}
     static boolean ribbonActive(){return selected!=null && a.screen()==17 && a.F==0;}
     static void wheelSound(int cue){if(selected==null)a.sound(cue);}
     private static f sounding;
@@ -39,8 +40,8 @@ final class GF3DogToys {
     // handler must never receive a stray release from a pet selection.
     private static int slotAt(int x,int y){
         int best=-1,dist=52;
-        for(int i=0;i<4;i++){
-            int d=Math.abs(x-SLOT_X[i])+Math.abs(y-SLOT_Y[i]);
+        for(int i=0;i<SLOT_X.length;i++){
+            int d=Math.abs(x-slotX(i))+Math.abs(y-SLOT_Y[i]);
             if(d<dist){dist=d;best=i;}
         }
         return best;
@@ -54,29 +55,34 @@ final class GF3DogToys {
         if(phase==0){
             pointerCaptured=ribbonActive();
             if(pointerCaptured){
-                pressX=x;pressY=y;dragX=x;dragY=y;
+                pressX=x;pressY=y;dragX=x;dragY=y;scrollPixels=0;
                 int slot=slotAt(x,y);
                 dragging=slot<0?-1:visibleToy(slot);
             }
         }
         if(!pointerCaptured)return false;
         dragX=x;dragY=y;
+        if(phase==2 && pressY>=365 && y>=365 && Math.abs(x-pressX)>20){
+            dragging=-1;scrollPixels=Math.max(-78,Math.min(78,x-pressX));
+        }
         if(phase==1){
+            scrollPixels=0;
             int item=dragging;
             dragging=-1;
             if(item>=0 && onDog(x,y))gesture=item;
             else if(item>=0 && Math.abs(x-pressX)<20 && Math.abs(y-pressY)<20)armed=item;
-            else if(armed>=0 && onDog(x,y))gesture=armed;
             else if(pressY>=365 && y>=365 && Math.abs(x-pressX)>38)gesture=x>pressX?101:102;
+            else if(armed>=0 && onDog(x,y))gesture=armed;
             else if(y<365 || x<190 || x>610)gesture=100;
             pointerCaptured=false;
         }
         return true;
     }
     private static void dismiss(){
-        f old=selected;selected=null;gesture=-1;armed=dragging=-1;
+        f old=selected;selected=null;gesture=-1;armed=dragging=-1;scrollPixels=0;
         if(old!=null && old.a!=null && old.D==15)old.i(0);
     }
+    static void closeForFight(f pet){if(selected!=null)dismiss();}
     private static void processGesture(){
         int action=gesture;gesture=-1;
         if(action<0 || !ribbonActive())return;
@@ -142,6 +148,7 @@ final class GF3DogToys {
             a.sound(56);armed=-1;return;
         }
         dismiss();
+        GF3Dogs.clearMood(pet);
         pet.a.b(17+toy,2);
         GF3Dogs.beginToy(pet,toy);
         STOCK[toy]--;
@@ -163,6 +170,7 @@ final class GF3DogToys {
             else {processGesture();if(selected==pet)return 55;}
         }
         GF3PetNames.farmTick(pet);
+        GF3Dogs.refreshMood(pet);
         int pending = GF3Dogs.pending(pet);
         if(a.F==0 && pet.a(512) && pet.a!=null)sound(pet,pending);
         if (pending == 0) {

@@ -188,9 +188,13 @@ final class GF3HomePredator {
             }
             return 55;
         }
+        if((a.F==0 && (step==WALK || step==FIGHT) && actor==dog) || GF3Neighbor.combatActor(actor))return 55;
         if(actor.gf3ScaredAt!=0 || (danger() && threatened(actor))) {
             if(danger()) {
-                if(actor.gf3ScaredAt==0) actor.gf3ScaredAt=appeared;
+                if(actor.gf3ScaredAt==0){
+                    actor.gf3ScaredAt=appeared>0?appeared:System.currentTimeMillis();
+                    GF3Dogs.bubble(actor,20);
+                }
                 return 55;
             }
             long now=System.currentTimeMillis(), since=actor.gf3ScaredAt;
@@ -198,6 +202,11 @@ final class GF3HomePredator {
             else if(actor.a(32)) actor.birth=postpone(actor.birth,since/1000,now/1000);
             else actor.feedStart=postpone(actor.feedStart,since,now);
             actor.gf3ScaredAt=0;
+            actor.H();
+            if(GF3Hive.isHive(actor)){if(actor.D==5)GF3Dogs.bubble(actor,12);}
+            else if(actor.a(4))actor.j(4);
+            else if(actor.a(16))actor.j(16);
+            else if(actor.a(256))actor.j(256);
         }
         return GF3DogToys.tick(actor);
     }
@@ -249,6 +258,18 @@ final class GF3HomePredator {
                py>=bounds[1]*a.B/100 && py<=bounds[3]*a.B/100;
     }
 
+    private static boolean present(f actor){
+        if(actor==null || actor.q!=54 || f.heads==null)return false;
+        for(int layer=0;layer<2;layer++)
+            for(f x=f.heads[layer];x!=null;x=x.next)if(x==actor)return true;
+        return false;
+    }
+    static int markerState(){
+        if(a.F!=0 || fox==null)return 0;
+        return step==READY?1:(step==WALK || step==FIGHT || step==RETREAT)?2:0;
+    }
+    static int markerX(){return fox==null?-1000:fox.u;}
+    static int markerY(){return fox==null?-1000:fox.v-100*a.B/100;}
     private static boolean placeThief(int row) {
         fox=GF3Neighbor.animal(row);
         boolean created=fox==null;
@@ -270,12 +291,15 @@ final class GF3HomePredator {
 
     static boolean touch(f actor) {
         if(danger() && threatened(actor)) {if(step<WALK) message(12327);return true;}
+        if(a.F==0 && actor==dog && (step==WALK || step==FIGHT))return true;
         if(a.F!=0 || a.a()!=17 || actor!=fox || step==0)
             return actor.gf3OtherTouch();
         if(step!=READY) return true;
         dog=ownedDog();
         if(dog==null || dog.a(32)) { message(964); return true; }
         if(GF3Dogs.happiness(dog)/3 < (fox.J==2074?3:2)) { message(979); return true; }
+        GF3DogToys.closeForFight(dog);
+        GF3Dogs.clearMood(dog);
         step=WALK;
         a.c();
         GF3Neighbor.approach(dog,fox);
@@ -351,6 +375,7 @@ final class GF3HomePredator {
 
     static boolean farm(int event) {
         if(event==2 || event==3) showAlert();
+        if(event==3 && markerState()==1 && a.controls!=null && a.controls[1]!=null && a.controls[1][9][10]==0)a.a(fox,0,-100);
         if(event==3 && redrawFrames>0 && a.F==0) {
             a.redrawObjects=true;
             redrawFrames--;
@@ -399,7 +424,12 @@ final class GF3HomePredator {
             }
             step=0;
         }
-        if(step!=0 && GF3Neighbor.animal(row)!=fox) {resume=step;reset();}
+        if(step>0 && step<REWARD && step!=NEED_LIVESTOCK && step!=PLACE_CHICKEN && !present(fox)) {resume=step;reset();}
+        // A saved or interrupted approach is retriable, not a permanent hunter state.
+        if((step==WALK || step==FIGHT) && (!present(dog) || dog.a==null)){
+            if(dog!=null)GF3Neighbor.finishFight(dog);
+            dog=null;effect=null;step=READY;
+        }
         if(step==0) {
             if(chapter && (resume==0 || resume==NEED_LIVESTOCK || resume==PLACE_CHICKEN) && !livestockOnFarm()) {
                 if(appeared==0) appeared=System.currentTimeMillis();
@@ -461,14 +491,13 @@ final class GF3HomePredator {
                 step=READY;
             }
         } else if(step==WALK) {
-            dog.L();
-            if(dog.r==fox.r && dog.s==fox.s) {
+            if(GF3Neighbor.advance(dog,fox)) {
                 effect=GF3Neighbor.startFight(dog,fox);
                 step=FIGHT;
             }
-        } else if(step==FIGHT && (effect==null || effect.a())) {
+        } else if(step==FIGHT && GF3Neighbor.advanceFight(dog,effect)) {
             effect=null;
-            dog.i(0);
+            GF3Neighbor.finishFight(dog);
             GF3FarmAudio.original(76);
             pay();
             step=RETREAT;
@@ -476,7 +505,7 @@ final class GF3HomePredator {
         if(step==RETREAT) {
             fox.r=fox.A=fox.s=fox.B=0;
             if(fox.a(8))fox.l(8);
-            k.f();redrawFrames=3;
+            a.c();k.f();redrawFrames=3;
             if(chapter) {message(958);step=REWARD;}
             else {reset();appeared=0;GF3ThiefClock.clearEncounter();}
         } else if(step==REWARD) {

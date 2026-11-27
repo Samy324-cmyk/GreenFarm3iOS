@@ -131,7 +131,9 @@ final class LessonProbe {
             if(field(toys,null,"selected",actor)==null)throw new AssertionError("Pet ribbon did not reopen");
             int prev=(Integer)method(dogs,"xp",int.class,actor).invoke(null,dog);
             int oldQty=(Integer)method(toys,"quantity",int.class,int.class).invoke(null,0);
-            int offsetNow=integer(game,"aF"),ballSlot=(4-offsetNow)%4;
+            int offsetNow=integer(game,"aF"),ballSlot=(6-offsetNow)%4;
+            if((Integer)method(toys,"visibleToy",int.class,int.class).invoke(null,2)!=offsetNow)
+                throw new AssertionError("Center arrow does not select the visible toy");
             int sx=(Integer)method(toys,"slotX",int.class,int.class).invoke(null,ballSlot);
             int sy=(Integer)method(toys,"slotY",int.class,int.class).invoke(null,ballSlot);
             int dx=(Integer)field(actor,dog,"u",int.class),dy=(Integer)field(actor,dog,"v",int.class)-20;

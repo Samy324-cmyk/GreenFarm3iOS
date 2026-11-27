@@ -15,6 +15,28 @@ final class GF3Dogs {
         return dog(x) && x.a(32);
     }
 
+    static void bubble(f x,int frame){
+        x.H();
+        f prompt=f.a(33,0,new int[]{x.r,x.s,150,10,frame,-63,-117});
+        x.gf3Link(prompt);
+    }
+    static void clearMood(f x){
+        if(x.gf3PetPrompt!=0){
+            // A native hunger/care bubble may have replaced the toy cloud.
+            if(!x.a(4) && !x.a(256))x.H();
+            x.gf3PetPrompt=0;
+            if(x.D==0 && x.a!=null)x.i(0);
+        }
+    }
+    static void refreshMood(f x){
+        if(!dog(x) || puppy(x) || !x.a(512) || x.a(4096) || x.a==null || a.F!=0)return;
+        boolean wants=happiness(x)<=5 && !x.a(4) && !x.a(256) && pending(x)==0;
+        if(!wants){clearMood(x);return;}
+        if(x.D!=0 && x.D!=1)return;
+        if(x.gf3PetPrompt==0){bubble(x,21);x.gf3PetPrompt=21;}
+        // APK s1.t0 selects clip 24 for a tired adult with the toy flag.
+        if(x.D==0 && x.a.clip()!=24)x.a.b(24,-1);
+    }
     static void normalize(f x){
         if(!dog(x))return;
         if(x.a(16)){x.l(16);x.H();if(x.D==2)x.i(0);}
@@ -100,7 +122,7 @@ final class GF3Dogs {
         int moodMax = x.J == 2068 ? 18 : x.J == 2070 ? 9 : x.J == 2072 ? 12 : 21;
         int newLevel = 0;
         while (newLevel < LEVEL_XP.length && total >= LEVEL_XP[newLevel]) newLevel++;
-        setStats(x,total,Math.min(moodMax,happiness(x)+moodAdded),newLevel);
+        setStats(x,total,Math.max(0,Math.min(moodMax,happiness(x)+moodAdded)),newLevel);
         rewardLevel(x,oldLevel,newLevel);
     }
 
@@ -113,6 +135,7 @@ final class GF3Dogs {
             int currentLevel = 0;
             while (currentLevel < LEVEL_XP.length && exp >= LEVEL_XP[currentLevel]) currentLevel++;
             setStats(x,exp,happy,currentLevel);
+            x.gf3PetPrompt=0;
             normalize(x);
             rewardLevel(x,oldLevel,currentLevel);
         }

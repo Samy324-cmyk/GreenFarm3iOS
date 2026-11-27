@@ -64,7 +64,7 @@ def patch_toys(a_class,f_class,save_class,javac='javac'):
           class h {static h[] a;int[][] rows;}
           class g {static int K;} class e {int f(int n){return 0;}int g(int n){return 0;}
               int d(int n){return 0;}int e(int n){return 0;}int a(int clip){return 0;}int animations(){return 0;}int frames(){return 0;}}
-          class GF3Dogs { static boolean dog(f x){return false;} static void normalize(f x){} static void beginToy(f x,int n){}
+          class GF3Dogs { static boolean dog(f x){return false;} static void normalize(f x){}static void clearMood(f x){}static void refreshMood(f x){} static void beginToy(f x,int n){}
           static int pending(f x){return 0;} static void cancelToy(f x){} static void finishToy(f x,int xp,int mood){}}
           class GF3DogTutorial {static void played(){}static void bought(int toy){}}
           class GF3PetNames {static boolean unavailable(int row){return false;}

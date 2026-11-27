@@ -170,7 +170,7 @@ final class GF3MarketFront {
             gr.setClip(0,0,480,800);
             // Frame 116 is the original curved blue action background.
             petFrame(gr,20,116,400,437,416);
-            for(int slot=0;slot<4;slot++){
+            for(int slot=0;slot<5;slot++){
                 int toy=GF3DogToys.visibleToy(slot);
                 int[] row=h.tables[4].rows[64+toy];
                 int x=GF3DogToys.slotX(slot),y=GF3DogToys.slotY(slot);
@@ -187,6 +187,15 @@ final class GF3MarketFront {
     }
     static void drawControl(int gui,short[] control,int x,int y,int index) {
         if(GF3Doghouse.drawFixed(gui,control))return;
+        if(gui==1 && index==9 && GF3HomePredator.markerState()!=0){
+            if(GF3HomePredator.markerState()!=1)return;
+            int mx=GF3HomePredator.markerX(),my=GF3HomePredator.markerY();
+            if(mx<30 || mx>770 || my<20 || my>450)return;
+            short ox=control[2],oy=control[3];
+            try{control[2]=(short)mx;control[3]=(short)my;a.gf3DrawControl(gui,control,x,y,index);}
+            finally{control[2]=ox;control[3]=oy;}
+            return;
+        }
         if(gui==GUI && tab==5 && a.a()==7 && index>=28 && index<112 &&
                 a.controls!=null && a.controls[GUI]!=null) {
             int local=(index-28)/14,part=(index-28)%14,i=local+a.ct;

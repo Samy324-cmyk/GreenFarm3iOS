@@ -36,21 +36,45 @@ final class GF3Neighbor {
         return false;
     }
 
-    static void approach(f pet, f target) {
-        pet.i(target.r, target.s);
-        n path = pet.gf3Path();
-        if (path.a() > 3) {
-            int[] last = new int[] {path.a(2), path.b(2)};
-            int[] world = new int[2];
-            a.d(last, world);
-            pet.r = world[0];
-            pet.s = world[1];
-        } else if (Math.abs(target.r-pet.r)>40 || Math.abs(target.s-pet.s)>40) {
-            pet.r += (target.r-pet.r)*90/100;
-            pet.s += (target.s-pet.s)*90/100;
-        }
+    static boolean combatActor(f actor){
+        return a.F==1 && (actor==dog && (step==WALKING || step==FIGHTING) ||
+                actor==fox && step>=READY && step<=FIGHTING);
+    }
+    static void approach(f pet,f target){
+        // d(II) initializes the native walking animation and world target.
+        // Do not jump to a cached path node while the camera is panning.
         pet.d(target.r,target.s);
-        pet.D = 9;
+        pet.D=9;
+    }
+    static boolean advance(f pet,f target){
+        if(pet==null || target==null)return false;
+        int ox=pet.r,oy=pet.s;
+        pet.A=target.r;pet.B=target.s;
+        pet.L();
+        // Old saves can contain a zero-speed or exhausted path. Recover
+        // by advancing a few world units, never by moving the camera.
+        if(pet.r==ox && pet.s==oy){
+            int dx=target.r-ox,dy=target.s-oy;
+            pet.r+=Math.max(-4,Math.min(4,dx));
+            pet.s+=Math.max(-4,Math.min(4,dy));
+        }
+        if(Math.abs(pet.r-target.r)<=4 && Math.abs(pet.s-target.s)<=4){
+            pet.r=pet.A=target.r;pet.s=pet.B=target.s;return true;
+        }
+        return false;
+    }
+    static boolean advanceFight(f pet,k effect){
+        if(effect==null || pet==null)return true;
+        if(effect.a())return true;
+        effect.a(pet.u,pet.v-50);
+        effect.d(a.B);
+        effect.c(Math.max(1,Math.min(100,g.N)));
+        return effect.a();
+    }
+    static void finishFight(f pet){
+        if(pet==null)return;
+        pet.b=null;pet.A=pet.r;pet.B=pet.s;
+        if(pet.a!=null)pet.i(0);
     }
 
     static k startFight(f dog, f enemy) {
@@ -66,6 +90,7 @@ final class GF3Neighbor {
     }
 
     static boolean touch(f actor) {
+        if(a.F==1 && actor==dog && (step==WALKING || step==FIGHTING))return true;
         if (actor != fox || a.F != 1 || a.a() != 36 || step == 0)
             return actor.gf3PetTouch();
         if (step == READY) {
@@ -100,13 +125,12 @@ final class GF3Neighbor {
             a.a(fox, 0, -100);
             step = READY;
         } else if (step == WALKING) {
-            dog.L();
-            if (dog.r != fox.r || dog.s != fox.s) return handled;
+            if(!advance(dog,fox))return handled;
             fight = startFight(dog,fox);
             step = FIGHTING;
-        } else if (step == FIGHTING && (fight==null || fight.a())) {
-            fight = null;
-            dog.i(0);
+        } else if(step==FIGHTING && advanceFight(dog,fight)) {
+            fight=null;
+            finishFight(dog);
             a.b(99990, 1, 24);
             a.b(2999, 1, 43);
             step = RETREAT;
@@ -116,6 +140,7 @@ final class GF3Neighbor {
             fox.r = fox.A = 0;
             fox.s = fox.B = 0;
             fox.l(8);
+            a.c();
             step = MESSAGE;
             a.a(GF3NeighborText.win(), 7, 0);
         } else if (step == MESSAGE) {
