@@ -1,0 +1,17 @@
+{
+  "nivel": 3,
+  "experiencia": "0/30",
+  "monedas": 4220,
+  "billetes": 245,
+  "origen": "Partida local de prueba, sin conexión. Se completaron la primera cosecha, siembra, compra de un becerro, producción de alimento, recolección de leche y primera venta. Salida mediante Menú de pausa > Salir > Sí.",
+  "archivos": {
+    "rms/Green Farm 3/ccd792fc06cm1zu01t.rms": "05753150fe67e1038fc860ecccf8a6091ee1cc96c1444ba46ec0154ab854f2a2",
+    "rms/Green Farm 3/ccd792fc09uk1tsgvhzgvy.1": "882590bd4b5000db63cc8c2c5b692aac9ba62f35d7e89e520f4edb8b3a3bd337",
+    "rms/Green Farm 3/ccd792fc09uk1tsgvhzgvy.rms": "bf4668913e5a7c53294e4707dbfc0c00c15e7296874e81fa3b5978fc3802e4a8",
+    "rms/Green Farm 3/ccd792fc10c2f2zv9myxjtma__.1": "eb1eb34eeff4c4c0d4fcae83bccd932a720a73ad8c2b7717e6acf5f2dc660eb7",
+    "rms/Green Farm 3/ccd792fc10c2f2zv9myxjtma__.rms": "d909abb806a52588f294cc6c3e2d849ea5712529d7f64a811e1b75ed7c6ca152",
+    "rms/Green Farm 3/ccd792fc13c2f2zv9nyw1lcgxheq__.1": "05811fe2f14d2c52146334dd238727c8a4e1dffe68ca2e7483f5981babcdc856",
+    "rms/Green Farm 3/ccd792fc13c2f2zv9nyw1lcgxheq__.rms": "ff331ea1da21efa1352aba7b2f3feed6928b9930f7b42651355bfce01a025a9a",
+    "rms/Green Farm 3/ccd792fc17cm1zumvkzwvtvw5sb2nrzwq_.rms": "3b795ba99bfa39b56819c5e0753e13bb85c9d3b2b27c17bf1f88f565b9c63083"
+  }
+}

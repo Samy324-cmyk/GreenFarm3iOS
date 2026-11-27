@@ -1,0 +1,20 @@
+waitglyph 427 99 35 95 1979eb afe3d98d305fa07c91e761c915238e5609e034f929052a0e4888edafd438c9a9
+assertstock 119 0
+assertstock 120 0
+assertstock 121 0
+touch 268 489
+waitglyph 394 52 45 280 f8fcf8 a34dd0ac65507049444e69496c08a5316adc20ef99de33f3588c289623a48734
+wait 850
+shot 05-cola-restaurada
+touch 119 368
+wait 1200
+touch 150 366
+wait 1800
+assertstock 121 1
+shot 06-caramelo
+measure
+wait 900
+report
+close
+wait 400
+quit

@@ -1,0 +1,31 @@
+neighbor seed
+touch 305 431
+wait 900
+touch 244 169
+wait 900
+touch 216 107
+wait 5000
+neighbor status
+shot visita
+touch 260 400
+wait 1200
+neighbor status
+shot perro
+wait 4000
+neighbor status
+neighbor wait-message
+shot resultado
+wait 1100
+touch 145 450
+wait 1200
+neighbor status
+neighbor expect-done
+touch 48 746
+wait 4500
+neighbor expect-reward
+shot premio-del-zorro
+touch 55 479
+wait 1500
+neighbor expect-claimed
+shot recompensa-recibida
+quit

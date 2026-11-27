@@ -1,0 +1,13 @@
+waitglyph 428 742 25 30 f5f8fc 6ec9d62138e5d32f3c0f0d35cf7ea6dadb0656bf75ad33bd2d539a2f026c1cc0
+assertfarm 3 4220 245
+wait 5500
+measure static
+wait 3500
+report
+measure pan
+pan 100 580 200 470 8 850
+report
+shot granja-despues-de-arrastrar
+close
+wait 350
+quit

@@ -1,0 +1,306 @@
+[
+  {
+    "name": "mercado",
+    "tap": [
+      41,
+      747
+    ],
+    "screen": 7,
+    "tab": 0,
+    "region": [
+      70,
+      256,
+      475,
+      355
+    ]
+  },
+  {
+    "name": "cultivos",
+    "tap": [
+      179,
+      142
+    ],
+    "screen": 7,
+    "shelf": 9,
+    "region": [
+      95,
+      255,
+      703,
+      367
+    ]
+  },
+  {
+    "name": "animales",
+    "tap": [
+      336,
+      218
+    ],
+    "screen": 7,
+    "tab": 1,
+    "region": [
+      102,
+      252,
+      716,
+      361
+    ]
+  },
+  {
+    "name": "edificios",
+    "tap": [
+      336,
+      334
+    ],
+    "screen": 7,
+    "tab": 2,
+    "region": [
+      105,
+      255,
+      704,
+      370
+    ]
+  },
+  {
+    "name": "decoracion",
+    "tap": [
+      336,
+      450
+    ],
+    "screen": 7,
+    "tab": 3,
+    "region": [
+      105,
+      255,
+      704,
+      370
+    ]
+  },
+  {
+    "name": "mascotas",
+    "tap": [
+      336,
+      566
+    ],
+    "screen": 7,
+    "tab": 4,
+    "region": [
+      80,
+      253,
+      498,
+      362
+    ]
+  },
+  {
+    "name": "ofertas",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-cultivos",
+    "tap": [
+      336,
+      102
+    ],
+    "screen": 7,
+    "tab": 0
+  },
+  {
+    "name": "regreso-ofertas-cultivos",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-animales",
+    "tap": [
+      336,
+      218
+    ],
+    "screen": 7,
+    "tab": 1
+  },
+  {
+    "name": "regreso-ofertas-animales",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-edificios",
+    "tap": [
+      336,
+      334
+    ],
+    "screen": 7,
+    "tab": 2
+  },
+  {
+    "name": "regreso-ofertas-edificios",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-decoracion",
+    "tap": [
+      336,
+      450
+    ],
+    "screen": 7,
+    "tab": 3
+  },
+  {
+    "name": "regreso-ofertas-decoracion",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "ofertas-a-mascotas",
+    "tap": [
+      336,
+      566
+    ],
+    "screen": 7,
+    "tab": 4
+  },
+  {
+    "name": "regreso-ofertas-mascotas",
+    "tap": [
+      336,
+      686
+    ],
+    "screen": 7,
+    "tab": 5
+  },
+  {
+    "name": "cerrar-mercado",
+    "tap": [
+      428,
+      753
+    ],
+    "screen": 17
+  },
+  {
+    "name": "granero",
+    "tap": [
+      129,
+      53
+    ],
+    "screen": 28,
+    "region": [
+      65,
+      30,
+      721,
+      304
+    ]
+  },
+  {
+    "name": "cerrar-granero",
+    "tap": [
+      428,
+      753
+    ],
+    "screen": 17
+  },
+  {
+    "name": "diario",
+    "tap": [
+      47,
+      57
+    ],
+    "button": 65575
+  },
+  {
+    "name": "walt",
+    "tap": [
+      258,
+      60
+    ],
+    "screen": 19,
+    "button": 262155
+  },
+  {
+    "name": "mision",
+    "tap": [
+      67,
+      605
+    ],
+    "screen": 26
+  },
+  {
+    "name": "aviso",
+    "tap": [
+      245,
+      670
+    ],
+    "screen": 19,
+    "button": 262148
+  },
+  {
+    "name": "cerrar-aviso",
+    "tap": [
+      72,
+      605
+    ],
+    "screen": 17
+  },
+  {
+    "name": "mansion",
+    "tap": [
+      289,
+      400
+    ],
+    "screen": 29,
+    "region": [
+      325,
+      52,
+      675,
+      376
+    ]
+  },
+  {
+    "name": "cocina",
+    "tap": [
+      50,
+      643
+    ],
+    "screen": 30,
+    "region": [
+      478,
+      122,
+      753,
+      410
+    ]
+  },
+  {
+    "name": "restauracion",
+    "tap": [
+      107,
+      261
+    ],
+    "screen": 30,
+    "button": 917551
+  },
+  {
+    "name": "cocina-restaurada",
+    "pressButton": 917551,
+    "room": 1,
+    "screen": 19
+  }
+]

@@ -1,0 +1,169 @@
+/** Play the 4.4.4 farm music and ambience alongside the native MIDP effects. */
+final class GF3FarmAudio {
+    private static final int MUSIC=1,AMBIENCE=2,FARM_LOOP=25,FIRST_EFFECT=3,LAST_EFFECT=5,WILDLIFE=6,FEEDING=7;
+    private static final int[] tracks=new int[9];
+    private static long musicStarted,ambientRequested;
+    private static int next,previous=-1,effectChannel=FIRST_EFFECT;
+    private static boolean ambient;
+    // f.B() selects native slots 26..29 at the wildlife animation boundary.
+    // Prepare the corresponding short APK clips ahead of that event.
+    private static final int[] farmCues={26,27,28,29,137};
+    private static int warmCursor;
+    private static long warmAt;
+    private static final long[] lastCue=new long[163];
+    private static final long[] reservedUntil=new long[8];
+
+    private static void loadSlot(int cue) {
+        if(!k.loaded(cue)) {
+            a.e(cue,0);
+            a.loadSound(cue);
+        }
+    }
+    private static void load(int cue,int alternate) {
+        if(k.loaded(cue) && (alternate<0 || k.loaded(alternate))) return;
+        // k now reads each recording from a private stream, so the active
+        // menu/terrain pack is never closed or rewound by an audio request.
+        loadSlot(cue);
+        if(alternate>=0) loadSlot(alternate);
+    }
+
+    private static void queue(int channel,int cue,boolean repeat) {
+        load(cue,-1);
+        if(k.loaded(cue)) k.a(channel,cue,repeat?0:1,a.at,0);
+    }
+
+    static void original(int source) {
+        int cue=GF3AudioIds.slots[source];
+        if(source<14 || source==62 || source==63) {
+            // Predator arrival and mission themes only fill an idle music channel.
+            if(source<14 || !k.playing(MUSIC)) music(cue,false);
+        } else if(source==24) {
+            if(a.R && a.S) queue(AMBIENCE,cue,true);
+        } else effect(cue);
+    }
+
+    private static void farmEffect(int channel,int cue) {
+        if(!a.R || !a.S || a.W)return;
+        long now=System.currentTimeMillis();
+        if(now<reservedUntil[channel] || k.playing(channel))return;
+        loadSlot(cue);
+        if(!k.loaded(cue))return;
+        reservedUntil[channel]=now+180L;
+        k.a(channel,cue,1,a.at,2);
+    }
+    static void wildlife(int cue) {
+        if(cue>=26 && cue<=29)farmEffect(WILDLIFE,cue);
+        else effect(cue);
+    }
+    static void feeding(int unused) {
+        farmEffect(FEEDING,137);
+    }
+
+    static void effect(int cue) {
+        if(!a.R || !a.S || a.W) return;
+        if(cue<15) {
+            music(cue,false);
+            return;
+        }
+        // Android cGame.oz rotates ordinary effects through channels 3–7.
+        // Its master level comes from the saved setting, including on MMAPI
+        // providers that cannot report the volume of a finished waveform.
+        // Never defer a farm action. A late harvest sound is worse than
+        // dropping an effect while all five voices are occupied.
+        if(cue>=67 && cue<=118)cue-=52;
+        // The legacy dialog-opening slot was removed during the APK-only
+        // audio conversion. Use the Android panel-opening recording.
+        if(cue==58)cue=60;
+        // The native care/feeding animation calls slot 36, which was blank.
+        // Android source 35 is preserved at slot 137 in the expanded bank.
+        if(cue==36)cue=137;
+        if(cue<0 || cue>=lastCue.length)return;
+        long now=System.currentTimeMillis();
+        if(now-lastCue[cue]<100L)return;
+        int slot=cue;
+        if(cue>=119 && cue<=126 && a.aw==cue)slot=cue+8;
+        if(cue==135 && a.aw==135)slot=136;
+        if(playEffect(slot))lastCue[cue]=now;
+    }
+
+    private static boolean playEffect(int slot) {
+        long now=System.currentTimeMillis();
+        int channel=-1;
+        for(int i=0;i<=LAST_EFFECT-FIRST_EFFECT;i++){
+            int candidate=FIRST_EFFECT+(effectChannel-FIRST_EFFECT+i)%(LAST_EFFECT-FIRST_EFFECT+1);
+            if(now>=reservedUntil[candidate] && !k.playing(candidate)){channel=candidate;break;}
+        }
+        if(channel<0)return false;
+        load(slot,-1);
+        if(!k.loaded(slot)) return false;
+        a.aw=slot;
+        a.lastEffect=System.currentTimeMillis();
+        reservedUntil[channel]=System.currentTimeMillis()+180L;
+        k.a(channel,slot,1,a.at,2);
+        effectChannel=channel==LAST_EFFECT ? FIRST_EFFECT : channel+1;
+        return true;
+    }
+
+    static void music(int cue,boolean repeat) {
+        if(!a.R || !a.T) return;
+        queue(MUSIC,cue,repeat);
+        musicStarted=System.currentTimeMillis();
+    }
+
+    static void stop() {
+        if(a.R) {
+            a.gf3StopSound();
+            if(k.loaded(0) || k.loaded(13) || k.loaded(FARM_LOOP)) {
+                for(int channel=MUSIC;channel<=FEEDING;channel++) k.a(channel,true);
+            }
+        }
+        for(int i=0;i<reservedUntil.length;i++)reservedUntil[i]=0;
+        for(int i=0;i<lastCue.length;i++)lastCue[i]=0;
+        ambient=false;
+        warmCursor=0;warmAt=0;
+        musicStarted=0;
+    }
+
+    static void update() {
+        if(!a.R) return;
+        // No backlog is drained after the action has finished.
+        if(!a.intro && a.C!=-1) {
+            music(13,false);
+            a.intro=true;
+            return;
+        }
+        if(a.V) {
+            a.V=false;
+            music(0,false);
+            return;
+        }
+        long now=System.currentTimeMillis();
+        if(a.S && now-ambientRequested>=2000L && (!ambient || !k.playing(AMBIENCE))) {
+            queue(AMBIENCE,FARM_LOOP,true);
+            ambient=k.loaded(FARM_LOOP);
+            ambientRequested=now;
+        } else if(!a.S && ambient) {
+            k.a(AMBIENCE,true);
+            ambient=false;
+        }
+        if(a.S && !a.W && a.C==-1 && a.a()==17 && now>=warmAt) {
+            // Only one short resource per interval, with no playback queued.
+            loadSlot(farmCues[warmCursor]);
+            warmCursor=(warmCursor+1)%farmCues.length;
+            warmAt=now+750L;
+        }
+        if(!a.T || now-musicStarted<25000L || now-a.lastEffect<5000L || k.playing(MUSIC)) return;
+        if(next==0) {
+            for(int i=0;i<tracks.length;i++) tracks[i]=i+1;
+            for(int i=tracks.length-1;i>=0;i--) {
+                int j=g.c(0,tracks.length),value=tracks[i];
+                tracks[i]=tracks[j];
+                tracks[j]=value;
+            }
+            if(tracks[0]==previous) next++;
+        }
+        previous=tracks[next];
+        next=(next+1)%tracks.length;
+        music(previous,false);
+    }
+}

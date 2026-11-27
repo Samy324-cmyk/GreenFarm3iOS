@@ -1,0 +1,15 @@
+{
+  "source": "Green Farm 3 4.4.4 Android",
+  "apkSha256": "3081eded66775b99790b35e2980057a9ac559afa08bba6daa94bc21fa325092d",
+  "rendering": "Original ASprite and GLLib DEX on Android 7.0 x86, EGL 800x480, Google SwiftShader",
+  "scene": "First wheat harvest, source tile map and observed farm sprite submissions, camera x=1650 y=660",
+  "sourceFramebufferSha256": "1f06499d1e18cad5aa7ef022a482fe9084338587b76acc492be7adf50e6dd88d",
+  "manor": {"x": 685, "y": 0, "width": 113, "height": 136},
+  "fence": {"x": 291, "y": 418, "width": 106, "height": 49},
+  "hudFramebufferSha256": "975b10db263ef828729222beb8b84dfe7eb04cf78e227f1f757436df420c2ba0",
+  "hudControls": "Android panel 1 controls 19, 22, 26, 27. Input values are 2000, 50, 0 / 13 and 1. ASprite/t0 uses fonts from asset /2.",
+  "hud-coins": {"x": 99, "y": 18, "width": 72, "height": 28},
+  "hud-cash": {"x": 101, "y": 61, "width": 37, "height": 27},
+  "hud-xp": {"x": 390, "y": 28, "width": 60, "height": 21},
+  "hud-level": {"x": 251, "y": 16, "width": 23, "height": 29}
+}

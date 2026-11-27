@@ -1,0 +1,18 @@
+{
+  "nivel": 15,
+  "monedas": 75000,
+  "billetes": 100000,
+  "panales": 8,
+  "frascos": 0,
+  "origen": "Partida de prueba local preparada a partir de la granja de nivel 3. Se fijaron el nivel, el dinero y ocho panales para probar el desbloqueo. El extractor se compró por 25 000 monedas en el mercado mediante controles táctiles, se colocó junto al buzón y se guardó con el motor MIDP.",
+  "archivos": {
+    "rms/Green Farm 3/ccd792fc06cm1zu01t.rms": "05753150fe67e1038fc860ecccf8a6091ee1cc96c1444ba46ec0154ab854f2a2",
+    "rms/Green Farm 3/ccd792fc09uk1tsgvhzgvy.1": "882590bd4b5000db63cc8c2c5b692aac9ba62f35d7e89e520f4edb8b3a3bd337",
+    "rms/Green Farm 3/ccd792fc09uk1tsgvhzgvy.rms": "a393ffd64e103689ec1824bffe22cca0d4de319f347139f0c3aaa9fee3914f72",
+    "rms/Green Farm 3/ccd792fc10c2f2zv9myxjtma__.1": "83b16963eece02e99db03ee3e77ac0cd30384a0830031add45086cb88eee86b4",
+    "rms/Green Farm 3/ccd792fc10c2f2zv9myxjtma__.rms": "2aa6b8248b816a872352f28698187ce72ffcff7ee145d60db2b15b0a94859ace",
+    "rms/Green Farm 3/ccd792fc13c2f2zv9nyw1lcgxheq__.1": "746f9c98a95771581a64baae25f72c672db352dfc2df21a3b317ae5054d47782",
+    "rms/Green Farm 3/ccd792fc13c2f2zv9nyw1lcgxheq__.rms": "c7f151c0978fdefb499e10915447757532638cce9379e313ff7e46f11028bbff",
+    "rms/Green Farm 3/ccd792fc17cm1zumvkzwvtvw5sb2nrzwq_.rms": "3b795ba99bfa39b56819c5e0753e13bb85c9d3b2b27c17bf1f88f565b9c63083"
+  }
+}

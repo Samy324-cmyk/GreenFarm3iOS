@@ -1,0 +1,29 @@
+home mill
+shot molino
+touch 102 666
+wait 450
+shot receta
+touch 79 179
+wait 500
+touch 79 324
+wait 500
+touch 47 610
+wait 1100
+touch 431 748
+wait 900
+shot cola
+wait 121500
+shot alimento-listo
+touch 149 145
+wait 650
+touch 431 748
+wait 700
+home puppy
+wait 1100
+touch 145 450
+wait 750
+home fox
+shot defensa
+home done
+home claim
+quit

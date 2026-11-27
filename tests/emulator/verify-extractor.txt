@@ -1,0 +1,39 @@
+waitglyph 427 99 35 95 1979eb afe3d98d305fa07c91e761c915238e5609e034f929052a0e4888edafd438c9a9
+assertstock 119 8
+assertstock 120 0
+touch 268 489
+waitglyph 394 52 45 280 f8fcf8 a34dd0ac65507049444e69496c08a5316adc20ef99de33f3588c289623a48734
+wait 600
+shot 01-extractor
+touch 104 136
+waitpose 01-extractor 137 85 111 109 1000
+shot 01-prensa-en-movimiento
+wait 4300
+assertstock 119 4
+assertstock 120 1
+touch 104 136
+wait 4300
+assertstock 119 0
+assertstock 120 2
+touch 104 136
+wait 250
+assertstock 119 0
+assertstock 120 2
+shot 02-dos-frascos
+touch 165 344
+wait 900
+touch 122 130
+wait 1000
+shot 03-receta
+touch 46 644
+wait 1050
+assertstock 120 0
+touch 437 751
+wait 900
+shot 04-cola
+measure
+wait 900
+report
+close
+wait 400
+quit

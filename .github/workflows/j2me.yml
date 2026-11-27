@@ -1,0 +1,443 @@
+name: Compilar y probar Green Farm 3 en Java ME
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [j2me, j2me-fixes]
+
+permissions:
+  contents: read
+
+jobs:
+  compilar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Obtener el proyecto
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Java ME
+        uses: ./.github/actions/preparar-midp
+
+      - name: Compilar el MIDlet y generar su descriptor
+        run: |
+          java -version
+          decoder=$(python3 -c 'import ctypes.util; print(ctypes.util.find_library("sndfile") or "")')
+          test -n "$decoder"
+          python3 build.py --jar "$SOURCE_JAR" --apk "$SOURCE_APK" --out build --api "$MIDP_API" --decoder "$decoder"
+
+      - name: Compartir la misma compilación con los tres entornos de prueba
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Paquete-en-pruebas-${{ github.run_number }}
+          path: build/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+
+  j2me:
+    needs: compilar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Obtener el proyecto
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Preparar Java ME
+        uses: ./.github/actions/preparar-midp
+
+      - name: Obtener el JAR compilado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: Paquete-en-pruebas-${{ github.run_number }}
+          path: build
+
+      - name: Validar el descriptor y las clases con las API de Java ME
+        run: |
+          base=https://repo.maven.apache.org/maven2/org/microemu
+          for api in cldcapi11 midpapi20; do
+            curl --fail --silent --show-error --location --retry 2 "$base/$api/2.0.4/$api-2.0.4.jar" -o "$api.jar"
+          done
+          echo "f86f41bfb4097e4bd9cdfeca528960f6977cbda0f5785342adef9909a6a3baef  cldcapi11.jar" | sha256sum -c -
+          echo "b7f6ed5e0344c7000643ecc114e6edff3587e8e77face546af0e12ffd6dbe826  midpapi20.jar" | sha256sum -c -
+          python3 tests/package/verify.py build/GreenFarm3-MX.jar build/GreenFarm3-MX.jad cldcapi11.jar midpapi20.jar
+
+      - name: Comparar píxeles de sprites con el APK original
+        run: |
+          python3 tests/loading/check.py build/GreenFarm3-MX.jar "$MIDP_API" pantalla-carga
+          python3 tests/sprites/verify.py --apk "$SOURCE_APK" --jar build/GreenFarm3-MX.jar --api "$MIDP_API"
+          python3 tests/sprites/verify_farm.py --reference "$SOURCE_JAR" --apk "$SOURCE_APK" --jar build/GreenFarm3-MX.jar --api "$MIDP_API"
+
+      - name: Abrir la rueda original, pagar un giro y verificar su premio
+        if: ${{ !cancelled() }}
+        run: python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" wheel-check --probe wheel --rms-from tests/emulator/fixtures/level3
+
+      - name: Verificar caseta, juguetes, nombre y adiestramiento del perro
+        if: ${{ !cancelled() }}
+        run: |
+          status=0
+          python3 tests/catalog/check_front.py build/GreenFarm3-MX.jar "$MIDP_API" "$SOURCE_APK" doghouse-independent --doghouse || status=1
+          python3 tests/pets/check.py build/GreenFarm3-MX.jar "$MIDP_API" pet-name-independent || status=1
+          python3 tests/pets/check.py build/GreenFarm3-MX.jar "$MIDP_API" pet-lesson-independent --lesson || status=1
+          exit "$status"
+
+      - name: Verificar recetas, productos y migración de partidas
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/cooking/check.py build/GreenFarm3-MX.jar "$MIDP_API" cooking-check
+          python3 tests/catalog/check_save.py build/GreenFarm3-MX.jar "$MIDP_API" tests/emulator/fixtures/level3 catalog-check
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" market-check --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" acres-check --probe acres --deed 12 --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" flock-check --probe flock --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" plane-check --probe plane --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" campaign-check --probe campaign --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" zoom-check --probe zoom --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" horizon-check --probe horizon --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" scenery-check --probe scenery --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" motion-check --probe motion --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" pause-check --probe pause --rms-from tests/emulator/fixtures/level3
+          python3 tests/sprites/verify_horizon.py "$SOURCE_APK" horizon-check
+
+      - name: Recorrer las categorías del mercado y comprobar las ofertas guiadas
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/catalog/check_front.py build/GreenFarm3-MX.jar "$MIDP_API" "$SOURCE_APK" market-shelves
+          python3 tests/catalog/check_front.py build/GreenFarm3-MX.jar "$MIDP_API" "$SOURCE_APK" market-first-plot --first-plot
+          python3 tests/catalog/check_front.py build/GreenFarm3-MX.jar "$MIDP_API" "$SOURCE_APK" market-doghouses --doghouse
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" market-adoption --adoption
+
+      - name: Comprobar la carta, el tutorial y la cosecha táctil
+        if: ${{ !cancelled() }}
+        run: python3 tests/emulator/bench.py build/GreenFarm3-MX.jar emulator-run
+
+      - name: Cosechar y verificar cada píxel en pantallas HD
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/viewport/check.py build/GreenFarm3-MX.jar "$MIDP_API" hd-horizontal --size 1920x1080
+          python3 tests/viewport/check.py build/GreenFarm3-MX.jar "$MIDP_API" hd-vertical --size 720x1280
+
+      - name: Completar el tutorial desde la carta hasta la primera venta y reabrir la granja
+        if: ${{ !cancelled() }}
+        run: python3 tests/introduction/check.py build/GreenFarm3-MX.jar "$MIDP_API" tutorial-completo
+
+      - name: Restaurar las nueve habitaciones y cobrar la última misión desde la partida del tutorial
+        if: ${{ !cancelled() }}
+        run: python3 tests/manor/check.py build/GreenFarm3-MX.jar "$MIDP_API" "$SOURCE_APK" mansion-completa tutorial-completo/partida
+
+      - name: Cargar una granja de nivel 3 en otro proceso
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/emulator/bench.py build/GreenFarm3-MX.jar emulator-reload \
+            --rms-from tests/emulator/fixtures/level3 --script tests/emulator/verify-reload.txt
+          python3 tests/emulator/bench.py build/GreenFarm3-MX.jar emulator-pan \
+            --rms-from tests/emulator/fixtures/level3 --script tests/emulator/verify-pan.txt --audio
+          python3 tests/emulator/bench.py build/GreenFarm3-MX.jar hd-pan \
+            --rms-from tests/emulator/fixtures/level3 --script tests/emulator/verify-pan.txt --audio --size 1280x720
+
+      - name: Extraer miel, preparar caramelo y recogerlo tras reiniciar
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/emulator/bench.py build/GreenFarm3-MX.jar extractor-check \
+            --rms-from tests/emulator/fixtures/level15 --script tests/emulator/verify-extractor.txt
+          python3 tests/emulator/bench.py build/GreenFarm3-MX.jar kitchen-reload \
+            --rms-from extractor-check --script tests/emulator/verify-kitchen-save.txt
+
+      - name: Aprender apicultura y terminar la misión después de reiniciar
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/neighbor/honey.py build/GreenFarm3-MX.jar "$MIDP_API" honey-lesson --save
+          python3 tests/neighbor/honey.py build/GreenFarm3-MX.jar "$MIDP_API" honey-restored --reload-from honey-lesson
+          python3 tests/neighbor/honey.py build/GreenFarm3-MX.jar "$MIDP_API" honey-predator --predator
+
+      - name: Verificar sonido y efectos de animales en el emulador
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/audio/verify_bank.py --apk "$SOURCE_APK" --jar build/GreenFarm3-MX.jar
+          python3 tests/audio/check_audio.py build/GreenFarm3-MX.jar --emulator "$MIDP_API" \
+            --profile audio-check --bench tests/emulator --script tests/emulator/verify-harvest.txt --pets
+
+      - name: Visitar a Harold y completar la misión del zorro
+        if: ${{ !cancelled() }}
+        run: python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" neighbor-check
+
+      - name: Ahuyentar al zorro de la granja y cobrar la misión
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-chicken --chicken
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-check --home-save
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-reload --home-reload home-check
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-raid --raid-save
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-quota --raid-reload home-raid
+          python3 tests/neighbor/check.py build/GreenFarm3-MX.jar "$MIDP_API" home-wolf --wolf
+
+      - name: Visitar a los nueve vecinos restantes y ayudar en sus granjas
+        if: ${{ !cancelled() }}
+        run: python3 tests/neighbor/visits.py build/GreenFarm3-MX.jar "$MIDP_API" local-visits
+
+      - name: Ahuyentar un zorro y un lobo y recordar la siguiente visita
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/neighbor/visits.py build/GreenFarm3-MX.jar "$MIDP_API" fox-visit --predator fox
+          python3 tests/neighbor/visits.py build/GreenFarm3-MX.jar "$MIDP_API" wolf-visit --predator wolf
+          python3 tests/neighbor/visits.py build/GreenFarm3-MX.jar "$MIDP_API" visit-reload --predator reload --rms-from wolf-visit
+
+      - name: Adiestrar al perro y cobrar los pedidos de apicultura
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/pets/check.py build/GreenFarm3-MX.jar "$MIDP_API" dog-training --lesson
+          python3 tests/neighbor/bee_journal.py build/GreenFarm3-MX.jar "$MIDP_API" hive-market --route market
+          python3 tests/neighbor/bee_journal.py build/GreenFarm3-MX.jar "$MIDP_API" hive-limits --route limits
+          python3 tests/neighbor/bee_journal.py build/GreenFarm3-MX.jar "$MIDP_API" honey-candy --route candy
+
+      - name: Entregar y renovar pedidos del mostrador
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" stand-check --probe orders --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" stand-restored --probe orders-reload --rms-from stand-check
+
+      - name: Comprar ingredientes del molino y reabrir la partida
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" mill-check --probe mill --rms-from tests/emulator/fixtures/level15
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" mill-restored --probe mill-reload --rms-from mill-check
+
+      - name: Proteger los animales y colmenas al editar la granja
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" edit-check --probe edits --rms-from tests/emulator/fixtures/level15
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" edit-restored --probe edits-reload --rms-from edit-check
+
+      - name: Desbloquear el estanque, pescar y reabrir la parcela
+        if: ${{ !cancelled() }}
+        run: |
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" pond-check --probe pond --rms-from tests/emulator/fixtures/level3
+          python3 tests/catalog/check_market.py build/GreenFarm3-MX.jar "$MIDP_API" pond-restored --probe pond-reload --rms-from pond-check
+
+      - name: Intercambiar regalos con Harold y Edwina por el buzón
+        if: ${{ !cancelled() }}
+        run: python3 tests/neighbor/visits.py build/GreenFarm3-MX.jar "$MIDP_API" mailbox-check --mailbox
+
+      - name: Guardar capturas y mediciones del emulador
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Prueba-J2ME-${{ github.run_number }}
+          path: |
+            pantalla-carga/carga.png
+            pantalla-carga/run.log
+            wheel-check/run.log
+            wheel-check/*.png
+            doghouse-independent/run.log
+            pet-name-independent/*/run.log
+            pet-lesson-independent/*/run.log
+            dog-training/gifts/*.png
+            dog-training/gifts/run.log
+            dog-training/play/*.png
+            dog-training/play/run.log
+            hive-market/*.png
+            hive-market/run.log
+            hive-limits/run.log
+            mill-check/molino.png
+            mill-check/run.log
+            mill-restored/run.log
+            edit-check/*.png
+            edit-check/run.log
+            edit-restored/*.png
+            edit-restored/run.log
+            honey-candy/*.png
+            honey-candy/run.log
+            stand-check/*.png
+            stand-check/run.log
+            stand-restored/*.png
+            stand-restored/run.log
+            pond-check/*.png
+            pond-check/run.log
+            pond-restored/*.png
+            pond-restored/run.log
+            mailbox-check/*.png
+            mailbox-check/run.log
+            emulator-run/*.png
+            emulator-run/report.json
+            hd-horizontal/*.png
+            hd-horizontal/run.log
+            hd-vertical/*.png
+            hd-vertical/run.log
+            hd-pan/report.json
+            hd-pan/frames-pan.csv
+            plane-check/run.log
+            mansion-completa/report.json
+            mansion-completa/*/run.log
+            mansion-completa/*/*.png
+            tutorial-completo/report.json
+            tutorial-completo/harvest-scenery.log
+            tutorial-completo/partida/transitions.csv
+            tutorial-completo/partida/*.png
+            tutorial-completo/partida/run.log
+            tutorial-completo/reapertura/*.png
+            tutorial-completo/reapertura/run.log
+            emulator-run/frames.csv
+            emulator-run/run.log
+            emulator-reload/*.png
+            emulator-reload/report.json
+            emulator-reload/run.log
+            emulator-pan/*.png
+            emulator-pan/*.json
+            emulator-pan/*.csv
+            emulator-pan/run.log
+            extractor-check/*.png
+            extractor-check/report.json
+            extractor-check/run.log
+            kitchen-reload/*.png
+            kitchen-reload/report.json
+            kitchen-reload/run.log
+            honey-lesson/*.png
+            honey-lesson/run.log
+            honey-restored/*.png
+            honey-restored/run.log
+            honey-predator/*.png
+            honey-predator/run.log
+            cooking-check/run.log
+            market-check/run.log
+            market-shelves/*.png
+            market-shelves/run.log
+            market-first-plot/*.png
+            market-first-plot/run.log
+            market-doghouses/*.png
+            market-doghouses/run.log
+            market-adoption/*.png
+            market-adoption/run.log
+            acres-check/run.log
+            flock-check/run.log
+            campaign-check/run.log
+            zoom-check/run.log
+            horizon-check/run.log
+            scenery-check/run.log
+            motion-check/run.log
+            pause-check/*.png
+            pause-check/run.log
+            catalog-check/**/*.log
+            audio-check/audio.json
+            audio-check/run.log
+            neighbor-check/*.png
+            neighbor-check/run.log
+            home-check/*.png
+            home-check/run.log
+            home-reload/*.png
+            home-reload/run.log
+            home-chicken/*.png
+            home-chicken/run.log
+            home-raid/run.log
+            home-quota/run.log
+            home-wolf/run.log
+            local-visits/*.png
+            local-visits/run.log
+            fox-visit/*.png
+            fox-visit/run.log
+            wolf-visit/*.png
+            wolf-visit/run.log
+            visit-reload/run.log
+          if-no-files-found: warn
+
+  manic:
+    needs: compilar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - name: Obtener el proyecto
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Obtener el JAR compilado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: Paquete-en-pruebas-${{ github.run_number }}
+          path: build
+
+      - name: Preparar los navegadores para el núcleo de Manic EMU
+        run: |
+          python3 -m venv "$RUNNER_TEMP/manic"
+          "$RUNNER_TEMP/manic/bin/python" -m pip install playwright==1.65.2 Pillow==11.2.1
+          "$RUNNER_TEMP/manic/bin/python" -m playwright install --with-deps chromium webkit
+          echo "$RUNNER_TEMP/manic/bin" >> "$GITHUB_PATH"
+
+      - name: Comprobar el sonido de la carta, las acciones y la cosecha
+        run: python tests/manic/audio.py build/GreenFarm3-MX.jar manic-audio --engine chromium
+
+      - name: Recorrer el mercado, el granero y la restauración de la mansión
+        if: ${{ !cancelled() }}
+        run: |
+          python tests/manic/scenes.py build/GreenFarm3-MX.jar manic-escenas --engine webkit --size 480x800
+          python tests/manic/scenes.py build/GreenFarm3-MX.jar manic-escenas-240 --engine webkit --size 240x320
+
+      - name: Medir el arrastre táctil y comprobar el terreno en las dos resoluciones
+        if: ${{ !cancelled() }}
+        run: |
+          python tests/manic/pan.py build/GreenFarm3-MX.jar manic-pan --engine webkit --size 480x800
+          python tests/manic/pan.py build/GreenFarm3-MX.jar manic-pan-240 --engine webkit --size 240x320
+
+      - name: Guardar las mediciones y capturas de Manic
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Pruebas-Manic-${{ github.run_number }}
+          path: |
+            manic-audio/
+            manic-escenas*/
+            manic-pan*/
+          if-no-files-found: warn
+
+  iphone:
+    needs: compilar
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - name: Obtener el proyecto
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Obtener el JAR compilado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: Paquete-en-pruebas-${{ github.run_number }}
+          path: build
+
+      - name: Preparar el proyecto de prueba de iPhone
+        run: |
+          if ! command -v xcodegen > /dev/null; then brew install xcodegen; fi
+          xcodebuild -version
+      - name: Cosechar con el núcleo de Manic y la pantalla táctil del simulador
+        run: python3 tests/manic/iphone.py build/GreenFarm3-MX.jar prueba-iphone
+      - name: Guardar las capturas de la pantalla del iPhone
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Prueba-iPhone-${{ github.run_number }}
+          path: prueba-iphone/
+          if-no-files-found: warn
+
+  entregar:
+    needs: [j2me, manic, iphone]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Obtener el JAR compilado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: Paquete-en-pruebas-${{ github.run_number }}
+          path: build
+
+      - name: Guardar el juego y el descriptor de instalación
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: GreenFarm3-MX-${{ github.run_number }}
+          path: |
+            build/GreenFarm3-MX.jar
+            build/GreenFarm3-MX.jad
+            build/build.json
+          if-no-files-found: error
+          compression-level: 0
